@@ -5,8 +5,11 @@ This is the repo for the [dev.to](/) iOS app. So far it is basically just a week
 We are bought in to the Basecamp idea of building for iOS, described in a few articles and talks from them:
 
 https://m.signalvnoise.com/basecamp-3-for-ios-hybrid-architecture-afc071589c25
+
 https://signalvnoise.com/posts/3743-hybrid-sweet-spot-native-navigation-web-content
+
 https://signalvnoise.com/posts/3766-hybrid-how-we-took-basecamp-multi-platform-with-a-tiny-team
+
 https://www.youtube.com/watch?v=SWEts0rlezA
 
 Our app doesn't have the exact same needs that they do, _and we don't use Turbolinks_, so we can't just copy their approach full-on, but I still think this jives for now.
