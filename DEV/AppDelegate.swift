@@ -7,15 +7,22 @@
 //
 
 import UIKit
+import Alamofire
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegate {
 
     var window: UIWindow?
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        UINavigationBar.appearance().shadowImage = UIImage()
+        UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
+        UITabBarItem.appearance().badgeColor = .blue //UIColor (red: 78.0, green: 87.0, blue: 239.0, alpha: 1.0) //rgb(78, 87, 239)
+        let theViewController = self.window?.rootViewController
+        theViewController?.view.backgroundColor = UIColor (red: 253.0, green: 249.0, blue: 244.0, alpha: 1.0)
+            
         return true
     }
 
@@ -39,6 +46,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    }
+    
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        let application = UIApplication.shared.delegate as! AppDelegate
+        let tabbarController = application.window?.rootViewController as! UITabBarController
+        let selectedController = tabbarController.selectedViewController
+        if selectedController == viewController {
+            viewController.view.setNeedsDisplay()
+            viewController.viewDidLoad()
+        }
+        
+        viewController.tabBarItem.badgeValue = nil // I assume this is a pretty cheap operation, so just calling it every time. We could call it conditionally too.
+        return true
     }
 
 
