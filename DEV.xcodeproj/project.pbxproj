@@ -23,6 +23,7 @@
 		73E8C96920CB822600F9E2DE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 73E8C96720CB822600F9E2DE /* LaunchScreen.storyboard */; };
 		73E8C97420CB822600F9E2DE /* DEVTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E8C97320CB822600F9E2DE /* DEVTests.swift */; };
 		73E8C97F20CB822600F9E2DE /* DEVUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E8C97E20CB822600F9E2DE /* DEVUITests.swift */; };
+		EB68A80D211CB8AA0050ADB1 /* URLConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB68A80C211CB8AA0050ADB1 /* URLConstants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,6 +79,7 @@
 		73E8C97A20CB822600F9E2DE /* DEVUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DEVUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		73E8C97E20CB822600F9E2DE /* DEVUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DEVUITests.swift; sourceTree = "<group>"; };
 		73E8C98020CB822600F9E2DE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EB68A80C211CB8AA0050ADB1 /* URLConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLConstants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,6 +132,7 @@
 		73E8C95B20CB822600F9E2DE /* DEV */ = {
 			isa = PBXGroup;
 			children = (
+				EB68A809211CB8860050ADB1 /* Constants */,
 				73E8C95C20CB822600F9E2DE /* AppDelegate.swift */,
 				73E8C95E20CB822600F9E2DE /* FirstViewController.swift */,
 				73E8C96020CB822600F9E2DE /* SearchViewController.swift */,
@@ -163,6 +166,14 @@
 				73E8C98020CB822600F9E2DE /* Info.plist */,
 			);
 			path = DEVUITests;
+			sourceTree = "<group>";
+		};
+		EB68A809211CB8860050ADB1 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				EB68A80C211CB8AA0050ADB1 /* URLConstants.swift */,
+			);
+			path = Constants;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -301,6 +312,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				736BAAE521149C7800173EC5 /* MainHelper.swift in Sources */,
+				EB68A80D211CB8AA0050ADB1 /* URLConstants.swift in Sources */,
 				73812D20210E543A00B7B37E /* NewArticleViewController.swift in Sources */,
 				73812D1E210D210600B7B37E /* ProfileViewController.swift in Sources */,
 				73E8C96120CB822600F9E2DE /* SearchViewController.swift in Sources */,
