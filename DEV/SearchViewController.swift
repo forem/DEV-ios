@@ -45,14 +45,24 @@ class SearchViewController: UIViewController, WKNavigationDelegate, UITextFieldD
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {   //delegate method
-        let encodedText = searchInput.text?.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)
-        let searchUrl = "https://dev.to/search?q="+encodedText!
-        searchInput.endEditing(true)
-        if let url = URL(string: searchUrl) {
-            webView.load(URLRequest.init(url: url))
+        guard let searchKeywordText = textField.text,
+            !searchKeywordText.isEmpty
+        else {
+            // do not perform any search if text file is nil or empty
+            textField.resignFirstResponder()
+            return true
         }
+        
+        searchInput.endEditing(true)
+       
+        if let searchURL = DevServiceURL.search(parameter: searchKeywordText).fullURL {
+            webView.load(URLRequest.init(url: searchURL))
+        }
+        
         textField.resignFirstResponder()
+
         manageBackButton()
+       
         return true
     }
     

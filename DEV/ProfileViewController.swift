@@ -19,8 +19,8 @@ class ProfileViewController: UIViewController, WKNavigationDelegate {
         webView.allowsBackForwardNavigationGestures = true
         webView.backForwardList.perform(Selector(("_removeAllItems")))
         webView.addObserver(self, forKeyPath: "URL", options: [.new, .old], context: nil)
-        if let url = URL(string: "https://dev.to/ben?rand="+MainHelper.randomString(length: 10)) {
-            webView.load(URLRequest.init(url: url))
+        if let profileURL = DevServiceURL.profile.fullURL {
+            webView.load(URLRequest.init(url: profileURL))
         }
         
         self.Activity.startAnimating()
