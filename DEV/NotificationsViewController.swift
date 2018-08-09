@@ -35,13 +35,8 @@ class NotificationsViewController: UIViewController, WKNavigationDelegate {
     
     func manageBackButton(){
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) { //race condition hack
-            if self.webView.canGoBack {
-                self.leftButton?.isEnabled = true
-                self.leftButton.tintColor = UIColor.black
-            } else {
-                self.leftButton?.isEnabled = false
-                self.leftButton.tintColor = UIColor.clear
-            }
+            self.leftButton?.isEnabled = self.webView.canGoBack
+            self.leftButton?.tintColor = self.webView.canGoBack ? .black : .clear
         }
     }
     
