@@ -19,8 +19,8 @@ class ConnectViewController: UIViewController, WKNavigationDelegate {
         webView.backForwardList.perform(Selector(("_removeAllItems")))
         webView.addObserver(self, forKeyPath: "URL", options: [.new, .old], context: nil)
         webView.scrollView.isScrollEnabled = false
-        if let url = URL(string: "https://dev.to/connect?rand="+MainHelper.randomString(length: 10)) {
-            webView.load(URLRequest.init(url: url))
+        if let authenticationURL = DevServiceURL.authentication.fullURL {
+            webView.load(URLRequest.init(url: authenticationURL))
         }
         
         self.Activity.startAnimating()

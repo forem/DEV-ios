@@ -19,8 +19,8 @@ class NotificationsViewController: UIViewController, WKNavigationDelegate {
         webView.allowsBackForwardNavigationGestures = true
         webView.backForwardList.perform(Selector(("_removeAllItems")))
         webView.addObserver(self, forKeyPath: "URL", options: [.new, .old], context: nil)
-        if let url = URL(string: "https://dev.to/notifications?rand="+MainHelper.randomString(length: 10)) {
-            webView.load(URLRequest.init(url: url))
+        if let notificationURL = DevServiceURL.notification.fullURL {
+            webView.load(URLRequest.init(url: notificationURL))
         }
         
         self.Activity.startAnimating()
