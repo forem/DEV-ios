@@ -57,8 +57,6 @@ class SearchViewController: UIViewController, WKNavigationDelegate, UITextFieldD
             webView.load(URLRequest.init(url: url))
         }
         textField.resignFirstResponder()
-//        self.leftButton?.isEnabled = true
-//        self.leftButton.tintColor = UIColor.black
         manageBackButton()
         return true
     }
