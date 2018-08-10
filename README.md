@@ -1,5 +1,5 @@
 
-[![Travis (.org) branch](https://img.shields.io/travis/USER/REPO/BRANCH.svg)](https://github.com/chickdan/DEV-ios/tree/travis_setup)
+[![Build Status](https://travis-ci.org/chickdan/DEV-ios.svg?branch=travis_setup)](https://travis-ci.org/chickdan/DEV-ios)
 
 
 # DEV iOS 💖
