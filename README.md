@@ -1,3 +1,7 @@
+
+[![Travis (.org) branch](https://img.shields.io/travis/USER/REPO/BRANCH.svg)](https://github.com/chickdan/DEV-ios/tree/travis_setup)
+
+
 # DEV iOS 💖
 
 This is the repo for the [dev.to](/) iOS app. It is still a work in progress, but getting there!
