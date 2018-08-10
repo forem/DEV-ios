@@ -18,7 +18,11 @@ default_platform(:ios)
 platform :ios do
   desc "Run Carthage"
   before_all do
-    carthage
+    carthage(
+      command: "bootstrap",
+      platform: "iOS",
+      cache_builds: true,  
+    )
   end
   desc "Description of what the lane does"
   lane :custom_lane do
