@@ -43,7 +43,7 @@ platform :ios do
     slather(
       travis: true,
       scheme: "DEV",
-      #coveralls: true,
+      coveralls: true,
       proj: "DEV.xcodeproj,"
       #workspace: "DEV.xcworkspace"
     )
