@@ -1,3 +1,7 @@
+
+[![Build Status](https://travis-ci.org/chickdan/DEV-ios.svg?branch=travis_setup)](https://travis-ci.org/chickdan/DEV-ios)
+
+
 # DEV iOS 💖
 
 This is the repo for the [dev.to](/) iOS app. It is still a work in progress, but getting there!
