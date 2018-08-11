@@ -36,7 +36,7 @@ platform :ios do
   desc "Runs code validation"
   lane :lint do 
     swiftlint(
-      output_file: "swiftlint.result.json"
+      output_file: "swiftlint.result.json",
       ignore_exit_status: true
     )
   end
