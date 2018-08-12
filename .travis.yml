@@ -5,4 +5,4 @@ before_install:
   - brew upgrade swiftlint
 
 script:
-    - fastlane ios
+    - fastlane ios test && fastlane ios lint
