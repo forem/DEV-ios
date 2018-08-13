@@ -38,8 +38,8 @@ class FirstViewController: UIViewController, WKNavigationDelegate {
             getBadgeCounts()
             initialized = true
         }
-        if let url = URL(string: "https://dev.to?rand="+MainHelper.randomString(length: 10)) {
-            webView.load(URLRequest.init(url: url))
+        if let feedUrl = DevServiceURL.feed.fullURL {
+            webView.load(URLRequest.init(url: feedUrl))
         }
         self.Activity.startAnimating()
         self.Activity.hidesWhenStopped = true
