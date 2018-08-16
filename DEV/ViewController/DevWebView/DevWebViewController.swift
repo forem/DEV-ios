@@ -110,6 +110,7 @@ class DevWebViewController: UIViewController, DevWebViewLoadable {
                                             style: .plain,
                                             target: self,
                                             action: #selector(leftBarButtonItemTapped))
+        leftBarButtonItem?.tintColor = .clear 
         navigationItem.leftBarButtonItem = leftBarButtonItem
     }
     
