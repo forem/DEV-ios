@@ -23,7 +23,7 @@ class DevWebViewController: UIViewController, DevWebViewLoadable {
         return activityIndicatorView
     }()
     
-    private let webView: WKWebView = {
+    let webView: WKWebView = {
         let webView = WKWebView(frame: .zero)
         webView.allowsBackForwardNavigationGestures = true
         webView.backForwardList.perform(Selector(("_removeAllItems")))
