@@ -203,7 +203,7 @@
                                             </connections>
                                         </barButtonItem>
                                         <textField key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="search" textAlignment="natural" minimumFontSize="17" id="7XY-Dg-DL6">
-                                            <rect key="frame" x="54.5" y="7" width="266" height="30"/>
+                                            <rect key="frame" x="155" y="7" width="65" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <nil key="textColor"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>

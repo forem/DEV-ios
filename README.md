@@ -1,3 +1,7 @@
+
+[![Build Status](https://travis-ci.org/chickdan/DEV-ios.svg?branch=travis_setup)](https://travis-ci.org/chickdan/DEV-ios)
+
+
 # DEV iOS 💖
 
 This is the repo for the [dev.to](/) iOS app. It is still a work in progress, but getting there!
@@ -19,8 +23,7 @@ By leveraging `wkwebviews` as much as possible, I think we can make this all pre
 # Contributing
 1. Fork and clone the project.
 2. Install [Carthage](https://github.com/Carthage/Carthage). If you use Homebrew then you can install Carthage by running `brew install carthage`. 
-2. Now run `carthage update` in the project's root directory.
-3. Follow steps 8, 9 and 10 as mentioned over [here](https://github.com/Carthage/Carthage#quick-start)
+3. Now run `carthage update` in the project's root directory.
 4. Build and run the project in XCode.
 
 # Thanks for your help!!!
