@@ -24,6 +24,9 @@
 		73E8C97420CB822600F9E2DE /* DEVTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E8C97320CB822600F9E2DE /* DEVTests.swift */; };
 		73E8C97F20CB822600F9E2DE /* DEVUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E8C97E20CB822600F9E2DE /* DEVUITests.swift */; };
 		EB68A80D211CB8AA0050ADB1 /* URLConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB68A80C211CB8AA0050ADB1 /* URLConstants.swift */; };
+		EB68A811211CE8A60050ADB1 /* DevWebViewLoadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB68A810211CE8A60050ADB1 /* DevWebViewLoadable.swift */; };
+		EB68A813211CEB8E0050ADB1 /* DevWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB68A812211CEB8E0050ADB1 /* DevWebViewController.swift */; };
+		EBF8DAA421261B2B00392B03 /* UIColor+DevColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF8DAA321261B2B00392B03 /* UIColor+DevColor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,6 +83,9 @@
 		73E8C97E20CB822600F9E2DE /* DEVUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DEVUITests.swift; sourceTree = "<group>"; };
 		73E8C98020CB822600F9E2DE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EB68A80C211CB8AA0050ADB1 /* URLConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLConstants.swift; sourceTree = "<group>"; };
+		EB68A810211CE8A60050ADB1 /* DevWebViewLoadable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevWebViewLoadable.swift; sourceTree = "<group>"; };
+		EB68A812211CEB8E0050ADB1 /* DevWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevWebViewController.swift; sourceTree = "<group>"; };
+		EBF8DAA321261B2B00392B03 /* UIColor+DevColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+DevColor.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,6 +138,8 @@
 		73E8C95B20CB822600F9E2DE /* DEV */ = {
 			isa = PBXGroup;
 			children = (
+				EBF8DAA221261AD400392B03 /* Extensions */,
+				EB68A80E211CE6220050ADB1 /* ViewController */,
 				EB68A809211CB8860050ADB1 /* Constants */,
 				73E8C95C20CB822600F9E2DE /* AppDelegate.swift */,
 				73E8C95E20CB822600F9E2DE /* FirstViewController.swift */,
@@ -174,6 +182,31 @@
 				EB68A80C211CB8AA0050ADB1 /* URLConstants.swift */,
 			);
 			path = Constants;
+			sourceTree = "<group>";
+		};
+		EB68A80E211CE6220050ADB1 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				EB68A80F211CE6390050ADB1 /* DevWebView */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		EB68A80F211CE6390050ADB1 /* DevWebView */ = {
+			isa = PBXGroup;
+			children = (
+				EB68A810211CE8A60050ADB1 /* DevWebViewLoadable.swift */,
+				EB68A812211CEB8E0050ADB1 /* DevWebViewController.swift */,
+			);
+			path = DevWebView;
+			sourceTree = "<group>";
+		};
+		EBF8DAA221261AD400392B03 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				EBF8DAA321261B2B00392B03 /* UIColor+DevColor.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -313,11 +346,14 @@
 			files = (
 				736BAAE521149C7800173EC5 /* MainHelper.swift in Sources */,
 				EB68A80D211CB8AA0050ADB1 /* URLConstants.swift in Sources */,
+				EBF8DAA421261B2B00392B03 /* UIColor+DevColor.swift in Sources */,
 				73812D20210E543A00B7B37E /* NewArticleViewController.swift in Sources */,
 				73812D1E210D210600B7B37E /* ProfileViewController.swift in Sources */,
 				73E8C96120CB822600F9E2DE /* SearchViewController.swift in Sources */,
+				EB68A813211CEB8E0050ADB1 /* DevWebViewController.swift in Sources */,
 				736BAAE72115EC0C00173EC5 /* DashboardViewController.swift in Sources */,
 				73E8C95D20CB822600F9E2DE /* AppDelegate.swift in Sources */,
+				EB68A811211CE8A60050ADB1 /* DevWebViewLoadable.swift in Sources */,
 				73C174C1210C46260001941B /* NotificationsViewController.swift in Sources */,
 				73E8C95F20CB822600F9E2DE /* FirstViewController.swift in Sources */,
 				73C174C3210C48CE0001941B /* ConnectViewController.swift in Sources */,
