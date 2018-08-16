@@ -44,16 +44,16 @@ class DevWebViewController: UIViewController, DevWebViewLoadable {
     private var activityIndicatorViewLayoutConstraints: [NSLayoutConstraint] {
         return [
             activityIndicatorView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            activityIndicatorView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            activityIndicatorView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -44)
         ]
     }
    
     // MARK: - Public Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-      
+     
         navigationController?.navigationBar.barTintColor = .creamColor
-        
+
         setupLeftBarButtonItem()
         setupSubviews()
         setupWebView()
