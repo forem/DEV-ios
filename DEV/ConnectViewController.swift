@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 import WebKit
-class ConnectViewController: UIViewController, WKNavigationDelegate {
+class ConnectViewController: RootTabBarViewController, WKNavigationDelegate {
     @IBOutlet weak var webView: WKWebView!
     @IBOutlet weak var leftButton: UIBarButtonItem!
     @IBOutlet weak var Activity: UIActivityIndicatorView!
@@ -15,6 +15,8 @@ class ConnectViewController: UIViewController, WKNavigationDelegate {
     
     
     override func viewDidLoad() {
+        super.viewDidLoad()
+        
         webView.navigationDelegate = self
         webView.backForwardList.perform(Selector(("_removeAllItems")))
         webView.addObserver(self, forKeyPath: "URL", options: [.new, .old], context: nil)
@@ -27,6 +29,16 @@ class ConnectViewController: UIViewController, WKNavigationDelegate {
         self.Activity.hidesWhenStopped = true
         webView.backForwardList.perform(Selector(("_removeAllItems")))
 
+    }
+    
+    override func refreshView() {
+        //reset badge value
+        self.tabBarItem.badgeValue = nil
+        self.view.setNeedsDisplay()
+        if let authenticationURL = DevServiceURL.authentication.fullURL {
+            Activity.startAnimating()
+            webView.load(URLRequest.init(url: authenticationURL))
+        }
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {

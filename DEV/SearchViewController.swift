@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 import WebKit
-class SearchViewController: UIViewController, WKNavigationDelegate, UITextFieldDelegate {
+class SearchViewController: RootTabBarViewController, WKNavigationDelegate, UITextFieldDelegate {
     @IBOutlet weak var webView: WKWebView!
     @IBOutlet weak var leftButton: UIBarButtonItem!
     @IBOutlet weak var searchInput: UITextField!
@@ -17,6 +17,8 @@ class SearchViewController: UIViewController, WKNavigationDelegate, UITextFieldD
     
     
     override func viewDidLoad() {
+        super.viewDidLoad()
+        
         webView.navigationDelegate = self
         webView.allowsBackForwardNavigationGestures = true
         webView.backForwardList.perform(Selector(("_removeAllItems")))
@@ -31,6 +33,16 @@ class SearchViewController: UIViewController, WKNavigationDelegate, UITextFieldD
         self.Activity.hidesWhenStopped = true
         webView.backForwardList.perform(Selector(("_removeAllItems")))
 
+    }
+    
+    override func refreshView() {
+        //reset badge value
+        self.tabBarItem.badgeValue = nil
+        self.view.setNeedsDisplay()
+        if let url = URL(string: "https://dev.to/search?rand="+MainHelper.randomString(length: 10)) {
+            Activity.startAnimating()
+            webView.load(URLRequest.init(url: url))
+        }
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {

@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 import WebKit
-class ProfileViewController: UIViewController, WKNavigationDelegate {
+class ProfileViewController: RootTabBarViewController, WKNavigationDelegate {
     @IBOutlet weak var webView: WKWebView!
     @IBOutlet weak var leftButton: UIBarButtonItem!
     @IBOutlet weak var Activity: UIActivityIndicatorView!
@@ -15,6 +15,8 @@ class ProfileViewController: UIViewController, WKNavigationDelegate {
     
     
     override func viewDidLoad() {
+        super.viewDidLoad()
+        
         webView.navigationDelegate = self
         webView.allowsBackForwardNavigationGestures = true
         webView.backForwardList.perform(Selector(("_removeAllItems")))
@@ -26,6 +28,16 @@ class ProfileViewController: UIViewController, WKNavigationDelegate {
         self.Activity.startAnimating()
         self.Activity.hidesWhenStopped = true
         webView.backForwardList.perform(Selector(("_removeAllItems")))
+    }
+    
+    override func refreshView() {
+        //reset badge value
+        self.tabBarItem.badgeValue = nil
+        self.view.setNeedsDisplay()
+        if let profileURL = DevServiceURL.profile.fullURL {
+            Activity.startAnimating()
+            webView.load(URLRequest.init(url: profileURL))
+        }
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {

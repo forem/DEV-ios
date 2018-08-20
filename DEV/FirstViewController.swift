@@ -3,7 +3,7 @@ import UIKit
 import WebKit
 import Alamofire
 
-class FirstViewController: UIViewController, WKNavigationDelegate {
+class FirstViewController: RootTabBarViewController, WKNavigationDelegate {
     @IBOutlet weak var webView: WKWebView!
     @IBOutlet weak var leftButton: UIBarButtonItem!
     @IBOutlet weak var rightButton: UIBarButtonItem!
@@ -30,9 +30,10 @@ class FirstViewController: UIViewController, WKNavigationDelegate {
     }
     
     override func viewDidLoad() {
+        super.viewDidLoad()
         webView.navigationDelegate = self
         webView.allowsBackForwardNavigationGestures = true
-        self.tabBarController?.delegate = UIApplication.shared.delegate as? UITabBarControllerDelegate // Needs to go in first loaded controller (this one)
+        
         if !initialized {
             webView.addObserver(self, forKeyPath: "URL", options: [.new, .old], context: nil)
             getBadgeCounts()
@@ -48,9 +49,17 @@ class FirstViewController: UIViewController, WKNavigationDelegate {
         self.tabBarController?.viewControllers?.forEach {
             let _ = $0.view
         }
-        
-        
 
+    }
+    
+    override func refreshView() {
+        //reset badge value
+        self.tabBarItem.badgeValue = nil
+        self.view.setNeedsDisplay()
+        if let feedUrl = DevServiceURL.feed.fullURL {
+            Activity.startAnimating()
+            webView.load(URLRequest.init(url: feedUrl))
+        }
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {

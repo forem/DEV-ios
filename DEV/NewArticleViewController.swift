@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 import WebKit
-class NewArticleViewController: UIViewController, WKNavigationDelegate {
+class NewArticleViewController: RootTabBarViewController, WKNavigationDelegate {
     @IBOutlet weak var webView: WKWebView!
     @IBOutlet weak var leftButton: UIBarButtonItem!
     @IBOutlet weak var Activity: UIActivityIndicatorView!
@@ -11,6 +11,8 @@ class NewArticleViewController: UIViewController, WKNavigationDelegate {
     }
     
     override func viewDidLoad() {
+        super.viewDidLoad()
+        
         webView.navigationDelegate = self
         webView.allowsBackForwardNavigationGestures = true
         webView.backForwardList.perform(Selector(("_removeAllItems")))
@@ -21,6 +23,16 @@ class NewArticleViewController: UIViewController, WKNavigationDelegate {
         self.Activity.startAnimating()
         self.Activity.hidesWhenStopped = true
         webView.backForwardList.perform(Selector(("_removeAllItems")))
+    }
+    
+    override func refreshView() {
+        //reset badge value
+        self.tabBarItem.badgeValue = nil
+        self.view.setNeedsDisplay()
+        if let composeArticleURL = DevServiceURL.composeArticle.fullURL {
+            Activity.startAnimating()
+            webView.load(URLRequest.init(url: composeArticleURL))
+        }
     }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
