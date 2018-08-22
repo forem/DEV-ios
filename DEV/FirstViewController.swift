@@ -3,19 +3,11 @@ import UIKit
 import WebKit
 import Alamofire
 
-class FirstViewController: RootTabBarViewController, WKNavigationDelegate {
-    @IBOutlet weak var webView: WKWebView!
-    @IBOutlet weak var leftButton: UIBarButtonItem!
+class FirstViewController: RootTabBarViewController {
     @IBOutlet weak var rightButton: UIBarButtonItem!
-    @IBOutlet weak var Activity: UIActivityIndicatorView!
+    
     var initialized = false
 
-    @IBAction func buttonTapped(_ sender: Any) {
-        if self.webView.canGoBack {
-            self.webView.scrollView.setContentOffset(self.webView.scrollView.contentOffset, animated: false)
-            self.webView.goBack()
-        }
-    }
     
     @IBAction func shareButtonClicked(sender: UIButton) {
         let textToShare = "Swift is awesome!  Check out this website about it!"
@@ -31,8 +23,6 @@ class FirstViewController: RootTabBarViewController, WKNavigationDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        webView.navigationDelegate = self
-        webView.allowsBackForwardNavigationGestures = true
         
         if !initialized {
             webView.addObserver(self, forKeyPath: "URL", options: [.new, .old], context: nil)
@@ -40,11 +30,10 @@ class FirstViewController: RootTabBarViewController, WKNavigationDelegate {
             initialized = true
         }
         if let feedUrl = DevServiceURL.feed.fullURL {
+            webURL = feedUrl
             webView.load(URLRequest.init(url: feedUrl))
         }
-        self.Activity.startAnimating()
-        self.Activity.hidesWhenStopped = true
-        webView.backForwardList.perform(Selector(("_removeAllItems")))
+        self.startLoadingIndicator()
         
         self.tabBarController?.viewControllers?.forEach {
             let _ = $0.view
@@ -56,28 +45,15 @@ class FirstViewController: RootTabBarViewController, WKNavigationDelegate {
         //reset badge value
         self.tabBarItem.badgeValue = nil
         self.view.setNeedsDisplay()
-        if let feedUrl = DevServiceURL.feed.fullURL {
-            Activity.startAnimating()
-            webView.load(URLRequest.init(url: feedUrl))
-        }
-    }
-    
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        manageBackButton()
-    }
-
-    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        Activity.stopAnimating()
-    }
-    
-    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-        Activity.stopAnimating()
-    }
-    
-    func manageBackButton(){
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) { //race condition hack
-            self.leftButton?.isEnabled = self.webView.canGoBack
-            self.leftButton?.tintColor = self.webView.canGoBack ? .black : .clear
+        
+        if let url = webURL {
+            self.startLoadingIndicator()
+            webView.load(URLRequest(url: url))
+        } else {
+            if let feedUrl = DevServiceURL.feed.fullURL {
+                self.startLoadingIndicator()
+                webView.load(URLRequest.init(url: feedUrl))
+            }
         }
     }
     
