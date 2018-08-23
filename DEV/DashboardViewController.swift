@@ -1,34 +1,35 @@
 import Foundation
 import UIKit
 import WebKit
-class DashboardViewController: UIViewController, WKNavigationDelegate {
-    @IBOutlet weak var webView: WKWebView!
-    @IBOutlet weak var leftButton: UIBarButtonItem!
-    @IBOutlet weak var Activity: UIActivityIndicatorView!
+class DashboardViewController: RootTabBarViewController {
     
     @IBAction func buttonTapped(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
     }
     
     override func viewDidLoad() {
-        webView.navigationDelegate = self
-        webView.allowsBackForwardNavigationGestures = true
-        webView.backForwardList.perform(Selector(("_removeAllItems")))
+        super.viewDidLoad()
+        
         if let dashboardURL = DevServiceURL.dashboard.fullURL {
+            webURL = dashboardURL
+            self.startLoadingIndicator()
             webView.load(URLRequest.init(url: dashboardURL))
         }
-        
-        self.Activity.startAnimating()
-        self.Activity.hidesWhenStopped = true
-        webView.backForwardList.perform(Selector(("_removeAllItems")))
     }
     
-    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        Activity.stopAnimating()
-    }
-    
-    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-        Activity.stopAnimating()
+    override func refreshView() {
+        //reset badge value
+        self.tabBarItem.badgeValue = nil
+        self.view.setNeedsDisplay()
+        if let url = webURL {
+            self.startLoadingIndicator()
+            webView.load(URLRequest(url: url))
+        } else {
+            if let dashboardURL = DevServiceURL.dashboard.fullURL {
+                self.startLoadingIndicator()
+                webView.load(URLRequest.init(url: dashboardURL))
+            }
+        }
     }
     
 }

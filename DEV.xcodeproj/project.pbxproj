@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		16C1FAA7212B1465005F41D5 /* RootTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C1FAA6212B1465005F41D5 /* RootTabBarViewController.swift */; };
 		736BAAE12113BC5500173EC5 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 736BAAE02113BC5400173EC5 /* Alamofire.framework */; };
 		736BAAE22113BC5500173EC5 /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 736BAAE02113BC5400173EC5 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		736BAAE521149C7800173EC5 /* MainHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736BAAE421149C7800173EC5 /* MainHelper.swift */; };
@@ -61,6 +62,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		16C1FAA6212B1465005F41D5 /* RootTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootTabBarViewController.swift; sourceTree = "<group>"; };
 		736BAAE02113BC5400173EC5 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		736BAAE421149C7800173EC5 /* MainHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainHelper.swift; sourceTree = "<group>"; };
 		736BAAE62115EC0C00173EC5 /* DashboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewController.swift; sourceTree = "<group>"; };
@@ -114,6 +116,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		16C1FAA5212B1435005F41D5 /* RootTabBarViewController */ = {
+			isa = PBXGroup;
+			children = (
+				16C1FAA6212B1465005F41D5 /* RootTabBarViewController.swift */,
+			);
+			path = RootTabBarViewController;
+			sourceTree = "<group>";
+		};
 		73E8C95020CB822500F9E2DE = {
 			isa = PBXGroup;
 			children = (
@@ -187,6 +197,7 @@
 		EB68A80E211CE6220050ADB1 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				16C1FAA5212B1435005F41D5 /* RootTabBarViewController */,
 				EB68A80F211CE6390050ADB1 /* DevWebView */,
 			);
 			path = ViewController;
@@ -365,6 +376,7 @@
 			files = (
 				736BAAE521149C7800173EC5 /* MainHelper.swift in Sources */,
 				EB68A80D211CB8AA0050ADB1 /* URLConstants.swift in Sources */,
+				16C1FAA7212B1465005F41D5 /* RootTabBarViewController.swift in Sources */,
 				EBF8DAA421261B2B00392B03 /* UIColor+DevColor.swift in Sources */,
 				73812D20210E543A00B7B37E /* NewArticleViewController.swift in Sources */,
 				73812D1E210D210600B7B37E /* ProfileViewController.swift in Sources */,
