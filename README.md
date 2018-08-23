@@ -1,6 +1,5 @@
 
-[![Build Status](https://travis-ci.org/chickdan/DEV-ios.svg?branch=travis_setup)](https://travis-ci.org/chickdan/DEV-ios)
-
+[![Build Status](https://travis-ci.com/thepracticaldev/DEV-ios.svg?branch=master)](https://travis-ci.com/thepracticaldev/DEV-ios)
 
 # DEV iOS 💖
 
