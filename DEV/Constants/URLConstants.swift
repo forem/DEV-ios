@@ -20,6 +20,7 @@ enum DevServiceURL {
     case profile
     case composeArticle
     case dashboard
+    case login
 }
 
 extension DevServiceURL: DevEndPoint {
@@ -41,6 +42,8 @@ extension DevServiceURL: DevEndPoint {
             return URL(string: "https://dev.to/new?rand=" + randomString)
         case .dashboard:
             return URL(string: "https://dev.to/dashboard?rand=" + randomString)
+        case .login:
+            return URL(string: "https://dev.to/enter?rand=" + randomString)
         }
     }
 }
