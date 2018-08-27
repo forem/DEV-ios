@@ -23,6 +23,8 @@
 		73E8C96920CB822600F9E2DE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 73E8C96720CB822600F9E2DE /* LaunchScreen.storyboard */; };
 		73E8C97420CB822600F9E2DE /* DEVTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E8C97320CB822600F9E2DE /* DEVTests.swift */; };
 		73E8C97F20CB822600F9E2DE /* DEVUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E8C97E20CB822600F9E2DE /* DEVUITests.swift */; };
+		CC08F32C2134322000FB759D /* LoginViewContoller.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC08F3282134322000FB759D /* LoginViewContoller.swift */; };
+		CC08F32D2134322000FB759D /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC08F32A2134322000FB759D /* Login.storyboard */; };
 		EB68A80D211CB8AA0050ADB1 /* URLConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB68A80C211CB8AA0050ADB1 /* URLConstants.swift */; };
 		EB68A811211CE8A60050ADB1 /* DevWebViewLoadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB68A810211CE8A60050ADB1 /* DevWebViewLoadable.swift */; };
 		EB68A813211CEB8E0050ADB1 /* DevWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB68A812211CEB8E0050ADB1 /* DevWebViewController.swift */; };
@@ -82,6 +84,8 @@
 		73E8C97A20CB822600F9E2DE /* DEVUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DEVUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		73E8C97E20CB822600F9E2DE /* DEVUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DEVUITests.swift; sourceTree = "<group>"; };
 		73E8C98020CB822600F9E2DE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CC08F3282134322000FB759D /* LoginViewContoller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewContoller.swift; sourceTree = "<group>"; };
+		CC08F32B2134322000FB759D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Login.storyboard; sourceTree = "<group>"; };
 		EB68A80C211CB8AA0050ADB1 /* URLConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLConstants.swift; sourceTree = "<group>"; };
 		EB68A810211CE8A60050ADB1 /* DevWebViewLoadable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevWebViewLoadable.swift; sourceTree = "<group>"; };
 		EB68A812211CEB8E0050ADB1 /* DevWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevWebViewController.swift; sourceTree = "<group>"; };
@@ -138,6 +142,7 @@
 		73E8C95B20CB822600F9E2DE /* DEV */ = {
 			isa = PBXGroup;
 			children = (
+				CC08F3272134322000FB759D /* Login */,
 				EBF8DAA221261AD400392B03 /* Extensions */,
 				EB68A80E211CE6220050ADB1 /* ViewController */,
 				EB68A809211CB8860050ADB1 /* Constants */,
@@ -174,6 +179,15 @@
 				73E8C98020CB822600F9E2DE /* Info.plist */,
 			);
 			path = DEVUITests;
+			sourceTree = "<group>";
+		};
+		CC08F3272134322000FB759D /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				CC08F3282134322000FB759D /* LoginViewContoller.swift */,
+				CC08F32A2134322000FB759D /* Login.storyboard */,
+			);
+			path = Login;
 			sourceTree = "<group>";
 		};
 		EB68A809211CB8860050ADB1 /* Constants */ = {
@@ -318,6 +332,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CC08F32D2134322000FB759D /* Login.storyboard in Resources */,
 				73E8C96920CB822600F9E2DE /* LaunchScreen.storyboard in Resources */,
 				73E8C96620CB822600F9E2DE /* Assets.xcassets in Resources */,
 				73E8C96420CB822600F9E2DE /* Main.storyboard in Resources */,
@@ -366,6 +381,7 @@
 				736BAAE521149C7800173EC5 /* MainHelper.swift in Sources */,
 				EB68A80D211CB8AA0050ADB1 /* URLConstants.swift in Sources */,
 				EBF8DAA421261B2B00392B03 /* UIColor+DevColor.swift in Sources */,
+				CC08F32C2134322000FB759D /* LoginViewContoller.swift in Sources */,
 				73812D20210E543A00B7B37E /* NewArticleViewController.swift in Sources */,
 				73812D1E210D210600B7B37E /* ProfileViewController.swift in Sources */,
 				73E8C96120CB822600F9E2DE /* SearchViewController.swift in Sources */,
@@ -425,6 +441,14 @@
 				73E8C96820CB822600F9E2DE /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		CC08F32A2134322000FB759D /* Login.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CC08F32B2134322000FB759D /* Base */,
+			);
+			name = Login.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
