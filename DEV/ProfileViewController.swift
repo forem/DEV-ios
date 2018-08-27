@@ -6,6 +6,8 @@ class ProfileViewController: UIViewController, WKNavigationDelegate {
     @IBOutlet weak var leftButton: UIBarButtonItem!
     @IBOutlet weak var Activity: UIActivityIndicatorView!
 
+    let username = "ben"
+    
     @IBAction func buttonTapped(_ sender: Any) {
         if self.webView.canGoBack {
             self.webView.scrollView.setContentOffset(self.webView.scrollView.contentOffset, animated: false)
@@ -19,7 +21,7 @@ class ProfileViewController: UIViewController, WKNavigationDelegate {
         webView.allowsBackForwardNavigationGestures = true
         webView.backForwardList.perform(Selector(("_removeAllItems")))
         webView.addObserver(self, forKeyPath: "URL", options: [.new, .old], context: nil)
-        if let profileURL = DevServiceURL.profile.fullURL {
+        if let profileURL = DevServiceURL.profile(username: username).fullURL {
             webView.load(URLRequest.init(url: profileURL))
         }
         
