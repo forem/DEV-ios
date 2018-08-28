@@ -1,6 +1,6 @@
 
 [![Build Status](https://travis-ci.com/thepracticaldev/DEV-ios.svg?branch=master)](https://travis-ci.com/thepracticaldev/DEV-ios)
-[![GitHub License](http://img.shields.io/badge/License-MIT-lightgrey.svg?style=flat)](https://github.com/thepracticaldev/DEV-ios/blob/master/LICENSE)
+[![GitHub License](http://img.shields.io/badge/License-GPL%20v3-blue.svg?style=flat)](https://github.com/thepracticaldev/DEV-ios/blob/master/LICENSE)
 [![Language](https://img.shields.io/badge/Language-Swift_4.1-f48041.svg?style=flat)](https://developer.apple.com/swift)
 
 # DEV iOS 💖
