@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 import WebKit
-class SearchViewController: UIViewController, WKNavigationDelegate, UITextFieldDelegate {
+class SearchViewController: UIViewController, WKNavigationDelegate, UITextFieldDelegate, UIScrollViewDelegate {
     @IBOutlet weak var webView: WKWebView!
     @IBOutlet weak var leftButton: UIBarButtonItem!
     @IBOutlet weak var searchInput: UITextField!
@@ -11,15 +11,14 @@ class SearchViewController: UIViewController, WKNavigationDelegate, UITextFieldD
         if self.webView.canGoBack {
             self.webView.scrollView.setContentOffset(self.webView.scrollView.contentOffset, animated: false)
             self.webView.goBack()
-        }
+		}
     }
 
-    
-    
     override func viewDidLoad() {
         webView.navigationDelegate = self
         webView.allowsBackForwardNavigationGestures = true
         webView.backForwardList.perform(Selector(("_removeAllItems")))
+		webView.scrollView.delegate = self
         webView.addObserver(self, forKeyPath: "URL", options: [.new, .old], context: nil)
         if let url = URL(string: "https://dev.to/search?rand="+MainHelper.randomString(length: 10)) {
             webView.load(URLRequest.init(url: url))
@@ -30,17 +29,27 @@ class SearchViewController: UIViewController, WKNavigationDelegate, UITextFieldD
         self.Activity.startAnimating()
         self.Activity.hidesWhenStopped = true
         webView.backForwardList.perform(Selector(("_removeAllItems")))
-
+		
     }
+	
+	override func viewDidAppear(_ animated: Bool) {
+		searchInput.becomeFirstResponder() // Focus search input 
+	}
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         manageBackButton()
     }
+	
+	override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+		self.searchInput.endEditing(true)
+	}
     
     func manageBackButton(){
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.12) { //race condition hack
             self.leftButton?.isEnabled = self.webView.canGoBack
-            self.leftButton?.tintColor = self.webView.canGoBack ? .black : .clear
+			if (!self.webView.canGoBack) {
+				self.searchInput.text = ""
+			}
         }
     }
     
@@ -56,6 +65,7 @@ class SearchViewController: UIViewController, WKNavigationDelegate, UITextFieldD
         searchInput.endEditing(true)
        
         if let searchURL = DevServiceURL.search(parameter: searchKeywordText).fullURL {
+			Activity.startAnimating()
             webView.load(URLRequest.init(url: searchURL))
         }
         
@@ -65,6 +75,10 @@ class SearchViewController: UIViewController, WKNavigationDelegate, UITextFieldD
        
         return true
     }
+	
+	func scrollViewDidScroll(_ scrollView: UIScrollView) {
+		self.searchInput.endEditing(true)
+	}
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         Activity.stopAnimating()
