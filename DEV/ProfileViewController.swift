@@ -6,7 +6,7 @@ class ProfileViewController: UIViewController, WKNavigationDelegate {
     @IBOutlet weak var leftButton: UIBarButtonItem!
     @IBOutlet weak var Activity: UIActivityIndicatorView!
 
-    let username = "ben"
+    var username = "ben"
     
     @IBAction func buttonTapped(_ sender: Any) {
         if self.webView.canGoBack {

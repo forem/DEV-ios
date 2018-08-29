@@ -23,6 +23,7 @@
 		73E8C96920CB822600F9E2DE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 73E8C96720CB822600F9E2DE /* LaunchScreen.storyboard */; };
 		73E8C97420CB822600F9E2DE /* DEVTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E8C97320CB822600F9E2DE /* DEVTests.swift */; };
 		73E8C97F20CB822600F9E2DE /* DEVUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E8C97E20CB822600F9E2DE /* DEVUITests.swift */; };
+		CCDBD47E21370704004945F5 /* ProfileViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCDBD47D21370704004945F5 /* ProfileViewControllerTests.swift */; };
 		EB68A80D211CB8AA0050ADB1 /* URLConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB68A80C211CB8AA0050ADB1 /* URLConstants.swift */; };
 		EB68A811211CE8A60050ADB1 /* DevWebViewLoadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB68A810211CE8A60050ADB1 /* DevWebViewLoadable.swift */; };
 		EB68A813211CEB8E0050ADB1 /* DevWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB68A812211CEB8E0050ADB1 /* DevWebViewController.swift */; };
@@ -82,6 +83,7 @@
 		73E8C97A20CB822600F9E2DE /* DEVUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DEVUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		73E8C97E20CB822600F9E2DE /* DEVUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DEVUITests.swift; sourceTree = "<group>"; };
 		73E8C98020CB822600F9E2DE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CCDBD47D21370704004945F5 /* ProfileViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewControllerTests.swift; sourceTree = "<group>"; };
 		EB68A80C211CB8AA0050ADB1 /* URLConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLConstants.swift; sourceTree = "<group>"; };
 		EB68A810211CE8A60050ADB1 /* DevWebViewLoadable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevWebViewLoadable.swift; sourceTree = "<group>"; };
 		EB68A812211CEB8E0050ADB1 /* DevWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevWebViewController.swift; sourceTree = "<group>"; };
@@ -162,6 +164,7 @@
 			isa = PBXGroup;
 			children = (
 				73E8C97320CB822600F9E2DE /* DEVTests.swift */,
+				CCDBD47D21370704004945F5 /* ProfileViewControllerTests.swift */,
 				73E8C97520CB822600F9E2DE /* Info.plist */,
 			);
 			path = DEVTests;
@@ -383,6 +386,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CCDBD47E21370704004945F5 /* ProfileViewControllerTests.swift in Sources */,
 				73E8C97420CB822600F9E2DE /* DEVTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -548,6 +552,7 @@
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = DEV/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = DEV.DEVbendevelopment;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -567,6 +572,7 @@
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = DEV/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = DEV.DEVbendevelopment;
 				PRODUCT_NAME = "$(TARGET_NAME)";
