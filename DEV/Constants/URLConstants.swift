@@ -17,7 +17,7 @@ enum DevServiceURL {
     case search(parameter: String)
     case notification
     case authentication
-    case profile
+    case profile(username: String)
     case composeArticle
     case dashboard
 }
@@ -35,8 +35,8 @@ extension DevServiceURL: DevEndPoint {
             return URL(string: "https://dev.to/notifications?rand=" + randomString)
         case .authentication:
             return URL(string: "https://dev.to/connect?rand=" + randomString)
-        case .profile:
-            return URL(string: "https://dev.to/ben?rand=" + randomString)
+        case .profile(let username):
+            return URL(string: "https://dev.to/\(username)?rand=" + randomString)
         case .composeArticle:
             return URL(string: "https://dev.to/new?rand=" + randomString)
         case .dashboard:
