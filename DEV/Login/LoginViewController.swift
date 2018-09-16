@@ -9,13 +9,36 @@
 import Foundation
 import WebKit
 
-class LoginViewController: DevWebViewController {
+class LoginViewController: UIViewController, WKNavigationDelegate {
+    
+    @IBOutlet weak var webView: WKWebView!
+    
+    weak var loginCoordinator: LoginCoordinator?
+    
+    var webURL: URL?
     
     override func viewDidLoad() {
         self.webURL = DevServiceURL.login.fullURL
         super.viewDidLoad()
+        setupWebView()
     }
     
+    private func setupWebView() {
+        webView.navigationDelegate = self
+        if let url = webURL {
+            webView.load(URLRequest(url: url))
+        }
+    }
+    
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        removeNavBar()
+    }
+    
+    func removeNavBar() {
+        let js = "document.getElementsByClassName('top-bar')[0].style.display = 'none'"
+        webView.evaluateJavaScript(js)
+    }
+
 }
 
 extension LoginViewController {
@@ -34,17 +57,8 @@ extension LoginViewController {
             return
         }
         
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        
-        guard let tabBar = storyboard.instantiateViewController(withIdentifier: "TabBar") as? UITabBarController else {
-            return
-        }
-        
-        guard let appDelegate  = UIApplication.shared.delegate as? AppDelegate else {
-            return
-        }
-       
-        appDelegate.window?.rootViewController = tabBar
+        self.dismiss(animated: true)
+        loginCoordinator?.finish()
         
     }
     

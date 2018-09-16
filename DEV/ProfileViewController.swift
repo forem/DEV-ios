@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 import WebKit
-class ProfileViewController: UIViewController, WKNavigationDelegate {
+class ProfileViewController: UIViewController, WKNavigationDelegate, CanReload {
     @IBOutlet weak var webView: WKWebView!
     @IBOutlet weak var leftButton: UIBarButtonItem!
     @IBOutlet weak var Activity: UIActivityIndicatorView!
@@ -13,6 +13,9 @@ class ProfileViewController: UIViewController, WKNavigationDelegate {
         }
     }
     
+    func reload() {
+        webView.reload()
+    }
     
     override func viewDidLoad() {
         webView.navigationDelegate = self

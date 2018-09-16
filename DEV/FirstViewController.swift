@@ -3,18 +3,24 @@ import UIKit
 import WebKit
 import Alamofire
 
-class FirstViewController: UIViewController, WKNavigationDelegate {
+class FirstViewController: UIViewController, WKNavigationDelegate, CanReload {
     @IBOutlet weak var webView: WKWebView!
     @IBOutlet weak var leftButton: UIBarButtonItem!
     @IBOutlet weak var rightButton: UIBarButtonItem!
     @IBOutlet weak var Activity: UIActivityIndicatorView!
     var initialized = false
+    
+    lazy var loginCoordinator = LoginCoordinator(self)
 
     @IBAction func buttonTapped(_ sender: Any) {
         if self.webView.canGoBack {
             self.webView.scrollView.setContentOffset(self.webView.scrollView.contentOffset, animated: false)
             self.webView.goBack()
         }
+    }
+    
+    func reload() {
+        webView.reload()
     }
     
     @IBAction func shareButtonClicked(sender: UIButton) {
@@ -30,6 +36,7 @@ class FirstViewController: UIViewController, WKNavigationDelegate {
     }
     
     override func viewDidLoad() {
+        
         webView.navigationDelegate = self
         webView.allowsBackForwardNavigationGestures = true
         self.tabBarController?.delegate = UIApplication.shared.delegate as? UITabBarControllerDelegate // Needs to go in first loaded controller (this one)
@@ -59,8 +66,27 @@ class FirstViewController: UIViewController, WKNavigationDelegate {
 
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         Activity.stopAnimating()
+        
+        let js = "document.getElementsByTagName('body')[0].getAttribute('data-user-status')"
+        webView.evaluateJavaScript(js) { result, error in
+            
+            if let error = error {
+                print("Error getting user data: \(error)")
+            }
+            
+            if let jsonString = result as? String {
+                if jsonString == "logged-in" {
+                    print("Logged in")
+                } else if jsonString == "logged-out" {
+                    print("Logged out")
+                    self.loginCoordinator.start()
+                }
+            }
+            
+        }
+        
     }
-    
+
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
         Activity.stopAnimating()
     }

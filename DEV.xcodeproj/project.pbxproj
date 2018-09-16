@@ -23,7 +23,9 @@
 		73E8C96920CB822600F9E2DE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 73E8C96720CB822600F9E2DE /* LaunchScreen.storyboard */; };
 		73E8C97420CB822600F9E2DE /* DEVTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E8C97320CB822600F9E2DE /* DEVTests.swift */; };
 		73E8C97F20CB822600F9E2DE /* DEVUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E8C97E20CB822600F9E2DE /* DEVUITests.swift */; };
-		CC08F32C2134322000FB759D /* LoginViewContoller.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC08F3282134322000FB759D /* LoginViewContoller.swift */; };
+		CC01F143214E8C2500871129 /* LoginCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC01F142214E8C2500871129 /* LoginCoordinator.swift */; };
+		CC01F145214E9D0E00871129 /* CanReload.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC01F144214E9D0E00871129 /* CanReload.swift */; };
+		CC08F32C2134322000FB759D /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC08F3282134322000FB759D /* LoginViewController.swift */; };
 		CC08F32D2134322000FB759D /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC08F32A2134322000FB759D /* Login.storyboard */; };
 		EB68A80D211CB8AA0050ADB1 /* URLConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB68A80C211CB8AA0050ADB1 /* URLConstants.swift */; };
 		EB68A811211CE8A60050ADB1 /* DevWebViewLoadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB68A810211CE8A60050ADB1 /* DevWebViewLoadable.swift */; };
@@ -84,7 +86,9 @@
 		73E8C97A20CB822600F9E2DE /* DEVUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DEVUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		73E8C97E20CB822600F9E2DE /* DEVUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DEVUITests.swift; sourceTree = "<group>"; };
 		73E8C98020CB822600F9E2DE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		CC08F3282134322000FB759D /* LoginViewContoller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewContoller.swift; sourceTree = "<group>"; };
+		CC01F142214E8C2500871129 /* LoginCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCoordinator.swift; sourceTree = "<group>"; };
+		CC01F144214E9D0E00871129 /* CanReload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanReload.swift; sourceTree = "<group>"; };
+		CC08F3282134322000FB759D /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		CC08F32B2134322000FB759D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Login.storyboard; sourceTree = "<group>"; };
 		EB68A80C211CB8AA0050ADB1 /* URLConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLConstants.swift; sourceTree = "<group>"; };
 		EB68A810211CE8A60050ADB1 /* DevWebViewLoadable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevWebViewLoadable.swift; sourceTree = "<group>"; };
@@ -184,7 +188,8 @@
 		CC08F3272134322000FB759D /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				CC08F3282134322000FB759D /* LoginViewContoller.swift */,
+				CC08F3282134322000FB759D /* LoginViewController.swift */,
+				CC01F142214E8C2500871129 /* LoginCoordinator.swift */,
 				CC08F32A2134322000FB759D /* Login.storyboard */,
 			);
 			path = Login;
@@ -210,6 +215,7 @@
 			isa = PBXGroup;
 			children = (
 				EB68A810211CE8A60050ADB1 /* DevWebViewLoadable.swift */,
+				CC01F144214E9D0E00871129 /* CanReload.swift */,
 				EB68A812211CEB8E0050ADB1 /* DevWebViewController.swift */,
 			);
 			path = DevWebView;
@@ -381,7 +387,8 @@
 				736BAAE521149C7800173EC5 /* MainHelper.swift in Sources */,
 				EB68A80D211CB8AA0050ADB1 /* URLConstants.swift in Sources */,
 				EBF8DAA421261B2B00392B03 /* UIColor+DevColor.swift in Sources */,
-				CC08F32C2134322000FB759D /* LoginViewContoller.swift in Sources */,
+				CC01F145214E9D0E00871129 /* CanReload.swift in Sources */,
+				CC08F32C2134322000FB759D /* LoginViewController.swift in Sources */,
 				73812D20210E543A00B7B37E /* NewArticleViewController.swift in Sources */,
 				73812D1E210D210600B7B37E /* ProfileViewController.swift in Sources */,
 				73E8C96120CB822600F9E2DE /* SearchViewController.swift in Sources */,
@@ -390,6 +397,7 @@
 				73E8C95D20CB822600F9E2DE /* AppDelegate.swift in Sources */,
 				EB68A811211CE8A60050ADB1 /* DevWebViewLoadable.swift in Sources */,
 				73C174C1210C46260001941B /* NotificationsViewController.swift in Sources */,
+				CC01F143214E8C2500871129 /* LoginCoordinator.swift in Sources */,
 				73E8C95F20CB822600F9E2DE /* FirstViewController.swift in Sources */,
 				73C174C3210C48CE0001941B /* ConnectViewController.swift in Sources */,
 			);
@@ -572,6 +580,7 @@
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = DEV/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = DEV.DEVbendevelopment;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -591,6 +600,7 @@
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = DEV/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = DEV.DEVbendevelopment;
 				PRODUCT_NAME = "$(TARGET_NAME)";

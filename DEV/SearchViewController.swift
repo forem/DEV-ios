@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 import WebKit
-class SearchViewController: UIViewController, WKNavigationDelegate, UITextFieldDelegate {
+class SearchViewController: UIViewController, WKNavigationDelegate, UITextFieldDelegate, CanReload {
     @IBOutlet weak var webView: WKWebView!
     @IBOutlet weak var leftButton: UIBarButtonItem!
     @IBOutlet weak var searchInput: UITextField!
@@ -14,7 +14,9 @@ class SearchViewController: UIViewController, WKNavigationDelegate, UITextFieldD
         }
     }
 
-    
+    func reload() {
+        webView.reload()
+    }
     
     override func viewDidLoad() {
         webView.navigationDelegate = self
