@@ -6,6 +6,12 @@ class ProfileViewController: UIViewController, WKNavigationDelegate, CanReload {
     @IBOutlet weak var leftButton: UIBarButtonItem!
     @IBOutlet weak var Activity: UIActivityIndicatorView!
 
+    var username: String? {
+        didSet {
+            reload()
+        }
+    }
+
     @IBAction func buttonTapped(_ sender: Any) {
         if self.webView.canGoBack {
             self.webView.scrollView.setContentOffset(self.webView.scrollView.contentOffset, animated: false)
@@ -14,7 +20,9 @@ class ProfileViewController: UIViewController, WKNavigationDelegate, CanReload {
     }
     
     func reload() {
-        webView.reload()
+        if let username = username, let profileURL = DevServiceURL.profile(username: username).fullURL {
+            webView.load(URLRequest.init(url: profileURL))
+        }
     }
     
     override func viewDidLoad() {
@@ -22,7 +30,7 @@ class ProfileViewController: UIViewController, WKNavigationDelegate, CanReload {
         webView.allowsBackForwardNavigationGestures = true
         webView.backForwardList.perform(Selector(("_removeAllItems")))
         webView.addObserver(self, forKeyPath: "URL", options: [.new, .old], context: nil)
-        if let profileURL = DevServiceURL.profile.fullURL {
+        if let username = username, let profileURL = DevServiceURL.profile(username: username).fullURL {
             webView.load(URLRequest.init(url: profileURL))
         }
         
