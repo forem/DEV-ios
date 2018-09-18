@@ -1,10 +1,16 @@
 import Foundation
 import UIKit
 import WebKit
-class ProfileViewController: UIViewController, WKNavigationDelegate {
+class ProfileViewController: UIViewController, WKNavigationDelegate, CanReload {
     @IBOutlet weak var webView: WKWebView!
     @IBOutlet weak var leftButton: UIBarButtonItem!
     @IBOutlet weak var Activity: UIActivityIndicatorView!
+
+    var username: String? {
+        didSet {
+            reload()
+        }
+    }
 
     @IBAction func buttonTapped(_ sender: Any) {
         if self.webView.canGoBack {
@@ -13,13 +19,18 @@ class ProfileViewController: UIViewController, WKNavigationDelegate {
         }
     }
     
+    func reload() {
+        if let username = username, let profileURL = DevServiceURL.profile(username: username).fullURL {
+            webView.load(URLRequest.init(url: profileURL))
+        }
+    }
     
     override func viewDidLoad() {
         webView.navigationDelegate = self
         webView.allowsBackForwardNavigationGestures = true
         webView.backForwardList.perform(Selector(("_removeAllItems")))
         webView.addObserver(self, forKeyPath: "URL", options: [.new, .old], context: nil)
-        if let profileURL = DevServiceURL.profile.fullURL {
+        if let username = username, let profileURL = DevServiceURL.profile(username: username).fullURL {
             webView.load(URLRequest.init(url: profileURL))
         }
         

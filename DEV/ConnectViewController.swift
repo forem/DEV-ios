@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 import WebKit
-class ConnectViewController: UIViewController, WKNavigationDelegate {
+class ConnectViewController: UIViewController, WKNavigationDelegate, CanReload {
     @IBOutlet weak var webView: WKWebView!
     @IBOutlet weak var leftButton: UIBarButtonItem!
     @IBOutlet weak var Activity: UIActivityIndicatorView!
@@ -13,7 +13,10 @@ class ConnectViewController: UIViewController, WKNavigationDelegate {
         }
     }
     
-    
+    func reload() {
+        webView.reload()
+    }
+
     override func viewDidLoad() {
         webView.navigationDelegate = self
         webView.backForwardList.perform(Selector(("_removeAllItems")))
