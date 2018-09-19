@@ -184,10 +184,10 @@
                                             </connections>
                                         </barButtonItem>
                                         <textField key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Search..." minimumFontSize="17" clearButtonMode="whileEditing" id="7XY-Dg-DL6">
-                                            <rect key="frame" x="60" y="12" width="255" height="20"/>
+                                            <rect key="frame" x="54" y="6" width="297" height="34"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <nil key="textColor"/>
-                                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
+                                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="19"/>
                                             <textInputTraits key="textInputTraits"/>
                                         </textField>
                                     </navigationItem>
