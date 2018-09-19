@@ -135,8 +135,11 @@ class FirstViewController: UIViewController, WKNavigationDelegate, CanReload {
     @objc func requestNotificationsCount(){
         Alamofire.request("https://dev.to/notifications/counts").response { response in
             if let data = response.data, let utf8Text = String(data: data, encoding: .utf8) {
-                if utf8Text != "0" {
+                let num = Int(utf8Text)
+                if num != 0 && num != nil {
                     self.tabBarController?.viewControllers![2].tabBarItem.badgeValue = utf8Text
+                    self.tabBarController?.viewControllers![2].view.setNeedsDisplay()
+                    self.tabBarController?.viewControllers![2].viewDidLoad()
                 }
             }
         }

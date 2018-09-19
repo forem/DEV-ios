@@ -22,6 +22,7 @@ class ConnectViewController: UIViewController, WKNavigationDelegate, CanReload {
         webView.backForwardList.perform(Selector(("_removeAllItems")))
         webView.addObserver(self, forKeyPath: "URL", options: [.new, .old], context: nil)
         webView.scrollView.isScrollEnabled = false
+        webView.customUserAgent = "DEV-Native-iOS"
         if let authenticationURL = DevServiceURL.authentication.fullURL {
             webView.load(URLRequest.init(url: authenticationURL))
         }
