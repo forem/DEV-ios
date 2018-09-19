@@ -38,7 +38,9 @@ class SearchViewController: UIViewController, WKNavigationDelegate, UITextFieldD
     }
 	
 	override func viewDidAppear(_ animated: Bool) {
-		searchInput.becomeFirstResponder() // Focus search input 
+        if (!self.webView.canGoBack) {
+            searchInput.becomeFirstResponder() // Focus search input
+        }
 	}
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {

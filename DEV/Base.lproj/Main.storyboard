@@ -4,7 +4,6 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
@@ -12,22 +11,6 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Notifications View Controller-->
-        <scene sceneID="pzG-yi-766">
-            <objects>
-                <viewController id="qsh-dl-RWx" customClass="NotificationsViewController" customModule="DEV" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="NrH-J5-EuJ">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="0.98823529409999999" green="0.97647058819999999" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <viewLayoutGuide key="safeArea" id="4Zz-qm-fwn"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="khs-PW-Gzx"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="7ZS-dw-H8b" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1688.8" y="-1001.649175412294"/>
-        </scene>
         <!--Home-->
         <scene sceneID="hNz-n2-bh7">
             <objects>
@@ -201,10 +184,10 @@
                                             </connections>
                                         </barButtonItem>
                                         <textField key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Search..." minimumFontSize="17" clearButtonMode="whileEditing" id="7XY-Dg-DL6">
-                                            <rect key="frame" x="54" y="7" width="297" height="30"/>
+                                            <rect key="frame" x="54" y="6" width="297" height="34"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <nil key="textColor"/>
-                                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
+                                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="19"/>
                                             <textInputTraits key="textInputTraits"/>
                                         </textField>
                                     </navigationItem>
@@ -371,9 +354,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <wkWebView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UJ8-cP-v8x">
+                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UJ8-cP-v8x">
                                 <rect key="frame" x="0.0" y="20" width="375" height="647"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <wkWebViewConfiguration key="configuration">
                                     <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
@@ -402,9 +384,14 @@
                         <color key="backgroundColor" red="0.98823529409999999" green="0.97647058819999999" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="9XR-gq-tXy" firstAttribute="top" secondItem="4Bw-er-d9T" secondAttribute="top" id="0kN-AV-OLg"/>
+                            <constraint firstItem="UJ8-cP-v8x" firstAttribute="trailing" secondItem="4Bw-er-d9T" secondAttribute="trailing" id="5Fd-t1-rtu"/>
+                            <constraint firstItem="UJ8-cP-v8x" firstAttribute="leading" secondItem="4Bw-er-d9T" secondAttribute="leading" id="7fo-uK-VdM"/>
+                            <constraint firstItem="UJ8-cP-v8x" firstAttribute="top" secondItem="4Bw-er-d9T" secondAttribute="top" id="7oH-Cb-2Tq"/>
                             <constraint firstItem="9XR-gq-tXy" firstAttribute="leading" secondItem="4Bw-er-d9T" secondAttribute="leading" id="HMq-vF-vv5"/>
                             <constraint firstItem="Kp8-91-6iB" firstAttribute="centerY" secondItem="4Bw-er-d9T" secondAttribute="centerY" id="caH-y7-wN7"/>
                             <constraint firstItem="9XR-gq-tXy" firstAttribute="trailing" secondItem="4Bw-er-d9T" secondAttribute="trailing" id="fG6-OG-Og5"/>
+                            <constraint firstItem="UJ8-cP-v8x" firstAttribute="bottom" secondItem="4Bw-er-d9T" secondAttribute="bottom" id="hvk-9T-bSE"/>
+                            <constraint firstItem="UJ8-cP-v8x" firstAttribute="bottom" secondItem="4Bw-er-d9T" secondAttribute="bottom" id="iFW-6u-geI"/>
                             <constraint firstItem="Kp8-91-6iB" firstAttribute="centerX" secondItem="4Bw-er-d9T" secondAttribute="centerX" id="tbl-6s-Pal"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="4Bw-er-d9T"/>
@@ -434,7 +421,7 @@
                     <connections>
                         <segue destination="9pv-A4-QxB" kind="relationship" relationship="viewControllers" id="u7Y-xg-7CH"/>
                         <segue destination="8rJ-Kc-sve" kind="relationship" relationship="viewControllers" id="lzU-1b-eKA"/>
-                        <segue destination="zeD-Qb-Lwm" kind="relationship" relationship="viewControllers" id="2SQ-oz-qnE"/>
+                        <segue destination="d94-FE-sOQ" kind="relationship" relationship="viewControllers" id="d8J-hu-6tg"/>
                         <segue destination="NQW-mt-AOf" kind="relationship" relationship="viewControllers" id="H2Q-Ty-aPD"/>
                         <segue destination="GN8-SX-WRK" kind="relationship" relationship="viewControllers" id="J8h-XK-2Ao"/>
                     </connections>
@@ -444,23 +431,59 @@
             <point key="canvasLocation" x="0.0" y="0.0"/>
         </scene>
         <!--Notifications-->
-        <scene sceneID="naG-uT-04C">
+        <scene sceneID="072-sc-eE8">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="zeD-Qb-Lwm" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Notifications" image="Notifications" id="qmm-IQ-NFx"/>
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="fNj-Vf-Zyn">
-                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
+                <viewController id="d94-FE-sOQ" customClass="NotificationsViewController" customModule="DEV" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="K76-BI-9EI">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wsr-qe-BWc">
+                                <rect key="frame" x="0.0" y="20" width="375" height="598"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <wkWebViewConfiguration key="configuration">
+                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                                    <wkPreferences key="preferences"/>
+                                </wkWebViewConfiguration>
+                            </wkWebView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="jdE-Uk-6TI">
+                                <rect key="frame" x="169" y="315" width="37" height="37"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="color" red="0.00072652605140000005" green="0.1659314465" blue="0.36150016190000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            </activityIndicatorView>
+                            <navigationBar contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2zS-tz-B41">
+                                <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                                <color key="barTintColor" red="0.98823529409999999" green="0.97647058819999999" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <items>
+                                    <navigationItem title="Notifications" id="SOI-gf-Aev" userLabel="Notifications">
+                                        <barButtonItem key="leftBarButtonItem" enabled="NO" title="Item" image="Back" id="dq4-qt-bSw"/>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                        </subviews>
+                        <color key="backgroundColor" red="0.98823529409999999" green="0.97647058819999999" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="Wsr-qe-BWc" firstAttribute="bottom" secondItem="xXT-Mf-ddQ" secondAttribute="bottom" id="03H-xs-7wE"/>
+                            <constraint firstItem="Wsr-qe-BWc" firstAttribute="top" secondItem="xXT-Mf-ddQ" secondAttribute="top" id="7MV-AP-29v"/>
+                            <constraint firstItem="2zS-tz-B41" firstAttribute="top" secondItem="Wsr-qe-BWc" secondAttribute="top" id="BTo-SU-2DN"/>
+                            <constraint firstItem="Wsr-qe-BWc" firstAttribute="trailing" secondItem="xXT-Mf-ddQ" secondAttribute="trailing" id="FQK-vQ-Wsh"/>
+                            <constraint firstItem="2zS-tz-B41" firstAttribute="leading" secondItem="Wsr-qe-BWc" secondAttribute="leading" id="GQN-VM-T8H"/>
+                            <constraint firstItem="Wsr-qe-BWc" firstAttribute="leading" secondItem="xXT-Mf-ddQ" secondAttribute="leading" id="UVc-Oj-h7N"/>
+                            <constraint firstItem="Wsr-qe-BWc" firstAttribute="bottom" secondItem="xXT-Mf-ddQ" secondAttribute="bottom" id="VE3-KI-C0S"/>
+                            <constraint firstItem="2zS-tz-B41" firstAttribute="trailing" secondItem="Wsr-qe-BWc" secondAttribute="trailing" id="xQW-v1-Yr7"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="xXT-Mf-ddQ"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Notifications" image="Notifications" id="MFN-vF-XyV"/>
                     <connections>
-                        <segue destination="qsh-dl-RWx" kind="relationship" relationship="rootViewController" id="uFP-kw-4jg"/>
+                        <outlet property="Activity" destination="jdE-Uk-6TI" id="CHO-8e-RYA"/>
+                        <outlet property="leftButton" destination="dq4-qt-bSw" id="zLL-qz-oOw"/>
+                        <outlet property="webView" destination="Wsr-qe-BWc" id="Avr-yb-u2M"/>
                     </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="aKP-Rh-9Ia" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qBj-6h-AdD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="749.60000000000002" y="-1001.649175412294"/>
+            <point key="canvasLocation" x="774" y="-1017"/>
         </scene>
     </scenes>
     <resources>
