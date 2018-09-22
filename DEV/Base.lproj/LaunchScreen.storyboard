@@ -27,8 +27,7 @@
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
-                            <constraint firstItem="A8q-NW-CGq" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="200" id="JoF-Rq-4ap"/>
-                            <constraint firstItem="A8q-NW-CGq" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="180" id="ck7-JF-16Y"/>
+                            <constraint firstItem="A8q-NW-CGq" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" multiplier="0.85" id="eyE-Xk-Vxo"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="A8q-NW-CGq" secondAttribute="trailing" id="pVb-Ov-Ayi"/>
                             <constraint firstItem="A8q-NW-CGq" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="sWe-2o-FCE"/>
                         </constraints>
