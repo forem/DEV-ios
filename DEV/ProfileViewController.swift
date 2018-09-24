@@ -30,6 +30,7 @@ class ProfileViewController: UIViewController, WKNavigationDelegate, CanReload {
         webView.allowsBackForwardNavigationGestures = true
         webView.backForwardList.perform(Selector(("_removeAllItems")))
         webView.addObserver(self, forKeyPath: "URL", options: [.new, .old], context: nil)
+        webView.customUserAgent = "DEV-Native-iOS"
         if let username = username, let profileURL = DevServiceURL.profile(username: username).fullURL {
             webView.load(URLRequest.init(url: profileURL))
         }

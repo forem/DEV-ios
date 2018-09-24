@@ -14,6 +14,7 @@ class DashboardViewController: UIViewController, WKNavigationDelegate {
         webView.navigationDelegate = self
         webView.allowsBackForwardNavigationGestures = true
         webView.backForwardList.perform(Selector(("_removeAllItems")))
+        webView.customUserAgent = "DEV-Native-iOS"
         if let dashboardURL = DevServiceURL.dashboard.fullURL {
             webView.load(URLRequest.init(url: dashboardURL))
         }

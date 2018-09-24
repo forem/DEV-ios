@@ -45,6 +45,7 @@ class FirstViewController: UIViewController, WKNavigationDelegate, CanReload {
         
         webView.navigationDelegate = self
         webView.allowsBackForwardNavigationGestures = true
+        webView.customUserAgent = "DEV-Native-iOS"
         self.tabBarController?.delegate = UIApplication.shared.delegate as? UITabBarControllerDelegate // Needs to go in first loaded controller (this one)
         if !initialized {
             webView.addObserver(self, forKeyPath: "URL", options: [.new, .old], context: nil)
