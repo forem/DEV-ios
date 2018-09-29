@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 import WebKit
-class NotificationsViewController: UIViewController, WKNavigationDelegate {
+class NotificationsViewController: UIViewController, WKNavigationDelegate, CanReload {
     @IBOutlet weak var webView: WKWebView!
     @IBOutlet weak var leftButton: UIBarButtonItem!
     @IBOutlet weak var Activity: UIActivityIndicatorView!
@@ -12,12 +12,17 @@ class NotificationsViewController: UIViewController, WKNavigationDelegate {
             self.webView.goBack()
         }
     }
+    
+    func reload() {
+        webView.reload()
+    }
 
     override func viewDidLoad() {
         webView.navigationDelegate = self
         webView.allowsBackForwardNavigationGestures = true
         webView.backForwardList.perform(Selector(("_removeAllItems")))
         webView.addObserver(self, forKeyPath: "URL", options: [.new, .old], context: nil)
+        webView.customUserAgent = "DEV-Native-iOS"
         if let notificationsUrl = DevServiceURL.notification.fullURL {
             webView.load(URLRequest.init(url: notificationsUrl))
         }

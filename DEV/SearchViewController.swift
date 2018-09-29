@@ -25,6 +25,7 @@ class SearchViewController: UIViewController, WKNavigationDelegate, UITextFieldD
         webView.backForwardList.perform(Selector(("_removeAllItems")))
 		webView.scrollView.delegate = self
         webView.addObserver(self, forKeyPath: "URL", options: [.new, .old], context: nil)
+        webView.customUserAgent = "DEV-Native-iOS"
         if let url = URL(string: "https://dev.to/search?rand="+MainHelper.randomString(length: 10)) {
             webView.load(URLRequest.init(url: url))
         }
@@ -36,13 +37,7 @@ class SearchViewController: UIViewController, WKNavigationDelegate, UITextFieldD
         webView.backForwardList.perform(Selector(("_removeAllItems")))
 		
     }
-	
-	override func viewDidAppear(_ animated: Bool) {
-        if (!self.webView.canGoBack) {
-            searchInput.becomeFirstResponder() // Focus search input
-        }
-	}
-    
+	    
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         manageBackButton()
     }
@@ -52,13 +47,16 @@ class SearchViewController: UIViewController, WKNavigationDelegate, UITextFieldD
 	}
     
     func manageBackButton(){
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.12) { //race condition hack
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { //race condition hack
             self.leftButton?.isEnabled = self.webView.canGoBack
-			if (!self.webView.canGoBack) {
-				self.searchInput.text = ""
-			}
+            self.leftButton?.tintColor = self.webView.canGoBack ? .black : .clear
+            if (!self.webView.canGoBack) {
+                self.searchInput.text = ""
+            }
+
         }
     }
+
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {   //delegate method
         guard let searchKeywordText = textField.text,
@@ -74,6 +72,7 @@ class SearchViewController: UIViewController, WKNavigationDelegate, UITextFieldD
         if let searchURL = DevServiceURL.search(parameter: searchKeywordText).fullURL {
 			Activity.startAnimating()
             webView.load(URLRequest.init(url: searchURL))
+            manageBackButton()
         }
         
         textField.resignFirstResponder()

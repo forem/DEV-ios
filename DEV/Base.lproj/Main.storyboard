@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
-        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -56,7 +55,7 @@
                                 </items>
                             </navigationBar>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="IiG-xW-rNo">
-                                <rect key="frame" x="169" y="301" width="37" height="37"/>
+                                <rect key="frame" x="169" y="300.5" width="37" height="37"/>
                                 <color key="color" red="0.00072652605140541694" green="0.16593144649611269" blue="0.36150016191709844" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             </activityIndicatorView>
                         </subviews>
@@ -168,7 +167,7 @@
                                 </wkWebViewConfiguration>
                             </wkWebView>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="JC5-wG-UG6">
-                                <rect key="frame" x="169" y="301" width="37" height="37"/>
+                                <rect key="frame" x="169" y="300.5" width="37" height="37"/>
                                 <color key="color" red="0.00072652605140000005" green="0.1659314465" blue="0.36150016190000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             </activityIndicatorView>
                             <navigationBar contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ul6-tw-pbC">
@@ -184,7 +183,7 @@
                                             </connections>
                                         </barButtonItem>
                                         <textField key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Search..." minimumFontSize="17" clearButtonMode="whileEditing" id="7XY-Dg-DL6">
-                                            <rect key="frame" x="54" y="6" width="297" height="34"/>
+                                            <rect key="frame" x="54" y="5" width="297" height="34"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <nil key="textColor"/>
                                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="19"/>
@@ -237,7 +236,7 @@
                                 </wkWebViewConfiguration>
                             </wkWebView>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="ceV-HB-GRm">
-                                <rect key="frame" x="169" y="301" width="37" height="37"/>
+                                <rect key="frame" x="169" y="300.5" width="37" height="37"/>
                                 <color key="color" red="0.00072652605140000005" green="0.1659314465" blue="0.36150016190000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             </activityIndicatorView>
                             <navigationBar contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ltx-v9-h9O">
@@ -289,7 +288,7 @@
                                 </wkWebViewConfiguration>
                             </wkWebView>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="43K-Iy-lCr">
-                                <rect key="frame" x="169" y="301" width="37" height="37"/>
+                                <rect key="frame" x="169" y="300.5" width="37" height="37"/>
                                 <color key="color" red="0.00072652605140000005" green="0.1659314465" blue="0.36150016190000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             </activityIndicatorView>
                             <navigationBar contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xSY-ml-pzL">
@@ -456,7 +455,11 @@
                                 <color key="barTintColor" red="0.98823529409999999" green="0.97647058819999999" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <items>
                                     <navigationItem title="Notifications" id="SOI-gf-Aev" userLabel="Notifications">
-                                        <barButtonItem key="leftBarButtonItem" enabled="NO" title="Item" image="Back" id="dq4-qt-bSw"/>
+                                        <barButtonItem key="leftBarButtonItem" enabled="NO" title="Item" image="Back" id="dq4-qt-bSw">
+                                            <connections>
+                                                <action selector="buttonTapped:" destination="d94-FE-sOQ" id="GZF-Ow-skF"/>
+                                            </connections>
+                                        </barButtonItem>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
@@ -477,7 +480,7 @@
                     <tabBarItem key="tabBarItem" title="Notifications" image="Notifications" id="MFN-vF-XyV"/>
                     <connections>
                         <outlet property="Activity" destination="jdE-Uk-6TI" id="CHO-8e-RYA"/>
-                        <outlet property="leftButton" destination="dq4-qt-bSw" id="zLL-qz-oOw"/>
+                        <outlet property="leftButton" destination="dq4-qt-bSw" id="YN8-Wc-9fR"/>
                         <outlet property="webView" destination="Wsr-qe-BWc" id="Avr-yb-u2M"/>
                     </connections>
                 </viewController>
