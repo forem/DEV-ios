@@ -52,7 +52,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
         let application = UIApplication.shared.delegate as! AppDelegate
         let tabbarController = application.window?.rootViewController as! UITabBarController
         let selectedController = tabbarController.selectedViewController
-        print(selectedController == viewController)
         if selectedController == viewController {
             viewController.view.setNeedsDisplay()
             viewController.viewDidLoad()

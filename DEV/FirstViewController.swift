@@ -128,7 +128,7 @@ class FirstViewController: UIViewController, WKNavigationDelegate, CanReload {
     
     func getBadgeCounts(){
         requestNotificationsCount()
-        Timer.scheduledTimer(timeInterval: 15.0, target: self, selector: #selector(requestNotificationsCount), userInfo: nil, repeats: true)
+        Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(requestNotificationsCount), userInfo: nil, repeats: true)
         requestUnopenedChatChannels()
         Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(requestUnopenedChatChannels), userInfo: nil, repeats: true)
     }
@@ -139,8 +139,11 @@ class FirstViewController: UIViewController, WKNavigationDelegate, CanReload {
                 let num = Int(utf8Text)
                 if num != 0 && num != nil {
                     self.tabBarController?.viewControllers![2].tabBarItem.badgeValue = utf8Text
-                    self.tabBarController?.viewControllers![2].view.setNeedsDisplay()
-                    self.tabBarController?.viewControllers![2].viewDidLoad()
+//                    let tabbarController = application.window?.rootViewController as! UITabBarController
+                    if self.tabBarController?.selectedViewController != self.tabBarController?.viewControllers![2] {
+                        self.tabBarController?.viewControllers![2].view.setNeedsDisplay()
+                        self.tabBarController?.viewControllers![2].viewDidLoad()
+                    }
                 }
             }
         }
