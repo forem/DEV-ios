@@ -176,13 +176,17 @@ class FirstViewController: UIViewController, WKNavigationDelegate, CanReload {
         
         refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
         refreshControl.tintColor = .clear
+        refreshControl.attributedTitle = NSMutableAttributedString(string: "Pull to Refresh")
         
         webView.scrollView.refreshControl = refreshControl
     }
     
     @objc func refresh() {
         Activity.startAnimating()
-        webView.reload()
-        webView.scrollView.refreshControl?.endRefreshing()
+        
+        UIView.animate(withDuration: 0.5) {
+            self.webView.reload()
+            self.webView.scrollView.refreshControl?.endRefreshing()
+        }
     }
 }
