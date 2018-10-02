@@ -63,7 +63,7 @@ class FirstViewController: UIViewController, WKNavigationDelegate, CanReload {
             let _ = $0.view
         }
         
-        
+        setupRefreshControl()
 
     }
     
@@ -169,5 +169,20 @@ class FirstViewController: UIViewController, WKNavigationDelegate, CanReload {
         if let username = user?.username {
             profileViewController.username = username
         }
+    }
+    
+    func setupRefreshControl() {
+        let refreshControl = UIRefreshControl()
+        
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        refreshControl.tintColor = .clear
+        
+        webView.scrollView.refreshControl = refreshControl
+    }
+    
+    @objc func refresh() {
+        Activity.startAnimating()
+        webView.reload()
+        webView.scrollView.refreshControl?.endRefreshing()
     }
 }
