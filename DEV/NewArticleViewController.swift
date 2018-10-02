@@ -14,6 +14,7 @@ class NewArticleViewController: UIViewController, WKNavigationDelegate {
         webView.navigationDelegate = self
         webView.allowsBackForwardNavigationGestures = true
         webView.backForwardList.perform(Selector(("_removeAllItems")))
+        webView.customUserAgent = "DEV-Native-iOS"
         if let composeArticleURL = DevServiceURL.composeArticle.fullURL {
             webView.load(URLRequest.init(url: composeArticleURL))
         }

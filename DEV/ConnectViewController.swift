@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 import WebKit
-class ConnectViewController: UIViewController, WKNavigationDelegate {
+class ConnectViewController: UIViewController, WKNavigationDelegate, CanReload {
     @IBOutlet weak var webView: WKWebView!
     @IBOutlet weak var leftButton: UIBarButtonItem!
     @IBOutlet weak var Activity: UIActivityIndicatorView!
@@ -13,12 +13,16 @@ class ConnectViewController: UIViewController, WKNavigationDelegate {
         }
     }
     
-    
+    func reload() {
+        webView.reload()
+    }
+
     override func viewDidLoad() {
         webView.navigationDelegate = self
         webView.backForwardList.perform(Selector(("_removeAllItems")))
         webView.addObserver(self, forKeyPath: "URL", options: [.new, .old], context: nil)
         webView.scrollView.isScrollEnabled = false
+        webView.customUserAgent = "DEV-Native-iOS"
         if let authenticationURL = DevServiceURL.authentication.fullURL {
             webView.load(URLRequest.init(url: authenticationURL))
         }
