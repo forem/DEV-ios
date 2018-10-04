@@ -17,7 +17,7 @@ class DevWebViewController: UIViewController, DevWebViewLoadable {
     private var leftBarButtonItem: UIBarButtonItem?
     
     private let activityIndicatorView: UIActivityIndicatorView = {
-        let activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
+        let activityIndicatorView = UIActivityIndicatorView(style: .whiteLarge)
         activityIndicatorView.color = .devBlue
         activityIndicatorView.hidesWhenStopped = true
         activityIndicatorView.translatesAutoresizingMaskIntoConstraints = false
