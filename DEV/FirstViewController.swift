@@ -63,7 +63,7 @@ class FirstViewController: UIViewController, WKNavigationDelegate, CanReload {
             let _ = $0.view
         }
         
-        
+        setupRefreshControl()
 
     }
     
@@ -168,6 +168,25 @@ class FirstViewController: UIViewController, WKNavigationDelegate, CanReload {
         
         if let username = user?.username {
             profileViewController.username = username
+        }
+    }
+    
+    func setupRefreshControl() {
+        let refreshControl = UIRefreshControl()
+        
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        refreshControl.tintColor = .clear
+        refreshControl.attributedTitle = NSMutableAttributedString(string: "Pull to Refresh")
+        
+        webView.scrollView.refreshControl = refreshControl
+    }
+    
+    @objc func refresh() {
+        Activity.startAnimating()
+        
+        UIView.animate(withDuration: 0.5) {
+            self.webView.reload()
+            self.webView.scrollView.refreshControl?.endRefreshing()
         }
     }
 }
