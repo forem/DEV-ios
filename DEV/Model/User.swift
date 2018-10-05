@@ -10,4 +10,10 @@ import Foundation
 
 struct User: Codable {
     let username: String
+    let profileImage: String
+    
+    private enum CodingKeys : String, CodingKey {
+        case username
+        case profileImage = "profile_image_90"
+    }
 }
