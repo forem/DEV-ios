@@ -2,6 +2,7 @@ import Foundation
 import UIKit
 import WebKit
 import Alamofire
+import AlamofireImage
 
 class FirstViewController: UIViewController, WKNavigationDelegate, CanReload {
     @IBOutlet weak var webView: WKWebView!
@@ -168,6 +169,38 @@ class FirstViewController: UIViewController, WKNavigationDelegate, CanReload {
         
         if let username = user?.username {
             profileViewController.username = username
+            
+            setUserImage(forTab: profileViewController)
         }
+    }
+
+    func setUserImage(forTab profileViewController: UIViewController) {
+        
+        guard let profileImageUrl = self.user?.profileImage else { return }
+        
+        DispatchQueue.global(qos: .background).async {
+            Alamofire.request(profileImageUrl).responseImage { response in
+                
+                if let image = response.result.value {
+                    let circularImage = self.scaleImageWithRenderingMode(imageToScale: image)
+                    DispatchQueue.main.async {
+                        self.placeImageInTabBar(profileViewController, tabImage: circularImage)
+                    }
+                }
+            }
+        }
+    }
+    
+    private func scaleImageWithRenderingMode(imageToScale: UIImage) -> UIImage {
+        let size = CGSize(width: 24.0, height: 24.0)
+        let scaledImage = imageToScale.af_imageScaled(to: size)
+        let circularImage = scaledImage.af_imageRoundedIntoCircle()
+        
+        return circularImage.withRenderingMode(.alwaysOriginal)
+    }
+    
+    private func placeImageInTabBar(_ profileViewController: UIViewController, tabImage: UIImage) {
+        let customTabBarItem = UITabBarItem(title: "DEV.self", image: tabImage, selectedImage: tabImage)
+        profileViewController.tabBarItem = customTabBarItem
     }
 }
