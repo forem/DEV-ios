@@ -43,13 +43,13 @@ class FirstViewController: UIViewController, WKNavigationDelegate, CanReload {
     }
     
     override func viewDidLoad() {
-        
+        leftButton.tintColor = .clear
         webView.navigationDelegate = self
         webView.allowsBackForwardNavigationGestures = true
         webView.customUserAgent = "DEV-Native-iOS"
         self.tabBarController?.delegate = UIApplication.shared.delegate as? UITabBarControllerDelegate // Needs to go in first loaded controller (this one)
         if !initialized {
-            webView.addObserver(self, forKeyPath: "URL", options: [.new, .old], context: nil)
+            webView.addObserver(self, forKeyPath: #keyPath(WKWebView.canGoBack), options: [.new, .old], context: nil)
             getBadgeCounts()
             initialized = true
         }
@@ -63,13 +63,11 @@ class FirstViewController: UIViewController, WKNavigationDelegate, CanReload {
         self.tabBarController?.viewControllers?.forEach {
             let _ = $0.view
         }
-        
-        
-
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        manageBackButton()
+        self.leftButton?.isEnabled = self.webView.canGoBack
+        self.leftButton?.tintColor = self.webView.canGoBack ? .black : .clear
     }
 
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
@@ -109,22 +107,12 @@ class FirstViewController: UIViewController, WKNavigationDelegate, CanReload {
                 if let user = try? JSONDecoder().decode(User.self, from: Data(jsonString.utf8)) {
                     self.user = user
                 }
-                
             }
-            
         }
-    
     }
     
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
         Activity.stopAnimating()
-    }
-    
-    func manageBackButton(){
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) { //race condition hack
-            self.leftButton?.isEnabled = self.webView.canGoBack
-            self.leftButton?.tintColor = self.webView.canGoBack ? .black : .clear
-        }
     }
     
     func getBadgeCounts(){
