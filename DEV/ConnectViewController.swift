@@ -20,7 +20,7 @@ class ConnectViewController: UIViewController, WKNavigationDelegate, CanReload {
     override func viewDidLoad() {
         webView.navigationDelegate = self
         webView.backForwardList.perform(Selector(("_removeAllItems")))
-        webView.addObserver(self, forKeyPath: "URL", options: [.new, .old], context: nil)
+        webView.addObserver(self, forKeyPath: #keyPath(WKWebView.canGoBack), options: [.new, .old], context: nil)
         webView.scrollView.isScrollEnabled = false
         webView.customUserAgent = "DEV-Native-iOS"
         if let authenticationURL = DevServiceURL.authentication.fullURL {
@@ -30,18 +30,11 @@ class ConnectViewController: UIViewController, WKNavigationDelegate, CanReload {
         self.Activity.startAnimating()
         self.Activity.hidesWhenStopped = true
         webView.backForwardList.perform(Selector(("_removeAllItems")))
-
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        manageBackButton()
-    }
-    
-    func manageBackButton(){
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) { //race condition hack
-            self.leftButton?.isEnabled = self.webView.canGoBack
-            self.leftButton?.tintColor = self.webView.canGoBack ? .black : .clear
-        }
+        leftButton?.isEnabled = webView.canGoBack
+        leftButton?.tintColor = webView.canGoBack ? .black : .clear
     }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
