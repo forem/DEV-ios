@@ -129,7 +129,7 @@ class FirstViewController: UIViewController, WKNavigationDelegate, CanReload {
     
     func getBadgeCounts(){
         requestNotificationsCount()
-        Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(requestNotificationsCount), userInfo: nil, repeats: true)
+        Timer.scheduledTimer(timeInterval: 6.0, target: self, selector: #selector(requestNotificationsCount), userInfo: nil, repeats: true)
         requestUnopenedChatChannels()
         Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(requestUnopenedChatChannels), userInfo: nil, repeats: true)
     }
@@ -153,8 +153,13 @@ class FirstViewController: UIViewController, WKNavigationDelegate, CanReload {
     @objc func requestUnopenedChatChannels(){
         Alamofire.request("https://dev.to/chat_channels?state=unopened").responseJSON { response in
             if let json = response.result.value {
-                if (json as AnyObject).count > 0 {
+                let num = (json as AnyObject).count
+                if num ?? 0 > 0 {
                     self.tabBarController?.viewControllers![3].tabBarItem.badgeValue = String((json as AnyObject).count)
+                    if self.tabBarController?.selectedViewController != self.tabBarController?.viewControllers![3] {
+                        self.tabBarController?.viewControllers![3].view.setNeedsDisplay()
+                        self.tabBarController?.viewControllers![3].viewDidLoad()
+                    }
                 }
             }
         }
