@@ -66,8 +66,8 @@ class FirstViewController: UIViewController, WKNavigationDelegate, CanReload {
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        self.leftButton?.isEnabled = self.webView.canGoBack
-        self.leftButton?.tintColor = self.webView.canGoBack ? .black : .clear
+        leftButton?.isEnabled = webView.canGoBack
+        leftButton?.tintColor = webView.canGoBack ? .black : .clear
     }
 
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
