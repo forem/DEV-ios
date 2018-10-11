@@ -20,11 +20,12 @@ class SearchViewController: UIViewController, WKNavigationDelegate, UITextFieldD
     }    
 
     override func viewDidLoad() {
+        leftButton.tintColor = .clear
         webView.navigationDelegate = self
         webView.allowsBackForwardNavigationGestures = true
         webView.backForwardList.perform(Selector(("_removeAllItems")))
 		webView.scrollView.delegate = self
-        webView.addObserver(self, forKeyPath: "URL", options: [.new, .old], context: nil)
+        webView.addObserver(self, forKeyPath: #keyPath(WKWebView.canGoBack), options: [.new, .old], context: nil)
         webView.customUserAgent = "DEV-Native-iOS"
         if let url = URL(string: "https://dev.to/search?rand="+MainHelper.randomString(length: 10)) {
             webView.load(URLRequest.init(url: url))
@@ -39,24 +40,14 @@ class SearchViewController: UIViewController, WKNavigationDelegate, UITextFieldD
     }
 	    
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        manageBackButton()
+        leftButton?.isEnabled = webView.canGoBack
+        leftButton?.tintColor = webView.canGoBack ? .black : .clear
+        searchInput.text = webView.canGoBack ? searchInput.text : ""
     }
 	
 	override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
 		self.searchInput.endEditing(true)
 	}
-    
-    func manageBackButton(){
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { //race condition hack
-            self.leftButton?.isEnabled = self.webView.canGoBack
-            self.leftButton?.tintColor = self.webView.canGoBack ? .black : .clear
-            if (!self.webView.canGoBack) {
-                self.searchInput.text = ""
-            }
-
-        }
-    }
-
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {   //delegate method
         guard let searchKeywordText = textField.text,
@@ -72,12 +63,9 @@ class SearchViewController: UIViewController, WKNavigationDelegate, UITextFieldD
         if let searchURL = DevServiceURL.search(parameter: searchKeywordText).fullURL {
 			Activity.startAnimating()
             webView.load(URLRequest.init(url: searchURL))
-            manageBackButton()
         }
         
         textField.resignFirstResponder()
-
-        manageBackButton()
        
         return true
     }
