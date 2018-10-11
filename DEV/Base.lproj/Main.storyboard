@@ -228,7 +228,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Neu-8R-jg4">
-                                <rect key="frame" x="0.0" y="44" width="414" height="769"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="725"/>
                                 <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <wkWebViewConfiguration key="configuration">
                                     <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
@@ -236,14 +236,20 @@
                                 </wkWebViewConfiguration>
                             </wkWebView>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="ceV-HB-GRm">
-                                <rect key="frame" x="188.66666666666666" y="410" width="37" height="37"/>
+                                <rect key="frame" x="188.66666666666666" y="388" width="37" height="37"/>
                                 <color key="color" red="0.00072652605140000005" green="0.1659314465" blue="0.36150016190000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             </activityIndicatorView>
                             <navigationBar contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ltx-v9-h9O">
                                 <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                                 <color key="barTintColor" red="0.9882352941176471" green="0.97647058823529409" blue="0.95686274509803926" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <items>
-                                    <navigationItem title="Connect" id="NrP-4k-Yas"/>
+                                    <navigationItem title="Connect" id="NrP-4k-Yas">
+                                        <barButtonItem key="leftBarButtonItem" enabled="NO" title="Item" image="Back" id="je0-Qj-k6q">
+                                            <connections>
+                                                <action selector="buttonTapped:" destination="NQW-mt-AOf" id="kfr-XZ-FIc"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
                                 </items>
                             </navigationBar>
                         </subviews>
@@ -262,8 +268,13 @@
                         <viewLayoutGuide key="safeArea" id="BJs-ea-TFF"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Connect" image="Connect" id="Gyf-qd-ext"/>
+                    <toolbarItems>
+                        <barButtonItem enabled="NO" title="Item" image="Back" id="8PL-nP-k4Q"/>
+                    </toolbarItems>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="Activity" destination="ceV-HB-GRm" id="ZfU-g3-Ic3"/>
+                        <outlet property="leftButton" destination="je0-Qj-k6q" id="jGY-V9-tMs"/>
                         <outlet property="webView" destination="Neu-8R-jg4" id="0oy-N5-Oja"/>
                     </connections>
                 </viewController>
@@ -501,6 +512,6 @@
         <image name="Write" width="21" height="21"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="soh-kZ-oDJ"/>
+        <segue reference="qWo-a3-QnG"/>
     </inferredMetricsTieBreakers>
 </document>

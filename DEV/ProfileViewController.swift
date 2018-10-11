@@ -26,10 +26,11 @@ class ProfileViewController: UIViewController, WKNavigationDelegate, CanReload {
     }
     
     override func viewDidLoad() {
+        leftButton.tintColor = .clear
         webView.navigationDelegate = self
         webView.allowsBackForwardNavigationGestures = true
         webView.backForwardList.perform(Selector(("_removeAllItems")))
-        webView.addObserver(self, forKeyPath: "URL", options: [.new, .old], context: nil)
+        webView.addObserver(self, forKeyPath: #keyPath(WKWebView.canGoBack), options: [.new, .old], context: nil)
         webView.customUserAgent = "DEV-Native-iOS"
         if let username = username, let profileURL = DevServiceURL.profile(username: username).fullURL {
             webView.load(URLRequest.init(url: profileURL))
@@ -41,16 +42,10 @@ class ProfileViewController: UIViewController, WKNavigationDelegate, CanReload {
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        manageBackButton()
+        leftButton?.isEnabled = webView.canGoBack
+        leftButton?.tintColor = webView.canGoBack ? .black : .clear
     }
-    
-    func manageBackButton(){
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) { //race condition hack
-            self.leftButton?.isEnabled = self.webView.canGoBack
-            self.leftButton?.tintColor = self.webView.canGoBack ? .black : .clear
-        }
-    }
-    
+   
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         Activity.stopAnimating()
     }
