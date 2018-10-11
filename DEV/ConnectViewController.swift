@@ -19,6 +19,7 @@ class ConnectViewController: UIViewController, WKNavigationDelegate, CanReload {
 
     override func viewDidLoad() {
         webView.navigationDelegate = self
+        leftButton.tintColor = .clear
         webView.backForwardList.perform(Selector(("_removeAllItems")))
         webView.addObserver(self, forKeyPath: #keyPath(WKWebView.canGoBack), options: [.new, .old], context: nil)
         webView.scrollView.isScrollEnabled = false

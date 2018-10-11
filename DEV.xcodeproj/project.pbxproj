@@ -17,7 +17,7 @@
 		73E8C95D20CB822600F9E2DE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E8C95C20CB822600F9E2DE /* AppDelegate.swift */; };
 		73E8C95F20CB822600F9E2DE /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E8C95E20CB822600F9E2DE /* FirstViewController.swift */; };
 		73E8C96120CB822600F9E2DE /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E8C96020CB822600F9E2DE /* SearchViewController.swift */; };
-		73E8C96420CB822600F9E2DE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 73E8C96220CB822600F9E2DE /* Main.storyboard */; };
+		73E8C96420CB822600F9E2DE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 73E8C96220CB822600F9E2DE /* Main.storyboard */; settings = {ASSET_TAGS = (f, ); }; };
 		73E8C96620CB822600F9E2DE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 73E8C96520CB822600F9E2DE /* Assets.xcassets */; };
 		73E8C96920CB822600F9E2DE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 73E8C96720CB822600F9E2DE /* LaunchScreen.storyboard */; };
 		73E8C97420CB822600F9E2DE /* DEVTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E8C97320CB822600F9E2DE /* DEVTests.swift */; };
@@ -314,6 +314,9 @@
 		73E8C95120CB822500F9E2DE /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				KnownAssetTags = (
+					f,
+				);
 				LastSwiftUpdateCheck = 0920;
 				LastUpgradeCheck = 1000;
 				ORGANIZATIONNAME = DEV;
