@@ -32,10 +32,16 @@ class LoginViewController: UIViewController, WKNavigationDelegate {
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         removeNavBar()
+        removeFooter()
     }
     
     func removeNavBar() {
         let js = "document.getElementsByClassName('top-bar')[0].style.display = 'none'"
+        webView.evaluateJavaScript(js)
+    }
+    
+    func removeFooter() {
+        let js = "document.getElementById('footer-container').style.display = 'none'"
         webView.evaluateJavaScript(js)
     }
 
