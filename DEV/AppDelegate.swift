@@ -21,7 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
         UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
         UITabBarItem.appearance().badgeColor = .blue //UIColor (red: 78.0, green: 87.0, blue: 239.0, alpha: 1.0) //rgb(78, 87, 239)
         let theViewController = self.window?.rootViewController
-        theViewController?.view.backgroundColor = UIColor (red: 253.0, green: 249.0, blue: 244.0, alpha: 1.0)
+        theViewController?.view.backgroundColor = UIColor (red: 253.0/255.0, green: 249.0/255.0, blue: 244.0/255.0, alpha: 1.0)
             
         return true
     }
