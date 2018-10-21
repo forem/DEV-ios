@@ -13,7 +13,7 @@ import Alamofire
 class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegate {
 
     var window: UIWindow?
-
+    var deepLinkURLString: String?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -23,6 +23,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
         let theViewController = self.window?.rootViewController
         theViewController?.view.backgroundColor = UIColor (red: 253.0/255.0, green: 249.0/255.0, blue: 244.0/255.0, alpha: 1.0)
             
+        return true
+    }
+
+    // This implementation is done with following deep link URL format:
+    // `devto://dev.to/username/path-to-the-article-1a2bc`
+    public func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+        if let scheme = url.scheme, scheme == "devto" {
+            self.deepLinkURLString = url.path
+            NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "deepLink")))
+        }
         return true
     }
 

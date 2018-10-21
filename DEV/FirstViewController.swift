@@ -3,6 +3,7 @@ import UIKit
 import WebKit
 import Alamofire
 import AlamofireImage
+import SafariServices
 
 class FirstViewController: UIViewController, WKNavigationDelegate, CanReload {
     @IBOutlet weak var webView: WKWebView!
@@ -62,6 +63,18 @@ class FirstViewController: UIViewController, WKNavigationDelegate, CanReload {
         
         self.tabBarController?.viewControllers?.forEach {
             let _ = $0.view
+        }
+
+        NotificationCenter.default.addObserver(self, selector: #selector(deepLinkReceived(sender:)), name: Notification.Name(rawValue: "deepLink"), object: nil)
+    }
+
+    @objc func deepLinkReceived(sender: Notification) {
+        if sender.name == Notification.Name(rawValue: "deepLink") {
+            if let deepLinkURL = DevServiceURL.deepLink.fullURL {
+                self.webView.load(URLRequest.init(url: deepLinkURL))
+                self.Activity.startAnimating()
+                self.Activity.hidesWhenStopped = true
+            }
         }
     }
     
