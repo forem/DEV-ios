@@ -125,13 +125,13 @@ class FirstViewController: UIViewController, WKNavigationDelegate, CanReload {
     @objc func requestNotificationsCount(){
         Alamofire.request("https://dev.to/notifications/counts").response { response in
             if let data = response.data, let utf8Text = String(data: data, encoding: .utf8) {
-                let num = Int(utf8Text)
-                if num != 0 && num != nil {
-                    self.tabBarController?.viewControllers![2].tabBarItem.badgeValue = utf8Text
-//                    let tabbarController = application.window?.rootViewController as! UITabBarController
-                    if self.tabBarController?.selectedViewController != self.tabBarController?.viewControllers![2] {
-                        self.tabBarController?.viewControllers![2].view.setNeedsDisplay()
-                        self.tabBarController?.viewControllers![2].viewDidLoad()
+                if let num = Int(utf8Text) {
+                    if num != 0  {
+                        self.tabBarController?.viewControllers![2].tabBarItem.badgeValue = utf8Text
+                        if self.tabBarController?.selectedViewController != self.tabBarController?.viewControllers![2] {
+                            self.tabBarController?.viewControllers![2].view.setNeedsDisplay()
+                            self.tabBarController?.viewControllers![2].viewDidLoad()
+                        }
                     }
                 }
             }
@@ -175,8 +175,8 @@ class FirstViewController: UIViewController, WKNavigationDelegate, CanReload {
             Alamofire.request(profileImageUrl).responseImage { response in
                 
                 if let image = response.result.value {
-                    let circularImage = self.scaleImageWithRenderingMode(imageToScale: image)
                     DispatchQueue.main.async {
+                        let circularImage = self.scaleImageWithRenderingMode(imageToScale: image)
                         self.placeImageInTabBar(profileViewController, tabImage: circularImage)
                     }
                 }

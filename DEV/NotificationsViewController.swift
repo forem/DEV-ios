@@ -1,6 +1,8 @@
 import Foundation
 import UIKit
 import WebKit
+import UserNotifications
+
 class NotificationsViewController: UIViewController, WKNavigationDelegate, CanReload {
     @IBOutlet weak var webView: WKWebView!
     @IBOutlet weak var leftButton: UIBarButtonItem!
@@ -31,6 +33,7 @@ class NotificationsViewController: UIViewController, WKNavigationDelegate, CanRe
         self.Activity.startAnimating()
         self.Activity.hidesWhenStopped = true
         webView.backForwardList.perform(Selector(("_removeAllItems")))
+        askForNotificationPermission()
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -46,4 +49,16 @@ class NotificationsViewController: UIViewController, WKNavigationDelegate, CanRe
         Activity.stopAnimating()
     }
     
+    func askForNotificationPermission() {
+        let center = UNUserNotificationCenter.current()
+        let options: UNAuthorizationOptions = [.alert, .sound, .badge];
+        
+        center.requestAuthorization(options: options) {
+            (granted, error) in
+            if !granted {
+                //Set value in user settings.
+            }
+        }
+        
+    }
 }

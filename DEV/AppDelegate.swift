@@ -8,6 +8,7 @@
 
 import UIKit
 import Alamofire
+import UserNotifications
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegate {
@@ -22,7 +23,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
         UITabBarItem.appearance().badgeColor = .blue //UIColor (red: 78.0, green: 87.0, blue: 239.0, alpha: 1.0) //rgb(78, 87, 239)
         let theViewController = self.window?.rootViewController
         theViewController?.view.backgroundColor = UIColor (red: 253.0/255.0, green: 249.0/255.0, blue: 244.0/255.0, alpha: 1.0)
-            
+        
+        //Set the background fetch interval to check for notifications (check user setting in the future)
+        UIApplication.shared.setMinimumBackgroundFetchInterval(UIApplication.backgroundFetchIntervalMinimum)
+        UNUserNotificationCenter.current().delegate = self
+        
         return true
     }
 
@@ -48,6 +53,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
     
+    func application(_ application: UIApplication,
+                     performFetchWithCompletionHandler completionHandler:
+        @escaping (UIBackgroundFetchResult) -> Void) {
+        // Check for new data.
+        Alamofire.request("https://dev.to/notifications/counts").response { response in
+            if let data = response.data, let utf8Text = String(data: data, encoding: .utf8) {
+                if let num = Int(utf8Text) {
+                    if num != 0  {
+                        let content = UNMutableNotificationContent()
+                        content.title = "New DEV.to Articles!"
+                        content.subtitle = "New DEV.to Articles!"
+                        content.body = "There are new articles waiting."
+                        content.badge = num as NSNumber
+                        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 0.5, repeats: false)
+                        let request = UNNotificationRequest(identifier: "timerdone", content: content, trigger: trigger)
+                        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+                        completionHandler(.newData)
+                    } else {
+                        UIApplication.shared.applicationIconBadgeNumber = 0
+                        completionHandler(.noData)
+                    }
+                }
+            } else{
+                completionHandler(.failed)
+            }
+        }
+    }
+    
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         let application = UIApplication.shared.delegate as! AppDelegate
         let tabbarController = application.window?.rootViewController as! UITabBarController
@@ -60,7 +93,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
         viewController.tabBarItem.badgeValue = nil // I assume this is a pretty cheap operation, so just calling it every time. We could call it conditionally too.
         return true
     }
-
-
 }
 
+extension AppDelegate: UNUserNotificationCenterDelegate {
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        if let tabBarController = window?.rootViewController as? UITabBarController,
+            let viewControllers = tabBarController.viewControllers {
+            for viewController in viewControllers {
+                if let notificationViewController = viewController as? NotificationsViewController {
+                    tabBarController.selectedViewController = notificationViewController
+                }
+            }
+        }
+        
+    }
+    
+}
