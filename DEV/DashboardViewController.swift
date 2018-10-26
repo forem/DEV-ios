@@ -1,8 +1,7 @@
 import Foundation
 import UIKit
 import WebKit
-class DashboardViewController: UIViewController, WKNavigationDelegate {
-    @IBOutlet weak var webView: WKWebView!
+class DashboardViewController: BaseWebViewController, WKNavigationDelegate {
     @IBOutlet weak var leftButton: UIBarButtonItem!
     @IBOutlet weak var Activity: UIActivityIndicatorView!
     

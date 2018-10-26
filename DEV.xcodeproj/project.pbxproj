@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0EEEC8B62183ACDF00E6C1A8 /* BaseWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EEEC8B52183ACDF00E6C1A8 /* BaseWebViewController.swift */; };
 		736BAAE12113BC5500173EC5 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 736BAAE02113BC5400173EC5 /* Alamofire.framework */; };
 		736BAAE521149C7800173EC5 /* MainHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736BAAE421149C7800173EC5 /* MainHelper.swift */; };
 		736BAAE72115EC0C00173EC5 /* DashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736BAAE62115EC0C00173EC5 /* DashboardViewController.swift */; };
@@ -65,6 +66,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0EEEC8B52183ACDF00E6C1A8 /* BaseWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseWebViewController.swift; sourceTree = "<group>"; };
 		736BAAE02113BC5400173EC5 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		736BAAE421149C7800173EC5 /* MainHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainHelper.swift; sourceTree = "<group>"; };
 		736BAAE62115EC0C00173EC5 /* DashboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewController.swift; sourceTree = "<group>"; };
@@ -238,6 +240,7 @@
 				EB68A810211CE8A60050ADB1 /* DevWebViewLoadable.swift */,
 				CC01F144214E9D0E00871129 /* CanReload.swift */,
 				EB68A812211CEB8E0050ADB1 /* DevWebViewController.swift */,
+				0EEEC8B52183ACDF00E6C1A8 /* BaseWebViewController.swift */,
 			);
 			path = DevWebView;
 			sourceTree = "<group>";
@@ -410,6 +413,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0EEEC8B62183ACDF00E6C1A8 /* BaseWebViewController.swift in Sources */,
 				736BAAE521149C7800173EC5 /* MainHelper.swift in Sources */,
 				EB68A80D211CB8AA0050ADB1 /* URLConstants.swift in Sources */,
 				EBF8DAA421261B2B00392B03 /* UIColor+DevColor.swift in Sources */,

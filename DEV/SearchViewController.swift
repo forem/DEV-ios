@@ -1,8 +1,7 @@
 import Foundation
 import UIKit
 import WebKit
-class SearchViewController: UIViewController, WKNavigationDelegate, UITextFieldDelegate, UIScrollViewDelegate, CanReload {
-    @IBOutlet weak var webView: WKWebView!
+class SearchViewController: BaseWebViewController, WKNavigationDelegate, UITextFieldDelegate, UIScrollViewDelegate, CanReload {
     @IBOutlet weak var leftButton: UIBarButtonItem!
     @IBOutlet weak var searchInput: UITextField!
     @IBOutlet weak var Activity: UIActivityIndicatorView!

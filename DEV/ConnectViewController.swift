@@ -1,8 +1,7 @@
 import Foundation
 import UIKit
 import WebKit
-class ConnectViewController: UIViewController, WKNavigationDelegate, CanReload {
-    @IBOutlet weak var webView: WKWebView!
+class ConnectViewController: BaseWebViewController, WKNavigationDelegate, CanReload {
     @IBOutlet weak var leftButton: UIBarButtonItem!
     @IBOutlet weak var Activity: UIActivityIndicatorView!
 

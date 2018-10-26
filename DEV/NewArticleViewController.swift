@@ -1,8 +1,7 @@
 import Foundation
 import UIKit
 import WebKit
-class NewArticleViewController: UIViewController, WKNavigationDelegate {
-    @IBOutlet weak var webView: WKWebView!
+class NewArticleViewController: BaseWebViewController, WKNavigationDelegate {
     @IBOutlet weak var leftButton: UIBarButtonItem!
     @IBOutlet weak var Activity: UIActivityIndicatorView!
 
