@@ -7,7 +7,7 @@
 
 This is the repo for the [dev.to](https://dev.to) iOS app. It is still a work in progress, but getting there!
 
-# Design ethose
+# Design ethos
 
 We will grow to include more native code over time, but for now we are taking the approach of _native shell/web views_. This approach lost favor early in iOS days, but I believe it is a very valid approach these days. It is inspired by how Basecamp does things. Our tech stack is a bit different, but the ideas are the same. 
 
@@ -27,6 +27,6 @@ By leveraging `wkwebviews` as much as possible, I think we can make this all pre
 3. Now run `carthage update` in the project's root directory.
 4. Build and run the project in XCode.
 
-Feedback and Pull Requests are welcome! As this is a new and constantly evolving project, please be sure to include unit test with changes.
+Feedback and Pull Requests are welcome! As this is a new and constantly evolving project, please be sure to include unit tests with changes.
 
 # Thanks for your help!!!
