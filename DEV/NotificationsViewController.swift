@@ -1,8 +1,7 @@
 import Foundation
 import UIKit
 import WebKit
-class NotificationsViewController: UIViewController, WKNavigationDelegate, CanReload {
-    @IBOutlet weak var webView: WKWebView!
+class NotificationsViewController: BaseWebViewController, WKNavigationDelegate, CanReload {
     @IBOutlet weak var leftButton: UIBarButtonItem!
     @IBOutlet weak var Activity: UIActivityIndicatorView!
     

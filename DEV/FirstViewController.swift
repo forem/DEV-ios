@@ -5,8 +5,7 @@ import Alamofire
 import AlamofireImage
 import SafariServices
 
-class FirstViewController: UIViewController, WKNavigationDelegate, CanReload {
-    @IBOutlet weak var webView: WKWebView!
+class FirstViewController: BaseWebViewController, WKNavigationDelegate, CanReload {
     @IBOutlet weak var leftButton: UIBarButtonItem!
     @IBOutlet weak var rightButton: UIBarButtonItem!
     @IBOutlet weak var Activity: UIActivityIndicatorView!

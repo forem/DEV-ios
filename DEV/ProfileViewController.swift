@@ -1,8 +1,7 @@
 import Foundation
 import UIKit
 import WebKit
-class ProfileViewController: UIViewController, WKNavigationDelegate, CanReload {
-    @IBOutlet weak var webView: WKWebView!
+class ProfileViewController: BaseWebViewController, WKNavigationDelegate, CanReload {
     @IBOutlet weak var leftButton: UIBarButtonItem!
     @IBOutlet weak var Activity: UIActivityIndicatorView!
 
