@@ -6,7 +6,7 @@
 //  Copyright © 2018 DEV. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 protocol DevEndPoint {
     var fullURL: URL? { get }
@@ -21,6 +21,7 @@ enum DevServiceURL {
     case composeArticle
     case dashboard
     case login
+    case deepLink
 }
 
 extension DevServiceURL: DevEndPoint {
@@ -44,6 +45,11 @@ extension DevServiceURL: DevEndPoint {
             return URL(string: "https://dev.to/dashboard?rand=" + randomString)
         case .login:
             return URL(string: "https://dev.to/enter?rand=" + randomString)
+        case .deepLink:
+            if let urlString = (UIApplication.shared.delegate as? AppDelegate)?.deepLinkURLString {
+                return URL(string: "https://dev.to/" + urlString + "?rand=" + randomString)
+            }
+            return nil
         }
     }
 }

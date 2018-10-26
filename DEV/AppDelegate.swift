@@ -14,7 +14,7 @@ import UserNotifications
 class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegate {
 
     var window: UIWindow?
-
+    var deepLinkURLString: String?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -28,6 +28,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
         UIApplication.shared.setMinimumBackgroundFetchInterval(UIApplication.backgroundFetchIntervalMinimum)
         UNUserNotificationCenter.current().delegate = self
         
+        return true
+    }
+
+    // This implementation is done with following deep link URL format:
+    // `devto://dev.to/username/path-to-the-article-1a2bc`
+    public func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+        if let scheme = url.scheme, scheme == "devto" {
+            self.deepLinkURLString = url.path
+            NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "deepLink")))
+        }
         return true
     }
 
