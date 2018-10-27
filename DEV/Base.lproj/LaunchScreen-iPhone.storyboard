@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.15" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.9"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -15,24 +15,28 @@
             <objects>
                 <viewController id="01J-lp-oVM" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="500" height="500"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="A8q-NW-CGq">
-                                <rect key="frame" x="0.0" y="200" width="375" height="240"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="A8q-NW-CGq">
+                                <rect key="frame" x="175" y="175" width="150" height="150"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="240" id="jfG-SC-vVb"/>
+                                    <constraint firstAttribute="width" constant="150" id="Mtu-PD-GBh"/>
+                                    <constraint firstAttribute="height" constant="150" id="yXA-Ap-aRH"/>
                                 </constraints>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
-                            <constraint firstItem="A8q-NW-CGq" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" multiplier="0.85" id="eyE-Xk-Vxo"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="A8q-NW-CGq" secondAttribute="trailing" id="pVb-Ov-Ayi"/>
-                            <constraint firstItem="A8q-NW-CGq" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="sWe-2o-FCE"/>
+                            <constraint firstItem="A8q-NW-CGq" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="GMo-EJ-zRT"/>
+                            <constraint firstItem="A8q-NW-CGq" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="zd0-hz-9fB"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <nil key="simulatedBottomBarMetrics"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="500" height="500"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -40,7 +44,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="logo" width="256" height="256"/>
+        <image name="logo" width="512" height="512"/>
     </resources>
     <color key="tintColor" red="0.9924907056525657" green="1" blue="0.84146843894918422" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
 </document>
