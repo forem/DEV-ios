@@ -70,7 +70,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
         viewController.tabBarItem.badgeValue = nil // I assume this is a pretty cheap operation, so just calling it every time. We could call it conditionally too.
         return true
     }
-
-
 }
 
