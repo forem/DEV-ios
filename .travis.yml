@@ -4,5 +4,9 @@ language: swift
 before_install:
 #  - brew upgrade swiftlint
 
-script:
-    - fastlane ios test && fastlane ios lint
+jobs:
+  include:
+    - stage: iOS Test # Run tests
+      script: fastlane ios test
+    - stage: iOS Lint # Run linter
+      script: fastlane ios lint
