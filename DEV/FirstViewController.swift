@@ -134,39 +134,37 @@ class FirstViewController: BaseWebViewController, WKNavigationDelegate, CanReloa
         Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(requestUnopenedChatChannels), userInfo: nil, repeats: true)
     }
     
-    @objc func requestNotificationsCount(){
-        Alamofire.request("https://dev.to/notifications/counts").response { response in
-            if let data = response.data, let utf8Text = String(data: data, encoding: .utf8) {
-                let num = Int(utf8Text)
-                if num != 0 && num != nil {
-                    self.tabBarController?.viewControllers![2].tabBarItem.badgeValue = utf8Text
-//                    let tabbarController = application.window?.rootViewController as! UITabBarController
-                    if self.tabBarController?.selectedViewController != self.tabBarController?.viewControllers![2] {
-                        self.tabBarController?.viewControllers![2].view.setNeedsDisplay()
-                        self.tabBarController?.viewControllers![2].viewDidLoad()
-                    }
-                }
-            }
-        }
-    }
-    
-    @objc func requestUnopenedChatChannels(){
-        Alamofire.request("https://dev.to/chat_channels?state=unopened").responseJSON { response in
-            if let json = response.result.value {
-                let num = (json as AnyObject).count
-                if num ?? 0 > 0 {
-                    self.tabBarController?.viewControllers![3].tabBarItem.badgeValue = String((json as AnyObject).count)
-                    if self.tabBarController?.selectedViewController != self.tabBarController?.viewControllers![3] {
-                        self.tabBarController?.viewControllers![3].view.setNeedsDisplay()
-                        self.tabBarController?.viewControllers![3].viewDidLoad()
-                    }
-                }
-            }
-        }
-    }
-    
+	@objc func requestNotificationsCount(){
+		Alamofire.request("https://dev.to/notifications/counts").response { response in
+			if let data = response.data, let utf8Text = String(data: data, encoding: .utf8) {
+				let num = Int(utf8Text)
+				if num != 0 && num != nil {
+					self.tabBarController?.viewControllers![2].tabBarItem.badgeValue = utf8Text
+					if self.tabBarController?.selectedViewController != self.tabBarController?.viewControllers![2] {
+						self.tabBarController?.viewControllers![2].view.setNeedsDisplay()
+						self.tabBarController?.viewControllers![2].viewDidLoad()
+					}
+				}
+			}
+		}
+	}
+
+	@objc func requestUnopenedChatChannels(){
+		Alamofire.request("https://dev.to/chat_channels?state=unopened").responseJSON { response in
+			if let json = response.result.value {
+				let num = ((json as AnyObject).count ?? 0)
+				if num > 0 {
+					self.tabBarController?.viewControllers![3].tabBarItem.badgeValue = String(num)
+					if self.tabBarController?.selectedViewController != self.tabBarController?.viewControllers![3] {
+						self.tabBarController?.viewControllers![3].view.setNeedsDisplay()
+						self.tabBarController?.viewControllers![3].viewDidLoad()
+					}
+				}
+			}
+		}
+	}
+
     func updateProfileViewController() {
-        
         guard let viewControllers = self.tabBarController?.viewControllers else { return }
        
         guard let profileViewController = viewControllers.first(where: {
@@ -180,7 +178,6 @@ class FirstViewController: BaseWebViewController, WKNavigationDelegate, CanReloa
     }
 
     func setUserImage(forTab profileViewController: UIViewController) {
-        
         guard let profileImageUrl = self.user?.profileImage else { return }
         
         DispatchQueue.global(qos: .background).async {
