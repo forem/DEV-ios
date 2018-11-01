@@ -1,0 +1,3 @@
+included: # paths to include during linting. `--path` is ignored if present.
+  - DEV
+reporter: json
