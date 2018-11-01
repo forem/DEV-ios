@@ -8,5 +8,3 @@ jobs:
   include:
     - stage: iOS Test # Run tests
       script: fastlane ios test
-    - stage: iOS Lint # Run linter
-      script: fastlane ios lint
