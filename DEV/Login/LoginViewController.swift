@@ -35,12 +35,12 @@ class LoginViewController: UIViewController, WKNavigationDelegate {
         removeFooter()
     }
     
-    func removeNavBar() {
+    private func removeNavBar() {
         let js = "document.getElementsByClassName('top-bar')[0].style.display = 'none'"
         webView.evaluateJavaScript(js)
     }
     
-    func removeFooter() {
+    private func removeFooter() {
         let js = "document.getElementById('footer-container').style.display = 'none'"
         webView.evaluateJavaScript(js)
     }
@@ -57,7 +57,7 @@ extension LoginViewController {
         
     }
     
-    func redirect(to urlString: String) {
+    private func redirect(to urlString: String) {
         
         if !loggedIn(urlString: urlString) {
             return
@@ -68,14 +68,12 @@ extension LoginViewController {
         
     }
     
-    func loggedIn(urlString: String) -> Bool {
+    private func loggedIn(urlString: String) -> Bool {
         
-        if urlString.contains("returning-user=true") {
-            return true
-        }
-        
-        if urlString.contains("signed-in-already") {
-            return true
+        for parameter in LoginParameter.allCases {
+            if urlString.contains(parameter.rawValue) {
+                return true
+            }
         }
         
         return false
@@ -83,3 +81,5 @@ extension LoginViewController {
     }
     
 }
+
+
