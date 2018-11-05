@@ -16,28 +16,22 @@
 default_platform(:ios)
 
 platform :ios do
-  desc "Run Carthage"
-  before_all do
+
+  desc "Run Carthage bootstrap"
+  lane :bootstrap do
     carthage(
       command: "bootstrap",
       platform: "iOS",
-      cache_builds: true,  
+      cache_builds: true,
     )
   end
 
   desc "Runs all the tests"
   lane :test do
+    bootstrap
     scan(
       scheme: "DEV",
       code_coverage: true
-    )
-  end
-
-  desc "Runs code validation"
-  lane :lint do 
-    swiftlint(
-      output_file: "swiftlint.result.json",
-      ignore_exit_status: true
     )
   end
 
