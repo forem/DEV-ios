@@ -25,9 +25,22 @@ By leveraging `wkwebviews` as much as possible, I think we can make this all pre
 
 # Contributing
 1. Fork and clone the project.
-2. Install [Carthage](https://github.com/Carthage/Carthage). If you use Homebrew then you can install Carthage by running `brew install carthage`. 
+2. Install [Carthage](https://github.com/Carthage/Carthage). If you use Homebrew then you can install Carthage by running `brew install carthage`.
 3. Now run `carthage update` in the project's root directory.
 4. Build and run the project in XCode.
+5. To enforce code style we're using [SwiftLint](https://github.com/realm/SwiftLint) which is loosely based on [GitHub's Swift Style Guide](https://github.com/github/swift-style-guide). [CodeClimate](https://codeclimate.com) is enabled for this repository, so your pull request build will fail if there are linting errors!
+  1. To install, `brew install swiftlint`.
+  2. If you are using Xcode, add a new "Run Script Phase" (Xcode project > Build Phases > add New Run Script Phase):
+  ```bash
+  if which swiftlint >/dev/null; then
+    swiftlint
+  else
+    echo "warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint"
+  fi
+  ```
+   This will run on build and show linting errors in Xcode. If you are using a different IDE there are alternative install methods in the [SwiftLint](https://github.com/realm/SwiftLint) docs.
+  3. Alternatively you can run `$ swiftlint` in the root directory.
+
 
 Feedback and Pull Requests are welcome! As this is a new and constantly evolving project, please be sure to include unit tests with changes.
 
