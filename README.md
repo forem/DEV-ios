@@ -7,7 +7,11 @@
 
 # DEV iOS 💖
 
-This is the repo for the [dev.to](https://dev.to) iOS app. It is still a work in progress, but getting there!
+This is the repo for the [dev.to](https://dev.to) iOS app.
+
+# Status:
+
+Released first version, more info: https://twitter.com/bendhalpern/status/1061323718058786822
 
 # Design ethos
 
