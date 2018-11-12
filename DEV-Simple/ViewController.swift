@@ -32,10 +32,12 @@ class ViewController: UIViewController, WKNavigationDelegate {
         var id: Int
     }
     
+    let devToURLString = "https://dev.to"
+    
     override func viewDidLoad() {
         webView.customUserAgent = "DEV-Native-ios"
         webView.scrollView.scrollIndicatorInsets.top = view.safeAreaInsets.top + 50
-        let url = URL(string: "https://dev.to")!
+        let url = URL(string: devToURLString)!
         webView.load(URLRequest(url: url))
         webView.allowsBackForwardNavigationGestures = true
         webView.navigationDelegate = self
@@ -75,7 +77,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
     @objc func updateWebView() {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let serverURL = appDelegate.serverURL
-        let url = URL(string: serverURL ?? "https://dev.to")
+        let url = URL(string: serverURL ?? devToURLString)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
             // Wait a split second if first launch (Hack, probably a race condition)
             self.webView.load(URLRequest(url: url!))
@@ -129,29 +131,30 @@ class ViewController: UIViewController, WKNavigationDelegate {
     func webView(_ webView: WKWebView, decidePolicyFor
         navigationAction: WKNavigationAction,
                  decisionHandler: @escaping (WKNavigationActionPolicy) -> Swift.Void) {
-        // This is all pretty hacky. Basically we're opening non dev.to or oauth links in their own modal
-        do {
-            let url = navigationAction.request.url
-            if (url?.absoluteString)! == "about:blank" {
-                decisionHandler(.allow)
-            } else if (url?.absoluteString.hasPrefix("https://github.com/login"))! {
-                decisionHandler(.allow)
-            } else if (url?.absoluteString.hasPrefix("https://api.twitter.com/oauth"))! {
-                decisionHandler(.allow)
-            } else if (url!.host as! String != "dev.to") && navigationAction.navigationType.rawValue == 0 {
-                let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                let controller = storyboard.instantiateViewController(withIdentifier: "Browser") as! BrowserViewController
-                controller.destinationUrl = navigationAction.request.url
-                self.present(controller, animated: true, completion: nil)
-                decisionHandler(.cancel)
-            } else {
-                decisionHandler(.allow)
-            }
-        } catch {
+        
+        guard let url = navigationAction.request.url else {
             decisionHandler(.allow)
+            return
         }
+        
+        let nonDevToLinkActivated = url.host != "dev.to" && navigationAction.navigationType.rawValue == 0
+        
+        if nonDevToLinkActivated {
+            loadInBrowserView(url: url)
+            decisionHandler(.cancel)
+            return
+        }
+        
+        decisionHandler(.allow)
     }
     
+    func loadInBrowserView(url: URL) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let controller = storyboard.instantiateViewController(withIdentifier: "Browser") as! BrowserViewController
+        controller.destinationUrl = url
+        self.present(controller, animated: true, completion: nil)
+    }
+
     func populateUserData() {
         
         let js = "document.getElementsByTagName('body')[0].getAttribute('data-user')"
@@ -200,4 +203,3 @@ class ViewController: UIViewController, WKNavigationDelegate {
         self.webView.layer.shadowOpacity = 0.0
     }
 }
-
