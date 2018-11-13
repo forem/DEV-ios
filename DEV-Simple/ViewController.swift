@@ -32,13 +32,15 @@ class ViewController: UIViewController, WKNavigationDelegate {
         var id: Int
     }
     
-    let devToURLString = "https://dev.to"
+    var devToURL = URL(string: "https://dev.to")
     
     override func viewDidLoad() {
         webView.customUserAgent = "DEV-Native-ios"
         webView.scrollView.scrollIndicatorInsets.top = view.safeAreaInsets.top + 50
-        let url = URL(string: devToURLString)!
-        webView.load(URLRequest(url: url))
+
+        if let url = devToURL {
+             webView.load(URLRequest(url: url))
+        }
         webView.allowsBackForwardNavigationGestures = true
         webView.navigationDelegate = self
         webView.addObserver(self, forKeyPath: #keyPath(WKWebView.canGoBack), options: [.new, .old], context: nil)
@@ -70,14 +72,16 @@ class ViewController: UIViewController, WKNavigationDelegate {
         backButton.alpha = webView.canGoBack ? 0.9 : lightAlpha
         forwardButton.isEnabled = webView.canGoForward
         forwardButton.alpha = webView.canGoForward ? 0.9 : lightAlpha
-        webView.scrollView.isScrollEnabled = !(webView.url?.path.hasPrefix("/connect"))!  //Remove scroll if /connect view
+        if let url = webView.url {
+             webView.scrollView.isScrollEnabled = !(url.path.hasPrefix("/connect")) //Remove scroll if /connect view
+        }
         modifyShellDesign()
     }
     
     @objc func updateWebView() {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let serverURL = appDelegate.serverURL
-        let url = URL(string: serverURL ?? devToURLString)
+        let url = URL(string: serverURL ?? "https://dev.to")
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
             // Wait a split second if first launch (Hack, probably a race condition)
             self.webView.load(URLRequest(url: url!))
@@ -131,21 +135,34 @@ class ViewController: UIViewController, WKNavigationDelegate {
     func webView(_ webView: WKWebView, decidePolicyFor
         navigationAction: WKNavigationAction,
                  decisionHandler: @escaping (WKNavigationActionPolicy) -> Swift.Void) {
-        
+       
         guard let url = navigationAction.request.url else {
             decisionHandler(.allow)
             return
         }
         
-        let nonDevToLinkActivated = url.host != "dev.to" && navigationAction.navigationType.rawValue == 0
+        let policy = navigationPolicy(url: url, navigationType: navigationAction.navigationType)
         
-        if nonDevToLinkActivated {
+        if policy == .cancel {
             loadInBrowserView(url: url)
-            decisionHandler(.cancel)
-            return
         }
         
-        decisionHandler(.allow)
+        decisionHandler(policy)
+    }
+    
+    func navigationPolicy(url: URL, navigationType: WKNavigationType) -> WKNavigationActionPolicy {
+                
+        if url.absoluteString == "about:blank" {
+            return .allow
+        } else if url.absoluteString.hasPrefix("https://github.com/login") {
+            return .allow
+        } else if url.absoluteString.hasPrefix("https://api.twitter.com/oauth") {
+            return .allow
+        } else if url.host != "dev.to" && navigationType.rawValue == 0 {
+            return .cancel
+        } else {
+            return .allow
+        }
     }
     
     func loadInBrowserView(url: URL) {
