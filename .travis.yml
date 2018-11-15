@@ -2,6 +2,7 @@ osx_image: xcode10
 language: swift
 
 before_install:
+  - fastlane init
 #  - brew upgrade swiftlint
 
 jobs:
