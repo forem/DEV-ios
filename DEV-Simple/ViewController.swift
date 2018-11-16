@@ -142,34 +142,48 @@ class ViewController: UIViewController, WKNavigationDelegate {
         }
         
         let policy = navigationPolicy(url: url, navigationType: navigationAction.navigationType)
-        
-        if policy == .cancel {
-            loadInBrowserView(url: url)
-        }
-        
         decisionHandler(policy)
     }
     
     func navigationPolicy(url: URL, navigationType: WKNavigationType) -> WKNavigationActionPolicy {
-                
-        if url.absoluteString == "about:blank" {
+        
+        if url.scheme == "mailto" {
+            openURL(url)
+            return .cancel
+        } else if url.absoluteString == "about:blank" {
             return .allow
-        } else if url.absoluteString.hasPrefix("https://github.com/login") {
-            return .allow
-        } else if url.absoluteString.hasPrefix("https://api.twitter.com/oauth") {
+        } else if isAuthLink(url) {
             return .allow
         } else if url.host != "dev.to" && navigationType.rawValue == 0 {
+            loadInBrowserView(url: url)
             return .cancel
         } else {
             return .allow
         }
     }
     
+    func openURL(_ url: URL) {
+        if UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
+    }
+    
+    func isAuthLink(_ url: URL) -> Bool {
+        if url.absoluteString.hasPrefix("https://github.com/login") {
+            return true
+        }
+        if url.absoluteString.hasPrefix("https://api.twitter.com/oauth") {
+            return true
+        }
+        return false
+    }
+    
     func loadInBrowserView(url: URL) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let controller = storyboard.instantiateViewController(withIdentifier: "Browser") as! BrowserViewController
-        controller.destinationUrl = url
-        self.present(controller, animated: true, completion: nil)
+        if let controller = storyboard.instantiateViewController(withIdentifier: "Browser") as? BrowserViewController {
+            controller.destinationUrl = url
+            self.present(controller, animated: true, completion: nil)
+        }
     }
 
     func populateUserData() {

@@ -36,6 +36,7 @@ class ViewControllerTests: XCTestCase {
         let twitterAuth = URL(string: "https://github.com/login/extra/test/stuff")!
         let githubAuth  = URL(string: "https://api.twitter.com/oauth/extra/test/stuff")!
         let devTo       = URL(string: "https://dev.to")!
+        let mail        = URL(string: "mailto:test@test.com")!
         
         XCTAssertEqual(viewController.navigationPolicy(url: nonDev,      navigationType: .linkActivated), .cancel)
         XCTAssertEqual(viewController.navigationPolicy(url: nonDev,      navigationType: .backForward),   .allow)
@@ -43,6 +44,8 @@ class ViewControllerTests: XCTestCase {
         XCTAssertEqual(viewController.navigationPolicy(url: twitterAuth, navigationType: .backForward),   .allow)
         XCTAssertEqual(viewController.navigationPolicy(url: githubAuth,  navigationType: .linkActivated), .allow)
         XCTAssertEqual(viewController.navigationPolicy(url: devTo,       navigationType: .backForward),   .allow)
+        XCTAssertEqual(viewController.navigationPolicy(url: mail,        navigationType: .linkActivated), .cancel)
 
     }
 }
+
