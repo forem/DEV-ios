@@ -63,6 +63,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
     @IBAction func safariButtonTapped(_ sender: Any) {
         openInBrowser()
     }
+    
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         backButton.isEnabled = webView.canGoBack
         backButton.alpha = webView.canGoBack ? 0.9 : lightAlpha
