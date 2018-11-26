@@ -16,6 +16,8 @@
 		73D7675C218BA66B00BD13B6 /* DEV_SimpleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D7675B218BA66B00BD13B6 /* DEV_SimpleUITests.swift */; };
 		73D7676B2190D88B00BD13B6 /* PushNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73D7676A2190D88B00BD13B6 /* PushNotifications.framework */; };
 		73E8ACC72192165E009CE057 /* BrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E8ACC62192165E009CE057 /* BrowserViewController.swift */; };
+		CCEA9AFC219B403100AEF5BE /* ViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCEA9AFB219B403100AEF5BE /* ViewControllerTests.swift */; };
+		CCEA9AFE219B410300AEF5BE /* test.html in Resources */ = {isa = PBXBuildFile; fileRef = CCEA9AFD219B410300AEF5BE /* test.html */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +54,8 @@
 		73D767692190CE3900BD13B6 /* DEV-Simple.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "DEV-Simple.entitlements"; sourceTree = "<group>"; };
 		73D7676A2190D88B00BD13B6 /* PushNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PushNotifications.framework; path = Carthage/Build/iOS/PushNotifications.framework; sourceTree = "<group>"; };
 		73E8ACC62192165E009CE057 /* BrowserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserViewController.swift; sourceTree = "<group>"; };
+		CCEA9AFB219B403100AEF5BE /* ViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerTests.swift; sourceTree = "<group>"; };
+		CCEA9AFD219B410300AEF5BE /* test.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = test.html; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,7 +124,9 @@
 			isa = PBXGroup;
 			children = (
 				73D76750218BA66B00BD13B6 /* DEV_SimpleTests.swift */,
+				CCEA9AFB219B403100AEF5BE /* ViewControllerTests.swift */,
 				73D76752218BA66B00BD13B6 /* Info.plist */,
+				CCEA9AFD219B410300AEF5BE /* test.html */,
 			);
 			path = "DEV-SimpleTests";
 			sourceTree = "<group>";
@@ -260,6 +266,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CCEA9AFE219B410300AEF5BE /* test.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -309,6 +316,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CCEA9AFC219B403100AEF5BE /* ViewControllerTests.swift in Sources */,
 				73D76751218BA66B00BD13B6 /* DEV_SimpleTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
