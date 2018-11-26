@@ -74,6 +74,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NotificationCenter.default.post(name: notificationName, object: nil)
     }
 
+    func application(
+        _ application: UIApplication,
+        continue userActivity: NSUserActivity,
+        restorationHandler: @escaping ([UIUserActivityRestoring]?
+        ) -> Void) -> Bool {
+
+        // Open universal links
+        guard userActivity.activityType == NSUserActivityTypeBrowsingWeb,
+            let url = userActivity.webpageURL,
+            let _ = URLComponents(url: url, resolvingAgainstBaseURL: true) else {
+                return false
+        }
+
+        load_url(server_url: url.absoluteString)
+        return false
+    }
+
     
 }
 
