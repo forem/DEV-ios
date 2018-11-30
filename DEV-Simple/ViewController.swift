@@ -181,7 +181,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         if let controller = storyboard.instantiateViewController(withIdentifier: "Browser") as? BrowserViewController {
             controller.destinationUrl = url
-            self.present(controller, animated: true, completion: nil)
+            present(controller, animated: true, completion: nil)
         }
     }
 
@@ -224,13 +224,13 @@ class ViewController: UIViewController, WKNavigationDelegate {
     }
     
     func addShellShadow() {
-        self.webView.layer.shadowColor = UIColor.gray.cgColor
-        self.webView.layer.shadowOffset = CGSize(width: 0.0, height: 0.9)
-        self.webView.layer.shadowOpacity = 0.5
-        self.webView.layer.shadowRadius = 0.0
+        webView.layer.shadowColor = UIColor.gray.cgColor
+        webView.layer.shadowOffset = CGSize(width: 0.0, height: 0.9)
+        webView.layer.shadowOpacity = 0.5
+        webView.layer.shadowRadius = 0.0
     }
     
     func removeShellShadow() {
-        self.webView.layer.shadowOpacity = 0.0
+        webView.layer.shadowOpacity = 0.0
     }
 }
