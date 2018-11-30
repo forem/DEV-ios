@@ -48,7 +48,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
         webView.addObserver(self, forKeyPath: #keyPath(WKWebView.url), options: [.new, .old], context: nil)
         addShellShadow()
         let notificationName = Notification.Name("updateWebView")
-        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.updateWebView), name: notificationName, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateWebView), name: notificationName, object: nil)
     }
 
     @IBAction func backButtonTapped(_ sender: Any) {
