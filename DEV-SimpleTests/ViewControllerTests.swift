@@ -22,9 +22,7 @@ class ViewControllerTests: XCTestCase {
     }
     
     func testCustomUserAgent() {
-    
         _ = viewController.view
-        
         // Then the customerUserAgent it set correctly
         XCTAssertEqual(viewController.webView.customUserAgent, "DEV-Native-ios")
     }
@@ -48,4 +46,3 @@ class ViewControllerTests: XCTestCase {
 
     }
 }
-
