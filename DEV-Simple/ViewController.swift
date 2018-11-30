@@ -133,9 +133,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
         }
     }
     
-    func webView(_ webView: WKWebView, decidePolicyFor
-        navigationAction: WKNavigationAction,
-                 decisionHandler: @escaping (WKNavigationActionPolicy) -> Swift.Void) {
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Swift.Void) {
        
         guard let url = navigationAction.request.url else {
             decisionHandler(.allow)
@@ -195,7 +193,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
             if let error = error {
                 print("Error getting user data: \(error)")
             }
-                        if let jsonString = result as? String {
+            if let jsonString = result as? String {
                 do {
                     let jsonDecoder = JSONDecoder()
                     let user = try jsonDecoder.decode(UserData.self, from: Data(jsonString.utf8))
@@ -231,6 +229,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
         self.webView.layer.shadowOpacity = 0.5
         self.webView.layer.shadowRadius = 0.0
     }
+    
     func removeShellShadow() {
         self.webView.layer.shadowOpacity = 0.0
     }
