@@ -83,7 +83,12 @@ class ViewController: UIViewController, WKNavigationDelegate {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let serverURL = appDelegate.serverURL
         let url = URL(string: serverURL ?? "https://dev.to")
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak self] in
+            guard let `self` = self else {
+                //self doesn't exist
+                return
+            }
+            
             // Wait a split second if first launch (Hack, probably a race condition)
             self.webView.load(URLRequest(url: url!))
         }
@@ -94,8 +99,13 @@ class ViewController: UIViewController, WKNavigationDelegate {
     func askForNotificationPermission() {
         let center = UNUserNotificationCenter.current()
         let options: UNAuthorizationOptions = [.alert, .sound, .badge];
-        center.requestAuthorization(options: options) {
-            (granted, error) in
+        center.requestAuthorization(options: options) { [weak self] (granted, error) in
+            
+            guard let `self` = self else {
+                //self doesn't exist
+                return
+            }
+            
             guard granted else { return }
             self.getNotificationSettings()
         }
@@ -118,7 +128,12 @@ class ViewController: UIViewController, WKNavigationDelegate {
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         
         let js = "document.getElementsByTagName('body')[0].getAttribute('data-user-status')"
-        webView.evaluateJavaScript(js) { result, error in
+        webView.evaluateJavaScript(js) { [weak self] result, error in
+            
+            guard let `self` = self else {
+                //self doesn't exist
+                return
+            }
             
             if let error = error {
                 print("Error getting user data: \(error)")
@@ -209,7 +224,13 @@ class ViewController: UIViewController, WKNavigationDelegate {
     
     func modifyShellDesign() {
         let js = "document.getElementById('page-content').getAttribute('data-current-page')"
-        webView.evaluateJavaScript(js) { result, error in
+        webView.evaluateJavaScript(js) { [weak self] result, error in
+            
+            guard let `self` = self else {
+                //self doesn't exist
+                return
+            }
+            
             if let error = error {
                 print("Error getting user data: \(error)")
             }
