@@ -23,17 +23,17 @@ class ViewController: UIViewController, WKNavigationDelegate {
     @IBOutlet weak var forwardButton: UIButton!
     @IBOutlet weak var webView: WKWebView!
     @IBOutlet weak var safariButton: UIButton!
-    
+
     var lightAlpha = CGFloat(0.2)
-    
+
     let pushNotifications = PushNotifications.shared
-    
+
     struct UserData: Codable {
         var id: Int
     }
-    
+
     var devToURL = URL(string: "https://dev.to")
-    
+
     override func viewDidLoad() {
         webView.customUserAgent = "DEV-Native-ios"
         webView.scrollView.scrollIndicatorInsets.top = view.safeAreaInsets.top + 50
@@ -48,7 +48,8 @@ class ViewController: UIViewController, WKNavigationDelegate {
         webView.addObserver(self, forKeyPath: #keyPath(WKWebView.url), options: [.new, .old], context: nil)
         addShellShadow()
         let notificationName = Notification.Name("updateWebView")
-        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.updateWebView), name: notificationName, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateWebView),
+                                               name: notificationName, object: nil)
     }
 
     @IBAction func backButtonTapped(_ sender: Any) {
@@ -57,18 +58,19 @@ class ViewController: UIViewController, WKNavigationDelegate {
             webView.goBack()
         }
     }
-    
+
     @IBAction func forwardButtonTapped(_ sender: Any) {
         if webView.canGoForward {
             webView.goForward()
         }
     }
-    
+
     @IBAction func safariButtonTapped(_ sender: Any) {
         openInBrowser()
     }
-    
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?,
+                               context: UnsafeMutableRawPointer?) {
         backButton.isEnabled = webView.canGoBack
         backButton.alpha = webView.canGoBack ? 0.9 : lightAlpha
         forwardButton.isEnabled = webView.canGoForward
@@ -78,29 +80,34 @@ class ViewController: UIViewController, WKNavigationDelegate {
         }
         modifyShellDesign()
     }
-    
+
     @objc func updateWebView() {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let serverURL = appDelegate.serverURL
+        let appDelegate = UIApplication.shared.delegate as? AppDelegate
+        let serverURL = appDelegate?.serverURL
         let url = URL(string: serverURL ?? "https://dev.to")
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak self] in
+            guard let `self` = self else {
+                return
+            }
             // Wait a split second if first launch (Hack, probably a race condition)
             self.webView.load(URLRequest(url: url!))
         }
-        
     }
 
-    
     func askForNotificationPermission() {
         let center = UNUserNotificationCenter.current()
-        let options: UNAuthorizationOptions = [.alert, .sound, .badge];
-        center.requestAuthorization(options: options) {
-            (granted, error) in
+        let options: UNAuthorizationOptions = [.alert, .sound, .badge]
+        center.requestAuthorization(options: options) { [weak self] granted, _  in
+
+            guard let `self` = self else {
+                return
+            }
+
             guard granted else { return }
             self.getNotificationSettings()
         }
     }
-    
+
     func getNotificationSettings() {
         UNUserNotificationCenter.current().getNotificationSettings { (settings) in
             print("Notification settings: \(settings)")
@@ -108,22 +115,24 @@ class ViewController: UIViewController, WKNavigationDelegate {
             UIApplication.shared.registerForRemoteNotifications()
         }
     }
-    
+
     func openInBrowser() {
         if let url = webView.url {
             UIApplication.shared.open(url, options: [:])
         }
     }
-    
+
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        
         let js = "document.getElementsByTagName('body')[0].getAttribute('data-user-status')"
-        webView.evaluateJavaScript(js) { result, error in
-            
+        webView.evaluateJavaScript(js) { [weak self] result, error in
+
+            guard let `self` = self else {
+                return
+            }
+
             if let error = error {
                 print("Error getting user data: \(error)")
             }
-            
             if let jsonString = result as? String {
                 self.modifyShellDesign()
                 if jsonString == "logged-in" {
@@ -132,22 +141,21 @@ class ViewController: UIViewController, WKNavigationDelegate {
             }
         }
     }
-    
+
     func webView(_ webView: WKWebView, decidePolicyFor
-        navigationAction: WKNavigationAction,
-                 decisionHandler: @escaping (WKNavigationActionPolicy) -> Swift.Void) {
-       
+        navigationAction: WKNavigationAction,decisionHandler: @escaping (WKNavigationActionPolicy) -> Swift.Void) {
+
         guard let url = navigationAction.request.url else {
             decisionHandler(.allow)
             return
         }
-        
+
         let policy = navigationPolicy(url: url, navigationType: navigationAction.navigationType)
         decisionHandler(policy)
     }
-    
+
     func navigationPolicy(url: URL, navigationType: WKNavigationType) -> WKNavigationActionPolicy {
-        
+
         if url.scheme == "mailto" {
             openURL(url)
             return .cancel
@@ -162,13 +170,13 @@ class ViewController: UIViewController, WKNavigationDelegate {
             return .allow
         }
     }
-    
+
     func openURL(_ url: URL) {
         if UIApplication.shared.canOpenURL(url) {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
     }
-    
+
     func isAuthLink(_ url: URL) -> Bool {
         if url.absoluteString.hasPrefix("https://github.com/login") {
             return true
@@ -178,40 +186,43 @@ class ViewController: UIViewController, WKNavigationDelegate {
         }
         return false
     }
-    
+
     func loadInBrowserView(url: URL) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         if let controller = storyboard.instantiateViewController(withIdentifier: "Browser") as? BrowserViewController {
             controller.destinationUrl = url
-            self.present(controller, animated: true, completion: nil)
+            present(controller, animated: true, completion: nil)
         }
     }
 
     func populateUserData() {
-        
         let js = "document.getElementsByTagName('body')[0].getAttribute('data-user')"
         webView.evaluateJavaScript(js) { result, error in
-            
+
             if let error = error {
                 print("Error getting user data: \(error)")
             }
-                        if let jsonString = result as? String {
+            if let jsonString = result as? String {
                 do {
                     let jsonDecoder = JSONDecoder()
                     let user = try jsonDecoder.decode(UserData.self, from: Data(jsonString.utf8))
                     let notificationSubscription = "user-notifications-\(String(user.id))"
                     try? self.pushNotifications.subscribe(interest: notificationSubscription)
-                }
-                catch {
+                } catch {
                     print("Error info: \(error)")
                 }
             }
         }
     }
-    
+
     func modifyShellDesign() {
         let js = "document.getElementById('page-content').getAttribute('data-current-page')"
-        webView.evaluateJavaScript(js) { result, error in
+        webView.evaluateJavaScript(js) { [weak self] result, error in
+
+            guard let `self` = self else {
+                return
+            }
+
             if let error = error {
                 print("Error getting user data: \(error)")
             }
@@ -224,14 +235,14 @@ class ViewController: UIViewController, WKNavigationDelegate {
             }
         }
     }
-    
+
     func addShellShadow() {
-        self.webView.layer.shadowColor = UIColor.gray.cgColor
-        self.webView.layer.shadowOffset = CGSize(width: 0.0, height: 0.9)
-        self.webView.layer.shadowOpacity = 0.5
-        self.webView.layer.shadowRadius = 0.0
+        webView.layer.shadowColor = UIColor.gray.cgColor
+        webView.layer.shadowOffset = CGSize(width: 0.0, height: 0.9)
+        webView.layer.shadowOpacity = 0.5
+        webView.layer.shadowRadius = 0.0
     }
     func removeShellShadow() {
-        self.webView.layer.shadowOpacity = 0.0
+        webView.layer.shadowOpacity = 0.0
     }
 }
