@@ -10,6 +10,7 @@ import UIKit
 import WebKit
 import UserNotifications
 import PushNotifications
+import NotificationBanner
 
 extension Notification.Name {
     static let didReceiveData = Notification.Name("didReceiveData")
@@ -48,8 +49,29 @@ class ViewController: UIViewController, WKNavigationDelegate {
         webView.addObserver(self, forKeyPath: #keyPath(WKWebView.url), options: [.new, .old], context: nil)
         addShellShadow()
         let notificationName = Notification.Name("updateWebView")
-        NotificationCenter.default.addObserver(self, selector: #selector(updateWebView),
-                                               name: notificationName, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateWebView), name: notificationName, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(reachabilityChanged), name: .flagsChanged, object: Network.reachability)
+    }
+    
+    @objc private func reachabilityChanged(note: Notification) {
+        let reachability = note.object as! Reachability
+        
+        switch reachability.status {
+        case .wifi:
+            break
+        case .wwan:
+            print("Reachable via Cellular")
+            break
+        case .unreachable:
+            print("Network not reachable")
+            displayErrorBanner()
+        }
+    }
+    
+    private func displayErrorBanner() {
+        let banner = NotificationBanner(title: "Network not reachable", subtitle: nil, leftView: nil, rightView: nil, style: .danger, colors: nil)
+//        banner.autoDismiss = false
+        banner.show()
     }
 
     @IBAction func backButtonTapped(_ sender: Any) {
