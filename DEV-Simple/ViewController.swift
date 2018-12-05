@@ -270,7 +270,6 @@ extension ViewController: WKScriptMessageHandler {
                 let notification = UINotificationFeedbackGenerator()
                 notification.notificationOccurred(.success)
             }
-            print(hapticType)
         }
     }
 }
