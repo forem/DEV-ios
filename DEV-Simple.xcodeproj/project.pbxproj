@@ -16,6 +16,10 @@
 		73D7675C218BA66B00BD13B6 /* DEV_SimpleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D7675B218BA66B00BD13B6 /* DEV_SimpleUITests.swift */; };
 		73D7676B2190D88B00BD13B6 /* PushNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73D7676A2190D88B00BD13B6 /* PushNotifications.framework */; };
 		73E8ACC72192165E009CE057 /* BrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E8ACC62192165E009CE057 /* BrowserViewController.swift */; };
+		BD5C906C21B63CCC000D9F79 /* NetworkReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5C906B21B63CCC000D9F79 /* NetworkReachability.swift */; };
+		BD5C906F21B6436F000D9F79 /* NotificationBanner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD5C906E21B6436F000D9F79 /* NotificationBanner.framework */; };
+		BD5C907121B645BE000D9F79 /* MarqueeLabelSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD5C907021B645BE000D9F79 /* MarqueeLabelSwift.framework */; };
+		BD5C907321B645CD000D9F79 /* SnapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD5C907221B645CD000D9F79 /* SnapKit.framework */; };
 		CCEA9AFC219B403100AEF5BE /* ViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCEA9AFB219B403100AEF5BE /* ViewControllerTests.swift */; };
 		CCEA9AFE219B410300AEF5BE /* test.html in Resources */ = {isa = PBXBuildFile; fileRef = CCEA9AFD219B410300AEF5BE /* test.html */; };
 /* End PBXBuildFile section */
@@ -54,6 +58,10 @@
 		73D767692190CE3900BD13B6 /* DEV-Simple.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "DEV-Simple.entitlements"; sourceTree = "<group>"; };
 		73D7676A2190D88B00BD13B6 /* PushNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PushNotifications.framework; path = Carthage/Build/iOS/PushNotifications.framework; sourceTree = "<group>"; };
 		73E8ACC62192165E009CE057 /* BrowserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserViewController.swift; sourceTree = "<group>"; };
+		BD5C906B21B63CCC000D9F79 /* NetworkReachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkReachability.swift; sourceTree = "<group>"; };
+		BD5C906E21B6436F000D9F79 /* NotificationBanner.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationBanner.framework; path = Carthage/Build/iOS/NotificationBanner.framework; sourceTree = "<group>"; };
+		BD5C907021B645BE000D9F79 /* MarqueeLabelSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MarqueeLabelSwift.framework; path = Carthage/Build/iOS/MarqueeLabelSwift.framework; sourceTree = "<group>"; };
+		BD5C907221B645CD000D9F79 /* SnapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SnapKit.framework; path = Carthage/Build/iOS/SnapKit.framework; sourceTree = "<group>"; };
 		CCEA9AFB219B403100AEF5BE /* ViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerTests.swift; sourceTree = "<group>"; };
 		CCEA9AFD219B410300AEF5BE /* test.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = test.html; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -63,6 +71,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BD5C907321B645CD000D9F79 /* SnapKit.framework in Frameworks */,
+				BD5C907121B645BE000D9F79 /* MarqueeLabelSwift.framework in Frameworks */,
+				BD5C906F21B6436F000D9F79 /* NotificationBanner.framework in Frameworks */,
 				73D7676B2190D88B00BD13B6 /* PushNotifications.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -92,6 +103,7 @@
 				73D7675A218BA66B00BD13B6 /* DEV-SimpleUITests */,
 				73D76739218BA66700BD13B6 /* Products */,
 				73D7676A2190D88B00BD13B6 /* PushNotifications.framework */,
+				BD5C906D21B6436E000D9F79 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -116,6 +128,7 @@
 				73D76744218BA66B00BD13B6 /* LaunchScreen.storyboard */,
 				73D76747218BA66B00BD13B6 /* Info.plist */,
 				73E8ACC62192165E009CE057 /* BrowserViewController.swift */,
+				BD5C906B21B63CCC000D9F79 /* NetworkReachability.swift */,
 			);
 			path = "DEV-Simple";
 			sourceTree = "<group>";
@@ -138,6 +151,16 @@
 				73D7675D218BA66B00BD13B6 /* Info.plist */,
 			);
 			path = "DEV-SimpleUITests";
+			sourceTree = "<group>";
+		};
+		BD5C906D21B6436E000D9F79 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BD5C907221B645CD000D9F79 /* SnapKit.framework */,
+				BD5C907021B645BE000D9F79 /* MarqueeLabelSwift.framework */,
+				BD5C906E21B6436F000D9F79 /* NotificationBanner.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -289,11 +312,15 @@
 			);
 			inputPaths = (
 				"$(SRCROOT)/Carthage/Build/iOS/PushNotifications.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/NotificationBanner.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/SnapKit.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/MarqueeLabelSwift.framework",
 			);
 			outputFileListPaths = (
 			);
 			outputPaths = (
 				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/PushNotifications.framework",
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/NotificationBanner.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -309,6 +336,7 @@
 				73D7673E218BA66700BD13B6 /* ViewController.swift in Sources */,
 				73E8ACC72192165E009CE057 /* BrowserViewController.swift in Sources */,
 				73D7673C218BA66700BD13B6 /* AppDelegate.swift in Sources */,
+				BD5C906C21B63CCC000D9F79 /* NetworkReachability.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
