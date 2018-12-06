@@ -28,6 +28,9 @@ class ViewController: UIViewController, WKNavigationDelegate {
     var lightAlpha = CGFloat(0.2)
 
     let pushNotifications = PushNotifications.shared
+    lazy var errorBanner: NotificationBanner = {
+        return NotificationBanner(title: "Network not reachable", subtitle: nil, leftView: nil, rightView: nil, style: .danger, colors: nil)
+    }()
 
     struct UserData: Codable {
         var id: Int
@@ -58,16 +61,29 @@ class ViewController: UIViewController, WKNavigationDelegate {
         
         switch reachability.status {
         case .wifi:
-            break
+            if errorBanner.isDisplaying {
+                errorBanner.dismiss()
+                displayWifiBanner()
+            }
         case .wwan:
-            break
+            if errorBanner.isDisplaying {
+                errorBanner.dismiss()
+                displayCellularBanner()
+            }
         case .unreachable:
-            displayErrorBanner()
+            errorBanner.show()
         }
     }
     
-    private func displayErrorBanner() {
-        let banner = NotificationBanner(title: "Network not reachable", subtitle: nil, leftView: nil, rightView: nil, style: .danger, colors: nil)
+    private func displayWifiBanner() {
+        let banner = NotificationBanner(title: "Re-connected to WiFi", subtitle: nil, leftView: nil, rightView: nil, style: .success, colors: nil)
+        banner.duration = 1.5
+        banner.show()
+    }
+    
+    private func displayCellularBanner() {
+        let banner = NotificationBanner(title: "Re-connected to Cellular", subtitle: nil, leftView: nil, rightView: nil, style: .warning, colors: nil)
+        banner.duration = 1.5
         banner.show()
     }
 
