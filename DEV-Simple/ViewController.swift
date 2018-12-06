@@ -35,15 +35,12 @@ class ViewController: UIViewController, WKNavigationDelegate {
     var devToURL = URL(string: "https://dev.to")
 
     override func viewDidLoad() {
-        let contentController = WKUserContentController()
-        contentController.add(self, name: "haptic")
-
-        webView.configuration.userContentController = contentController
         webView.customUserAgent = "DEV-Native-ios"
         webView.scrollView.scrollIndicatorInsets.top = view.safeAreaInsets.top + 50
 
         if let url = devToURL {
-             webView.load(URLRequest(url: url))
+            webView.load(URLRequest(url: url))
+            webView.configuration.userContentController.add(self, name: "haptic")
         }
         webView.allowsBackForwardNavigationGestures = true
         webView.navigationDelegate = self
