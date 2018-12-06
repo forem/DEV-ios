@@ -52,13 +52,24 @@ class ViewController: UIViewController, WKNavigationDelegate {
         webView.addObserver(self, forKeyPath: #keyPath(WKWebView.url), options: [.new, .old], context: nil)
         addShellShadow()
         let notificationName = Notification.Name("updateWebView")
-        NotificationCenter.default.addObserver(self, selector: #selector(updateWebView), name: notificationName, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(reachabilityChanged), name: .flagsChanged, object: Network.reachability)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(updateWebView),
+            name: notificationName,
+            object: nil)
+
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(reachabilityChanged),
+            name: .flagsChanged,
+            object: Network.reachability)
     }
-    
+
     @objc private func reachabilityChanged(note: Notification) {
-        let reachability = note.object as! Reachability
-        
+        guard let reachability = note.object as? Reachability else {
+            return
+        }
+
         switch reachability.status {
         case .wifi:
             if errorBanner.isDisplaying {
@@ -74,15 +85,15 @@ class ViewController: UIViewController, WKNavigationDelegate {
             errorBanner.show()
         }
     }
-    
+
     private func displayWifiBanner() {
-        let banner = NotificationBanner(title: "Re-connected to WiFi", subtitle: nil, leftView: nil, rightView: nil, style: .success, colors: nil)
+        let banner = NotificationBanner(title: "Re-connected to WiFi", style: .success)
         banner.duration = 1.5
         banner.show()
     }
-    
+
     private func displayCellularBanner() {
-        let banner = NotificationBanner(title: "Re-connected to Cellular", subtitle: nil, leftView: nil, rightView: nil, style: .warning, colors: nil)
+        let banner = NotificationBanner(title: "Re-connected to Cellular", style: .warning)
         banner.duration = 1.5
         banner.show()
     }

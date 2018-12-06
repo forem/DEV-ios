@@ -23,10 +23,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         try? self.pushNotifications.subscribe(interest: "broadcast")
 
         setupReachability()
-        
+
         return true
     }
-    
+
     private func setupReachability() {
         do {
             Network.reachability = try Reachability(hostname: "www.google.com")
