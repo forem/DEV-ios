@@ -60,17 +60,14 @@ class ViewController: UIViewController, WKNavigationDelegate {
         case .wifi:
             break
         case .wwan:
-            print("Reachable via Cellular")
             break
         case .unreachable:
-            print("Network not reachable")
             displayErrorBanner()
         }
     }
     
     private func displayErrorBanner() {
         let banner = NotificationBanner(title: "Network not reachable", subtitle: nil, leftView: nil, rightView: nil, style: .danger, colors: nil)
-//        banner.autoDismiss = false
         banner.show()
     }
 
