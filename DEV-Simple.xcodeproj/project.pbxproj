@@ -97,7 +97,7 @@
 		};
 		73D76739218BA66700BD13B6 /* Products */ = {
 			isa = PBXGroup;
-			children = (
+			children = (  
 				73D76738218BA66700BD13B6 /* DEV-Simple.app */,
 				73D7674C218BA66B00BD13B6 /* DEV-SimpleTests.xctest */,
 				73D76757218BA66B00BD13B6 /* DEV-SimpleUITests.xctest */,
@@ -504,7 +504,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "DEV-Simple/DEV-Simple.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = XSHX7936CA;
+				DEVELOPMENT_TEAM = "R9SWHSQNV8";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -515,7 +515,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = to.dev.iosm;
+				PRODUCT_BUNDLE_IDENTIFIER = to.dev.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -528,7 +528,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "DEV-Simple/DEV-Simple.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = XSHX7936CA;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -539,7 +539,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = to.dev.iosm;
+				PRODUCT_BUNDLE_IDENTIFIER = to.dev.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 1;
