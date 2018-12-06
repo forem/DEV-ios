@@ -35,12 +35,10 @@ class ViewController: UIViewController, WKNavigationDelegate {
     var devToURL = URL(string: "https://dev.to")
 
     override func viewDidLoad() {
-        let webViewConfig = WKWebViewConfiguration()
         let contentController = WKUserContentController()
         contentController.add(self, name: "haptic")
 
-        webViewConfig.userContentController = contentController
-
+        webView.configuration.userContentController = contentController
         webView.customUserAgent = "DEV-Native-ios"
         webView.scrollView.scrollIndicatorInsets.top = view.safeAreaInsets.top + 50
 
