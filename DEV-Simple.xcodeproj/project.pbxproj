@@ -97,7 +97,7 @@
 		};
 		73D76739218BA66700BD13B6 /* Products */ = {
 			isa = PBXGroup;
-			children = (
+			children = (  
 				73D76738218BA66700BD13B6 /* DEV-Simple.app */,
 				73D7674C218BA66B00BD13B6 /* DEV-SimpleTests.xctest */,
 				73D76757218BA66B00BD13B6 /* DEV-SimpleUITests.xctest */,
@@ -151,6 +151,7 @@
 				73D76735218BA66700BD13B6 /* Frameworks */,
 				73D76736218BA66700BD13B6 /* Resources */,
 				73D7676C2190D8D900BD13B6 /* ShellScript */,
+				1BE5876521B1868C00CCF86E /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -280,6 +281,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		1BE5876521B1868C00CCF86E /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nif which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
 		73D7676C2190D8D900BD13B6 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
