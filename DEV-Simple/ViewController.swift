@@ -39,7 +39,8 @@ class ViewController: UIViewController, WKNavigationDelegate {
         webView.scrollView.scrollIndicatorInsets.top = view.safeAreaInsets.top + 50
 
         if let url = devToURL {
-             webView.load(URLRequest(url: url))
+            webView.load(URLRequest(url: url))
+            webView.configuration.userContentController.add(self, name: "haptic")
         }
         webView.allowsBackForwardNavigationGestures = true
         webView.navigationDelegate = self
@@ -244,5 +245,26 @@ class ViewController: UIViewController, WKNavigationDelegate {
     }
     func removeShellShadow() {
         webView.layer.shadowOpacity = 0.0
+    }
+}
+
+extension ViewController: WKScriptMessageHandler {
+    func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+        if message.name == "haptic", let hapticType = message.body as? String {
+            switch hapticType {
+            case "heavy":
+                let heavyImpact = UIImpactFeedbackGenerator(style: .heavy)
+                heavyImpact.impactOccurred()
+            case "light":
+                let lightImpact = UIImpactFeedbackGenerator(style: .light)
+                lightImpact.impactOccurred()
+            case "medium":
+                let mediumImpact = UIImpactFeedbackGenerator(style: .medium)
+                mediumImpact.impactOccurred()
+            default:
+                let notification = UINotificationFeedbackGenerator()
+                notification.notificationOccurred(.success)
+            }
+        }
     }
 }
