@@ -29,7 +29,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
 
     let pushNotifications = PushNotifications.shared
     lazy var errorBanner: NotificationBanner = {
-        return NotificationBanner(title: "Network not reachable", subtitle: nil, leftView: nil, rightView: nil, style: .danger, colors: nil)
+        return NotificationBanner(title: "Network not reachable", style: .danger)
     }()
 
     struct UserData: Codable {
