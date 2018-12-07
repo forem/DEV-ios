@@ -10,6 +10,7 @@ import UIKit
 import WebKit
 import UserNotifications
 import PushNotifications
+import NotificationBanner
 
 extension Notification.Name {
     static let didReceiveData = Notification.Name("didReceiveData")
@@ -27,6 +28,9 @@ class ViewController: UIViewController, WKNavigationDelegate {
     var lightAlpha = CGFloat(0.2)
 
     let pushNotifications = PushNotifications.shared
+    lazy var errorBanner: NotificationBanner = {
+        return NotificationBanner(title: "Network not reachable", style: .danger)
+    }()
 
     struct UserData: Codable {
         var id: Int
@@ -49,8 +53,50 @@ class ViewController: UIViewController, WKNavigationDelegate {
         webView.addObserver(self, forKeyPath: #keyPath(WKWebView.url), options: [.new, .old], context: nil)
         addShellShadow()
         let notificationName = Notification.Name("updateWebView")
-        NotificationCenter.default.addObserver(self, selector: #selector(updateWebView),
-                                               name: notificationName, object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(updateWebView),
+            name: notificationName,
+            object: nil)
+
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(reachabilityChanged),
+            name: .flagsChanged,
+            object: Network.reachability)
+    }
+
+    @objc private func reachabilityChanged(note: Notification) {
+        guard let reachability = note.object as? Reachability else {
+            return
+        }
+
+        switch reachability.status {
+        case .wifi:
+            if errorBanner.isDisplaying {
+                errorBanner.dismiss()
+                displayWifiBanner()
+            }
+        case .wwan:
+            if errorBanner.isDisplaying {
+                errorBanner.dismiss()
+                displayCellularBanner()
+            }
+        case .unreachable:
+            errorBanner.show()
+        }
+    }
+
+    private func displayWifiBanner() {
+        let banner = NotificationBanner(title: "Re-connected to WiFi", style: .success)
+        banner.duration = 1.5
+        banner.show()
+    }
+
+    private func displayCellularBanner() {
+        let banner = NotificationBanner(title: "Re-connected to Cellular", style: .warning)
+        banner.duration = 1.5
+        banner.show()
     }
 
     @IBAction func backButtonTapped(_ sender: Any) {
