@@ -109,7 +109,7 @@
 		};
 		73D76739218BA66700BD13B6 /* Products */ = {
 			isa = PBXGroup;
-			children = (  
+			children = (
 				73D76738218BA66700BD13B6 /* DEV-Simple.app */,
 				73D7674C218BA66B00BD13B6 /* DEV-SimpleTests.xctest */,
 				73D76757218BA66B00BD13B6 /* DEV-SimpleUITests.xctest */,
