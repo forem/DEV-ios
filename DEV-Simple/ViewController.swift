@@ -37,16 +37,16 @@ class ViewController: UIViewController, WKNavigationDelegate {
     }
 
     //var devToURL = URL(string: "https://dev.to")
-    var devToURL = URL(string: "https://8554f656.ngrok.io")
+    var devToURL = "https://8554f656.ngrok.io"
 
     override func viewDidLoad() {
+
+        backButton.isEnabled = false
+        forwardButton.isEnabled = false
         webView.customUserAgent = "DEV-Native-ios"
         webView.scrollView.scrollIndicatorInsets.top = view.safeAreaInsets.top + 50
-
-        if let url = devToURL {
-            webView.load(URLRequest(url: url))
-            webView.configuration.userContentController.add(self, name: "haptic")
-        }
+        webView.load(devToURL)
+        webView.configuration.userContentController.add(self, name: "haptic")
         webView.allowsBackForwardNavigationGestures = true
         webView.navigationDelegate = self
         webView.addObserver(self, forKeyPath: #keyPath(WKWebView.canGoBack), options: [.new, .old], context: nil)
@@ -101,7 +101,6 @@ class ViewController: UIViewController, WKNavigationDelegate {
     }
 
     @IBAction func backButtonTapped(_ sender: Any) {
-        print("back")
         if webView.canGoBack {
             webView.goBack()
         }
@@ -120,9 +119,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?,
                                context: UnsafeMutableRawPointer?) {
         backButton.isEnabled = webView.canGoBack
-        //backButton.alpha = webView.canGoBack ? 0.9 : lightAlpha
         forwardButton.isEnabled = webView.canGoForward
-        //forwardButton.alpha = webView.canGoForward ? 0.9 : lightAlpha
         if let url = webView.url {
              webView.scrollView.isScrollEnabled = !(url.path.hasPrefix("/connect")) //Remove scroll if /connect view
         }
@@ -132,14 +129,14 @@ class ViewController: UIViewController, WKNavigationDelegate {
     @objc func updateWebView() {
         let appDelegate = UIApplication.shared.delegate as? AppDelegate
         let serverURL = appDelegate?.serverURL
-        let url = URL(string: serverURL ?? "https://dev.to")
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak self] in
             guard let `self` = self else {
                 return
             }
             // Wait a split second if first launch (Hack, probably a race condition)
-            self.webView.load(URLRequest(url: url!))
+            self.webView.load(serverURL ?? "https://dev.to")
         }
+
     }
 
     func askForNotificationPermission() {
@@ -290,12 +287,16 @@ class ViewController: UIViewController, WKNavigationDelegate {
         webView.layer.shadowOpacity = 0.5
         webView.layer.shadowRadius = 0.0
     }
+
     func removeShellShadow() {
         webView.layer.shadowOpacity = 0.0
     }
+
 }
 
 extension ViewController: WKScriptMessageHandler {
+
+    // MARK: - webkit messagehandler protocol
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         if message.name == "haptic", let hapticType = message.body as? String {
             switch hapticType {
@@ -312,6 +313,15 @@ extension ViewController: WKScriptMessageHandler {
                 let notification = UINotificationFeedbackGenerator()
                 notification.notificationOccurred(.success)
             }
+        }
+    }
+}
+
+extension WKWebView {
+    func load(_ urlString: String) {
+        if let url = URL(string: urlString) {
+            let request = URLRequest(url: url)
+            load(request)
         }
     }
 }
