@@ -20,10 +20,10 @@ extension Notification.Name {
 
 class ViewController: UIViewController, WKNavigationDelegate {
 
-    @IBOutlet weak var backButton: UIButton!
-    @IBOutlet weak var forwardButton: UIButton!
+    @IBOutlet weak var backButton: UIBarButtonItem!
+    @IBOutlet weak var forwardButton: UIBarButtonItem!
     @IBOutlet weak var webView: WKWebView!
-    @IBOutlet weak var safariButton: UIButton!
+    @IBOutlet weak var safariButton: UIBarButtonItem!
 
     var lightAlpha = CGFloat(0.2)
 
@@ -36,7 +36,8 @@ class ViewController: UIViewController, WKNavigationDelegate {
         var id: Int
     }
 
-    var devToURL = URL(string: "https://dev.to")
+    //var devToURL = URL(string: "https://dev.to")
+    var devToURL = URL(string: "https://8554f656.ngrok.io")
 
     override func viewDidLoad() {
         webView.customUserAgent = "DEV-Native-ios"
@@ -119,9 +120,9 @@ class ViewController: UIViewController, WKNavigationDelegate {
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?,
                                context: UnsafeMutableRawPointer?) {
         backButton.isEnabled = webView.canGoBack
-        backButton.alpha = webView.canGoBack ? 0.9 : lightAlpha
+        //backButton.alpha = webView.canGoBack ? 0.9 : lightAlpha
         forwardButton.isEnabled = webView.canGoForward
-        forwardButton.alpha = webView.canGoForward ? 0.9 : lightAlpha
+        //forwardButton.alpha = webView.canGoForward ? 0.9 : lightAlpha
         if let url = webView.url {
              webView.scrollView.isScrollEnabled = !(url.path.hasPrefix("/connect")) //Remove scroll if /connect view
         }
