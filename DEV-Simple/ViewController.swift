@@ -36,8 +36,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
         var id: Int
     }
 
-    //var devToURL = URL(string: "https://dev.to")
-    var devToURL = "https://8554f656.ngrok.io"
+    var devToURL =  "https://dev.to"
 
     override func viewDidLoad() {
 
