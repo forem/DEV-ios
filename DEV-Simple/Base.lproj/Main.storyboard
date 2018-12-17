@@ -28,7 +28,9 @@
                             </wkWebView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GJq-We-IbQ">
                                 <rect key="frame" x="0.0" y="603" width="375" height="64"/>
+                                <viewLayoutGuide key="safeArea" id="eEN-wd-H3I"/>
                                 <items>
+                                    <barButtonItem width="15" style="plain" systemItem="fixedSpace" id="ydj-sa-hcv"/>
                                     <barButtonItem image="Back" width="40" id="nLO-uf-SBh" userLabel="back">
                                         <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
@@ -49,19 +51,20 @@
                                             <action selector="safariButtonTapped:" destination="BYZ-38-t0r" id="ild-tX-Rep"/>
                                         </connections>
                                     </barButtonItem>
+                                    <barButtonItem width="15" style="plain" systemItem="fixedSpace" id="tm8-h2-y0W"/>
                                 </items>
                             </toolbar>
                         </subviews>
                         <color key="backgroundColor" red="0.98823529409999999" green="0.97647058819999999" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="tintColor" red="0.99249070569999998" green="1" blue="0.8414684389" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
-                            <constraint firstItem="GJq-We-IbQ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="7UE-S1-Y4i"/>
                             <constraint firstItem="9JM-0s-c02" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="N3o-VU-Bxg"/>
                             <constraint firstItem="9JM-0s-c02" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="W15-nf-Rzw"/>
-                            <constraint firstAttribute="bottom" secondItem="GJq-We-IbQ" secondAttribute="bottom" id="Wei-qS-bFQ"/>
+                            <constraint firstItem="GJq-We-IbQ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="ZRp-KM-KXf"/>
+                            <constraint firstItem="GJq-We-IbQ" firstAttribute="top" secondItem="9JM-0s-c02" secondAttribute="bottom" id="aPe-sm-c09"/>
                             <constraint firstItem="9JM-0s-c02" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="aj4-Bt-gzy"/>
-                            <constraint firstItem="GJq-We-IbQ" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="qaB-mu-3dl"/>
-                            <constraint firstItem="GJq-We-IbQ" firstAttribute="top" secondItem="9JM-0s-c02" secondAttribute="bottom" id="yQ9-gi-d28"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="GJq-We-IbQ" secondAttribute="bottom" id="kq6-oQ-6MB"/>
+                            <constraint firstItem="GJq-We-IbQ" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="yyA-QA-KMK"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
