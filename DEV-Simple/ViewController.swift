@@ -24,6 +24,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
     @IBOutlet weak var forwardButton: UIBarButtonItem!
     @IBOutlet weak var webView: WKWebView!
     @IBOutlet weak var safariButton: UIBarButtonItem!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
     var lightAlpha = CGFloat(0.2)
 
@@ -66,6 +67,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
             object: Network.reachability)
     }
 
+    // MARK: - Reachability
     @objc private func reachabilityChanged(note: Notification) {
         guard let reachability = note.object as? Reachability else {
             return
@@ -99,6 +101,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
         banner.show()
     }
 
+    // MARK: - IBActions
     @IBAction func backButtonTapped(_ sender: Any) {
         if webView.canGoBack {
             webView.goBack()
@@ -115,6 +118,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
         openInBrowser()
     }
 
+    // MARK: - Observers
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?,
                                context: UnsafeMutableRawPointer?) {
         backButton.isEnabled = webView.canGoBack
@@ -138,34 +142,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
 
     }
 
-    func askForNotificationPermission() {
-        let center = UNUserNotificationCenter.current()
-        let options: UNAuthorizationOptions = [.alert, .sound, .badge]
-        center.requestAuthorization(options: options) { [weak self] granted, _  in
-
-            guard let `self` = self else {
-                return
-            }
-
-            guard granted else { return }
-            self.getNotificationSettings()
-        }
-    }
-
-    func getNotificationSettings() {
-        UNUserNotificationCenter.current().getNotificationSettings { (settings) in
-            print("Notification settings: \(settings)")
-            guard settings.authorizationStatus == .authorized else { return }
-            UIApplication.shared.registerForRemoteNotifications()
-        }
-    }
-
-    func openInBrowser() {
-        if let url = webView.url {
-            UIApplication.shared.open(url, options: [:])
-        }
-    }
-
+    // MARK: - WKWebView Delegate Functions
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         let js = "document.getElementsByTagName('body')[0].getAttribute('data-user-status')"
         webView.evaluateJavaScript(js) { [weak self] result, error in
@@ -184,6 +161,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
                 }
             }
         }
+        self.activityIndicator.isHidden = true
     }
 
     func webView(_ webView: WKWebView, decidePolicyFor
@@ -198,6 +176,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
         decisionHandler(policy)
     }
 
+    // MARK: - Action Policy
     func navigationPolicy(url: URL, navigationType: WKNavigationType) -> WKNavigationActionPolicy {
 
         if url.scheme == "mailto" {
@@ -221,6 +200,22 @@ class ViewController: UIViewController, WKNavigationDelegate {
         }
     }
 
+    func loadInBrowserView(url: URL) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        if let controller = storyboard.instantiateViewController(withIdentifier: "Browser") as? BrowserViewController {
+            controller.destinationUrl = url
+            present(controller, animated: true, completion: nil)
+        }
+    }
+
+    // MARK: - External Safari call
+    func openInBrowser() {
+        if let url = webView.url {
+            UIApplication.shared.open(url, options: [:])
+        }
+    }
+
+    // MARK: - Auth
     func isAuthLink(_ url: URL) -> Bool {
         if url.absoluteString.hasPrefix("https://github.com/login") {
             return true
@@ -229,14 +224,6 @@ class ViewController: UIViewController, WKNavigationDelegate {
             return true
         }
         return false
-    }
-
-    func loadInBrowserView(url: URL) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        if let controller = storyboard.instantiateViewController(withIdentifier: "Browser") as? BrowserViewController {
-            controller.destinationUrl = url
-            present(controller, animated: true, completion: nil)
-        }
     }
 
     func populateUserData() {
@@ -280,6 +267,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
         }
     }
 
+    // MARK: - Theme configs
     func addShellShadow() {
         webView.layer.shadowColor = UIColor.gray.cgColor
         webView.layer.shadowOffset = CGSize(width: 0.0, height: 0.9)
@@ -291,6 +279,28 @@ class ViewController: UIViewController, WKNavigationDelegate {
         webView.layer.shadowOpacity = 0.0
     }
 
+    // MARK: - Notifications Functions
+    func askForNotificationPermission() {
+        let center = UNUserNotificationCenter.current()
+        let options: UNAuthorizationOptions = [.alert, .sound, .badge]
+        center.requestAuthorization(options: options) { [weak self] granted, _  in
+
+            guard let `self` = self else {
+                return
+            }
+
+            guard granted else { return }
+            self.getNotificationSettings()
+        }
+    }
+
+    func getNotificationSettings() {
+        UNUserNotificationCenter.current().getNotificationSettings { (settings) in
+            print("Notification settings: \(settings)")
+            guard settings.authorizationStatus == .authorized else { return }
+            UIApplication.shared.registerForRemoteNotifications()
+        }
+    }
 }
 
 extension ViewController: WKScriptMessageHandler {
