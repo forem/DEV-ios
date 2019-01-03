@@ -173,8 +173,8 @@
 				73D76734218BA66700BD13B6 /* Sources */,
 				73D76735218BA66700BD13B6 /* Frameworks */,
 				73D76736218BA66700BD13B6 /* Resources */,
-				73D7676C2190D8D900BD13B6 /* ShellScript */,
-				1BE5876521B1868C00CCF86E /* ShellScript */,
+				73D7676C2190D8D900BD13B6 /* [CP] Copy Carthage Frameworks */,
+				1BE5876521B1868C00CCF86E /* SwiftLint */,
 			);
 			buildRules = (
 			);
@@ -304,7 +304,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		1BE5876521B1868C00CCF86E /* ShellScript */ = {
+		1BE5876521B1868C00CCF86E /* SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -313,6 +313,7 @@
 			);
 			inputPaths = (
 			);
+			name = SwiftLint;
 			outputFileListPaths = (
 			);
 			outputPaths = (
@@ -321,7 +322,7 @@
 			shellPath = /bin/sh;
 			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nif which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
-		73D7676C2190D8D900BD13B6 /* ShellScript */ = {
+		73D7676C2190D8D900BD13B6 /* [CP] Copy Carthage Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -334,6 +335,7 @@
 				"$(SRCROOT)/Carthage/Build/iOS/SnapKit.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/MarqueeLabelSwift.framework",
 			);
+			name = "[CP] Copy Carthage Frameworks";
 			outputFileListPaths = (
 			);
 			outputPaths = (
