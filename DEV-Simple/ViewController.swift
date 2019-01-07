@@ -193,7 +193,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
         } else if isAuthLink(url) {
             return .allow
         } else if url.host != "dev.to" && navigationType.rawValue == 0 {
-            performSegue(withIdentifier: "showExternalPage", sender: url)
+            performSegue(withIdentifier: DoAction.openExternalURL, sender: url)
             return .cancel
         } else {
             return .allow
@@ -302,7 +302,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
 
     // MARK: - Navegation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "showExternalPage" {
+        if segue.identifier == DoAction.openExternalURL {
             if let externalPage = segue.destination as? BrowserViewController {
                 externalPage.destinationUrl = sender as? URL
             }
