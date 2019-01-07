@@ -40,15 +40,16 @@ class ViewController: UIViewController, WKNavigationDelegate {
     var devToURL =  "https://dev.to"
 
     override func viewDidLoad() {
-
+        super.viewDidLoad()
+        activityIndicator.hidesWhenStopped = true
         backButton.isEnabled = false
         forwardButton.isEnabled = false
+        webView.navigationDelegate = self
         webView.customUserAgent = "DEV-Native-ios"
         webView.scrollView.scrollIndicatorInsets.top = view.safeAreaInsets.top + 50
         webView.load(devToURL)
         webView.configuration.userContentController.add(self, name: "haptic")
         webView.allowsBackForwardNavigationGestures = true
-        webView.navigationDelegate = self
         webView.addObserver(self, forKeyPath: #keyPath(WKWebView.canGoBack), options: [.new, .old], context: nil)
         webView.addObserver(self, forKeyPath: #keyPath(WKWebView.canGoForward), options: [.new, .old], context: nil)
         webView.addObserver(self, forKeyPath: #keyPath(WKWebView.url), options: [.new, .old], context: nil)
@@ -139,10 +140,14 @@ class ViewController: UIViewController, WKNavigationDelegate {
             // Wait a split second if first launch (Hack, probably a race condition)
             self.webView.load(serverURL ?? "https://dev.to")
         }
-
     }
 
     // MARK: - WKWebView Delegate Functions
+
+    func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+        activityIndicator.startAnimating()
+    }
+
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         let js = "document.getElementsByTagName('body')[0].getAttribute('data-user-status')"
         webView.evaluateJavaScript(js) { [weak self] result, error in
@@ -161,7 +166,8 @@ class ViewController: UIViewController, WKNavigationDelegate {
                 }
             }
         }
-        self.activityIndicator.isHidden = true
+
+        activityIndicator.stopAnimating()
     }
 
     func webView(_ webView: WKWebView, decidePolicyFor
@@ -187,7 +193,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
         } else if isAuthLink(url) {
             return .allow
         } else if url.host != "dev.to" && navigationType.rawValue == 0 {
-            loadInBrowserView(url: url)
+            performSegue(withIdentifier: "showExternalPage", sender: url)
             return .cancel
         } else {
             return .allow
@@ -197,14 +203,6 @@ class ViewController: UIViewController, WKNavigationDelegate {
     func openURL(_ url: URL) {
         if UIApplication.shared.canOpenURL(url) {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
-        }
-    }
-
-    func loadInBrowserView(url: URL) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        if let controller = storyboard.instantiateViewController(withIdentifier: "Browser") as? BrowserViewController {
-            controller.destinationUrl = url
-            present(controller, animated: true, completion: nil)
         }
     }
 
@@ -299,6 +297,15 @@ class ViewController: UIViewController, WKNavigationDelegate {
             print("Notification settings: \(settings)")
             guard settings.authorizationStatus == .authorized else { return }
             UIApplication.shared.registerForRemoteNotifications()
+        }
+    }
+
+    // MARK: - Navegation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showExternalPage" {
+            if let externalPage = segue.destination as? BrowserViewController {
+                externalPage.destinationUrl = sender as? URL
+            }
         }
     }
 }

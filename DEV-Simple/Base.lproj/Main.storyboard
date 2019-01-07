@@ -80,6 +80,7 @@
                         <outlet property="forwardButton" destination="uvq-is-wQO" id="4wz-U8-o1Q"/>
                         <outlet property="safariButton" destination="ax9-e8-CVX" id="eT0-pY-Msg"/>
                         <outlet property="webView" destination="9JM-0s-c02" id="P8P-92-taL"/>
+                        <segue destination="2qi-qn-xu3" kind="presentation" identifier="showExternalPage" id="GCd-Hj-kbG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -102,6 +103,10 @@
                                     <wkPreferences key="preferences"/>
                                 </wkWebViewConfiguration>
                             </wkWebView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="8YQ-UK-tda">
+                                <rect key="frame" x="169" y="315" width="37" height="37"/>
+                                <color key="color" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </activityIndicatorView>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tpz-av-3nB">
                                 <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -128,6 +133,8 @@
                             <constraint firstItem="arP-qV-Ajc" firstAttribute="trailing" secondItem="29u-q3-2SN" secondAttribute="trailing" id="H9D-Mv-QBR"/>
                             <constraint firstItem="Tpz-av-3nB" firstAttribute="top" secondItem="29u-q3-2SN" secondAttribute="top" id="UKb-zO-B6l"/>
                             <constraint firstItem="Tpz-av-3nB" firstAttribute="trailing" secondItem="29u-q3-2SN" secondAttribute="trailing" id="WBF-ng-1LR"/>
+                            <constraint firstItem="8YQ-UK-tda" firstAttribute="centerX" secondItem="vfe-K4-Dlp" secondAttribute="centerX" id="bGq-V0-yJe"/>
+                            <constraint firstItem="8YQ-UK-tda" firstAttribute="centerY" secondItem="vfe-K4-Dlp" secondAttribute="centerY" id="dFM-RZ-3Ux"/>
                             <constraint firstItem="arP-qV-Ajc" firstAttribute="bottom" secondItem="29u-q3-2SN" secondAttribute="bottom" id="lv7-fv-gO4"/>
                             <constraint firstItem="Tpz-av-3nB" firstAttribute="leading" secondItem="29u-q3-2SN" secondAttribute="leading" id="oCy-bZ-BKa"/>
                             <constraint firstItem="arP-qV-Ajc" firstAttribute="top" secondItem="Tpz-av-3nB" secondAttribute="bottom" id="vmZ-Zj-JaT"/>
@@ -135,12 +142,13 @@
                         <viewLayoutGuide key="safeArea" id="29u-q3-2SN"/>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="8YQ-UK-tda" id="gtO-bZ-4sh"/>
                         <outlet property="webView" destination="arP-qV-Ajc" id="ITE-MA-jrj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7cS-bh-cGb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="872.79999999999995" y="133.5832083958021"/>
+            <point key="canvasLocation" x="1092" y="134"/>
         </scene>
     </scenes>
     <resources>
