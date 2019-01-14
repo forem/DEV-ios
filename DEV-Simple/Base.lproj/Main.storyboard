@@ -78,6 +78,7 @@
                         <outlet property="activityIndicator" destination="Ngy-LZ-8iC" id="7MC-rY-oNg"/>
                         <outlet property="backButton" destination="nLO-uf-SBh" id="2C4-Xr-7dt"/>
                         <outlet property="forwardButton" destination="uvq-is-wQO" id="4wz-U8-o1Q"/>
+                        <outlet property="navigationToolBar" destination="GJq-We-IbQ" id="2Lr-Yi-R14"/>
                         <outlet property="safariButton" destination="ax9-e8-CVX" id="eT0-pY-Msg"/>
                         <outlet property="webView" destination="9JM-0s-c02" id="P8P-92-taL"/>
                         <segue destination="2qi-qn-xu3" kind="presentation" identifier="showExternalPage" id="GCd-Hj-kbG"/>

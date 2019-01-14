@@ -61,7 +61,7 @@ extension Reachability {
             retain: nil,
             release: nil,
             copyDescription: nil)
-        
+
         context.info = Unmanaged<Reachability>.passUnretained(self).toOpaque()
         guard SCNetworkReachabilitySetCallback(reachability, callout, &context) else { stop()
             throw Network.Error.failedToSetCallout
