@@ -61,6 +61,9 @@ class ViewController: UIViewController, WKNavigationDelegate {
             name: notificationName,
             object: nil)
 
+        }
+
+    override func viewWillAppear(_ animated: Bool) {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(reachabilityChanged),
