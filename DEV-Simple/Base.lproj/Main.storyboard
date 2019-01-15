@@ -53,6 +53,7 @@
                                     </barButtonItem>
                                     <barButtonItem width="15" style="plain" systemItem="fixedSpace" id="tm8-h2-y0W"/>
                                 </items>
+                                <color key="barTintColor" red="0.99607843137254903" green="0.97647058823529409" blue="0.95294117647058818" alpha="1" colorSpace="calibratedRGB"/>
                             </toolbar>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="Ngy-LZ-8iC">
                                 <rect key="frame" x="169" y="315" width="37" height="37"/>
@@ -111,7 +112,7 @@
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tpz-av-3nB">
                                 <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <color key="barTintColor" red="0.98823529409999999" green="0.97647058819999999" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="barTintColor" red="0.99607843137254903" green="0.97647058823529409" blue="0.95294117647058818" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <items>
                                     <navigationItem id="sH5-rC-oI7">
                                         <barButtonItem key="leftBarButtonItem" image="Dismiss" id="Pgw-e8-VV1">
