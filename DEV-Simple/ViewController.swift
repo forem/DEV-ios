@@ -25,6 +25,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
     @IBOutlet weak var webView: WKWebView!
     @IBOutlet weak var safariButton: UIBarButtonItem!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var navigationToolBar: UIToolbar!
 
     var lightAlpha = CGFloat(0.2)
 
@@ -123,7 +124,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
     }
 
     // MARK: - Observers
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?,
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey:Any]?,
                                context: UnsafeMutableRawPointer?) {
         backButton.isEnabled = webView.canGoBack
         forwardButton.isEnabled = webView.canGoForward
@@ -274,10 +275,12 @@ class ViewController: UIViewController, WKNavigationDelegate {
         webView.layer.shadowOffset = CGSize(width: 0.0, height: 0.9)
         webView.layer.shadowOpacity = 0.5
         webView.layer.shadowRadius = 0.0
+        navigationToolBar.clipsToBounds = false
     }
 
     func removeShellShadow() {
         webView.layer.shadowOpacity = 0.0
+        navigationToolBar.clipsToBounds = true
     }
 
     // MARK: - Notifications Functions
