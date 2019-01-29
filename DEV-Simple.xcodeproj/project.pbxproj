@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1B032B1821E409FE00A2108A /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B032B1721E409FE00A2108A /* Globals.swift */; };
 		73D7673C218BA66700BD13B6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D7673B218BA66700BD13B6 /* AppDelegate.swift */; };
 		73D7673E218BA66700BD13B6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D7673D218BA66700BD13B6 /* ViewController.swift */; };
 		73D76741218BA66700BD13B6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 73D7673F218BA66700BD13B6 /* Main.storyboard */; };
@@ -42,6 +43,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1B032B1721E409FE00A2108A /* Globals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
 		73D76738218BA66700BD13B6 /* DEV-Simple.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DEV-Simple.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		73D7673B218BA66700BD13B6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		73D7673D218BA66700BD13B6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -129,6 +131,7 @@
 				73D76747218BA66B00BD13B6 /* Info.plist */,
 				73E8ACC62192165E009CE057 /* BrowserViewController.swift */,
 				BD5C906B21B63CCC000D9F79 /* NetworkReachability.swift */,
+				1B032B1721E409FE00A2108A /* Globals.swift */,
 			);
 			path = "DEV-Simple";
 			sourceTree = "<group>";
@@ -173,8 +176,8 @@
 				73D76734218BA66700BD13B6 /* Sources */,
 				73D76735218BA66700BD13B6 /* Frameworks */,
 				73D76736218BA66700BD13B6 /* Resources */,
-				73D7676C2190D8D900BD13B6 /* ShellScript */,
-				1BE5876521B1868C00CCF86E /* ShellScript */,
+				73D7676C2190D8D900BD13B6 /* Copy Carthage Frameworks */,
+				1BE5876521B1868C00CCF86E /* SwiftLint */,
 			);
 			buildRules = (
 			);
@@ -304,7 +307,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		1BE5876521B1868C00CCF86E /* ShellScript */ = {
+		1BE5876521B1868C00CCF86E /* SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -313,6 +316,7 @@
 			);
 			inputPaths = (
 			);
+			name = SwiftLint;
 			outputFileListPaths = (
 			);
 			outputPaths = (
@@ -321,7 +325,7 @@
 			shellPath = /bin/sh;
 			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nif which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
-		73D7676C2190D8D900BD13B6 /* ShellScript */ = {
+		73D7676C2190D8D900BD13B6 /* Copy Carthage Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -334,6 +338,7 @@
 				"$(SRCROOT)/Carthage/Build/iOS/SnapKit.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/MarqueeLabelSwift.framework",
 			);
+			name = "Copy Carthage Frameworks";
 			outputFileListPaths = (
 			);
 			outputPaths = (
@@ -354,6 +359,7 @@
 				73D7673E218BA66700BD13B6 /* ViewController.swift in Sources */,
 				73E8ACC72192165E009CE057 /* BrowserViewController.swift in Sources */,
 				73D7673C218BA66700BD13B6 /* AppDelegate.swift in Sources */,
+				1B032B1821E409FE00A2108A /* Globals.swift in Sources */,
 				BD5C906C21B63CCC000D9F79 /* NetworkReachability.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -546,7 +552,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = to.dev.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -570,7 +576,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = to.dev.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
