@@ -24,6 +24,8 @@ class ViewController: UIViewController, WKNavigationDelegate {
     @IBOutlet weak var forwardButton: UIBarButtonItem!
     @IBOutlet weak var webView: WKWebView!
     @IBOutlet weak var safariButton: UIBarButtonItem!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var navigationToolBar: UIToolbar!
 
     var lightAlpha = CGFloat(0.2)
 
@@ -39,15 +41,16 @@ class ViewController: UIViewController, WKNavigationDelegate {
     var devToURL =  "https://dev.to"
 
     override func viewDidLoad() {
-
+        super.viewDidLoad()
+        activityIndicator.hidesWhenStopped = true
         backButton.isEnabled = false
         forwardButton.isEnabled = false
+        webView.navigationDelegate = self
         webView.customUserAgent = "DEV-Native-ios"
         webView.scrollView.scrollIndicatorInsets.top = view.safeAreaInsets.top + 50
         webView.load(devToURL)
         webView.configuration.userContentController.add(self, name: "haptic")
         webView.allowsBackForwardNavigationGestures = true
-        webView.navigationDelegate = self
         webView.addObserver(self, forKeyPath: #keyPath(WKWebView.canGoBack), options: [.new, .old], context: nil)
         webView.addObserver(self, forKeyPath: #keyPath(WKWebView.canGoForward), options: [.new, .old], context: nil)
         webView.addObserver(self, forKeyPath: #keyPath(WKWebView.url), options: [.new, .old], context: nil)
@@ -59,6 +62,9 @@ class ViewController: UIViewController, WKNavigationDelegate {
             name: notificationName,
             object: nil)
 
+        }
+
+    override func viewWillAppear(_ animated: Bool) {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(reachabilityChanged),
@@ -66,6 +72,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
             object: Network.reachability)
     }
 
+    // MARK: - Reachability
     @objc private func reachabilityChanged(note: Notification) {
         guard let reachability = note.object as? Reachability else {
             return
@@ -99,6 +106,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
         banner.show()
     }
 
+    // MARK: - IBActions
     @IBAction func backButtonTapped(_ sender: Any) {
         if webView.canGoBack {
             webView.goBack()
@@ -115,7 +123,8 @@ class ViewController: UIViewController, WKNavigationDelegate {
         openInBrowser()
     }
 
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?,
+    // MARK: - Observers
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey:Any]?,
                                context: UnsafeMutableRawPointer?) {
         backButton.isEnabled = webView.canGoBack
         forwardButton.isEnabled = webView.canGoForward
@@ -135,35 +144,12 @@ class ViewController: UIViewController, WKNavigationDelegate {
             // Wait a split second if first launch (Hack, probably a race condition)
             self.webView.load(serverURL ?? "https://dev.to")
         }
-
     }
 
-    func askForNotificationPermission() {
-        let center = UNUserNotificationCenter.current()
-        let options: UNAuthorizationOptions = [.alert, .sound, .badge]
-        center.requestAuthorization(options: options) { [weak self] granted, _  in
+    // MARK: - WKWebView Delegate Functions
 
-            guard let `self` = self else {
-                return
-            }
-
-            guard granted else { return }
-            self.getNotificationSettings()
-        }
-    }
-
-    func getNotificationSettings() {
-        UNUserNotificationCenter.current().getNotificationSettings { (settings) in
-            print("Notification settings: \(settings)")
-            guard settings.authorizationStatus == .authorized else { return }
-            UIApplication.shared.registerForRemoteNotifications()
-        }
-    }
-
-    func openInBrowser() {
-        if let url = webView.url {
-            UIApplication.shared.open(url, options: [:])
-        }
+    func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+        activityIndicator.startAnimating()
     }
 
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
@@ -184,6 +170,8 @@ class ViewController: UIViewController, WKNavigationDelegate {
                 }
             }
         }
+
+        activityIndicator.stopAnimating()
     }
 
     func webView(_ webView: WKWebView, decidePolicyFor
@@ -198,6 +186,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
         decisionHandler(policy)
     }
 
+    // MARK: - Action Policy
     func navigationPolicy(url: URL, navigationType: WKNavigationType) -> WKNavigationActionPolicy {
 
         if url.scheme == "mailto" {
@@ -208,7 +197,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
         } else if isAuthLink(url) {
             return .allow
         } else if url.host != "dev.to" && navigationType.rawValue == 0 {
-            loadInBrowserView(url: url)
+            performSegue(withIdentifier: DoAction.openExternalURL, sender: url)
             return .cancel
         } else {
             return .allow
@@ -221,6 +210,14 @@ class ViewController: UIViewController, WKNavigationDelegate {
         }
     }
 
+    // MARK: - External Safari call
+    func openInBrowser() {
+        if let url = webView.url {
+            UIApplication.shared.open(url, options: [:])
+        }
+    }
+
+    // MARK: - Auth
     func isAuthLink(_ url: URL) -> Bool {
         if url.absoluteString.hasPrefix("https://github.com/login") {
             return true
@@ -229,14 +226,6 @@ class ViewController: UIViewController, WKNavigationDelegate {
             return true
         }
         return false
-    }
-
-    func loadInBrowserView(url: URL) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        if let controller = storyboard.instantiateViewController(withIdentifier: "Browser") as? BrowserViewController {
-            controller.destinationUrl = url
-            present(controller, animated: true, completion: nil)
-        }
     }
 
     func populateUserData() {
@@ -280,17 +269,51 @@ class ViewController: UIViewController, WKNavigationDelegate {
         }
     }
 
+    // MARK: - Theme configs
     func addShellShadow() {
         webView.layer.shadowColor = UIColor.gray.cgColor
         webView.layer.shadowOffset = CGSize(width: 0.0, height: 0.9)
         webView.layer.shadowOpacity = 0.5
         webView.layer.shadowRadius = 0.0
+        navigationToolBar.clipsToBounds = false
     }
 
     func removeShellShadow() {
         webView.layer.shadowOpacity = 0.0
+        navigationToolBar.clipsToBounds = true
     }
 
+    // MARK: - Notifications Functions
+    func askForNotificationPermission() {
+        let center = UNUserNotificationCenter.current()
+        let options: UNAuthorizationOptions = [.alert, .sound, .badge]
+        center.requestAuthorization(options: options) { [weak self] granted, _  in
+
+            guard let `self` = self else {
+                return
+            }
+
+            guard granted else { return }
+            self.getNotificationSettings()
+        }
+    }
+
+    func getNotificationSettings() {
+        UNUserNotificationCenter.current().getNotificationSettings { (settings) in
+            print("Notification settings: \(settings)")
+            guard settings.authorizationStatus == .authorized else { return }
+            UIApplication.shared.registerForRemoteNotifications()
+        }
+    }
+
+    // MARK: - Navegation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == DoAction.openExternalURL {
+            if let externalPage = segue.destination as? BrowserViewController {
+                externalPage.destinationUrl = sender as? URL
+            }
+        }
+    }
 }
 
 extension ViewController: WKScriptMessageHandler {
