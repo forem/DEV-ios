@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1B032B1821E409FE00A2108A /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B032B1721E409FE00A2108A /* Globals.swift */; };
+		1BA17C87220C8470007A8EF5 /* invertedImages.css in Resources */ = {isa = PBXBuildFile; fileRef = 1BA17C86220C8470007A8EF5 /* invertedImages.css */; };
 		73D7673C218BA66700BD13B6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D7673B218BA66700BD13B6 /* AppDelegate.swift */; };
 		73D7673E218BA66700BD13B6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D7673D218BA66700BD13B6 /* ViewController.swift */; };
 		73D76741218BA66700BD13B6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 73D7673F218BA66700BD13B6 /* Main.storyboard */; };
@@ -44,6 +45,7 @@
 
 /* Begin PBXFileReference section */
 		1B032B1721E409FE00A2108A /* Globals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
+		1BA17C86220C8470007A8EF5 /* invertedImages.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = invertedImages.css; sourceTree = "<group>"; };
 		73D76738218BA66700BD13B6 /* DEV-Simple.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DEV-Simple.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		73D7673B218BA66700BD13B6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		73D7673D218BA66700BD13B6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -97,6 +99,42 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1BA17C88220C847B007A8EF5 /* views */ = {
+			isa = PBXGroup;
+			children = (
+				73D7673D218BA66700BD13B6 /* ViewController.swift */,
+				73E8ACC62192165E009CE057 /* BrowserViewController.swift */,
+			);
+			path = views;
+			sourceTree = "<group>";
+		};
+		1BA17C89220C848B007A8EF5 /* storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				73D76744218BA66B00BD13B6 /* LaunchScreen.storyboard */,
+				73D7673F218BA66700BD13B6 /* Main.storyboard */,
+			);
+			path = storyboards;
+			sourceTree = "<group>";
+		};
+		1BA17C8A220C84A2007A8EF5 /* core */ = {
+			isa = PBXGroup;
+			children = (
+				1B032B1721E409FE00A2108A /* Globals.swift */,
+				73D7673B218BA66700BD13B6 /* AppDelegate.swift */,
+			);
+			path = core;
+			sourceTree = "<group>";
+		};
+		1BA17C8B220C84C3007A8EF5 /* assets */ = {
+			isa = PBXGroup;
+			children = (
+				73D76742218BA66B00BD13B6 /* Assets.xcassets */,
+				1BA17C86220C8470007A8EF5 /* invertedImages.css */,
+			);
+			path = assets;
+			sourceTree = "<group>";
+		};
 		73D7672F218BA66700BD13B6 = {
 			isa = PBXGroup;
 			children = (
@@ -122,16 +160,13 @@
 		73D7673A218BA66700BD13B6 /* DEV-Simple */ = {
 			isa = PBXGroup;
 			children = (
+				1BA17C8B220C84C3007A8EF5 /* assets */,
+				1BA17C8A220C84A2007A8EF5 /* core */,
+				1BA17C89220C848B007A8EF5 /* storyboards */,
+				1BA17C88220C847B007A8EF5 /* views */,
 				73D767692190CE3900BD13B6 /* DEV-Simple.entitlements */,
-				73D7673B218BA66700BD13B6 /* AppDelegate.swift */,
-				73D7673D218BA66700BD13B6 /* ViewController.swift */,
-				73D7673F218BA66700BD13B6 /* Main.storyboard */,
-				73D76742218BA66B00BD13B6 /* Assets.xcassets */,
-				73D76744218BA66B00BD13B6 /* LaunchScreen.storyboard */,
 				73D76747218BA66B00BD13B6 /* Info.plist */,
-				73E8ACC62192165E009CE057 /* BrowserViewController.swift */,
 				BD5C906B21B63CCC000D9F79 /* NetworkReachability.swift */,
-				1B032B1721E409FE00A2108A /* Globals.swift */,
 			);
 			path = "DEV-Simple";
 			sourceTree = "<group>";
@@ -283,6 +318,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1BA17C87220C8470007A8EF5 /* invertedImages.css in Resources */,
 				73D76746218BA66B00BD13B6 /* LaunchScreen.storyboard in Resources */,
 				73D76743218BA66B00BD13B6 /* Assets.xcassets in Resources */,
 				73D76741218BA66700BD13B6 /* Main.storyboard in Resources */,
@@ -538,7 +574,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "DEV-Simple/DEV-Simple.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = R9SWHSQNV8;
+				DEVELOPMENT_TEAM = SV27Y5WTR5;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -549,7 +585,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = to.dev.ios;
+				PRODUCT_BUNDLE_IDENTIFIER = to.dev.ioss;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -562,7 +598,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "DEV-Simple/DEV-Simple.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = R9SWHSQNV8;
+				DEVELOPMENT_TEAM = SV27Y5WTR5;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -573,7 +609,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = to.dev.ios;
+				PRODUCT_BUNDLE_IDENTIFIER = to.dev.ioss;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";

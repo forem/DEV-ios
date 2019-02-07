@@ -22,7 +22,39 @@ class ViewController: UIViewController, WKNavigationDelegate {
 
     @IBOutlet weak var backButton: UIBarButtonItem!
     @IBOutlet weak var forwardButton: UIBarButtonItem!
-    @IBOutlet weak var webView: WKWebView!
+    @IBOutlet lazy var webView: WKWebView! = {
+
+        if !UIAccessibility.isInvertColorsEnabled {
+            return WKWebView()
+        }
+
+        guard let path = Bundle.main.path(forResource: "invertedImages", ofType: "css") else {
+            return WKWebView()
+        }
+
+        let cssString = try? String(contentsOfFile: path).components(separatedBy: .newlines).joined()
+        let source = """
+        var style = document.createElement('style');
+        style.innerHTML = '\(cssString)';
+        document.head.appendChild(style);
+        """
+
+        let userScript = WKUserScript(source: source,
+                                      injectionTime: .atDocumentEnd,
+                                      forMainFrameOnly: true)
+
+        let userContentController = WKUserContentController()
+        userContentController.addUserScript(userScript)
+
+        let configuration = WKWebViewConfiguration()
+        configuration.userContentController = userContentController
+
+        let webView = WKWebView(frame: .zero,
+                                configuration: configuration)
+
+        webView.accessibilityIgnoresInvertColors = true
+        return webView
+    }()
     @IBOutlet weak var safariButton: UIBarButtonItem!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var navigationToolBar: UIToolbar!
@@ -38,7 +70,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
         var id: Int
     }
 
-    var devToURL =  "https://dev.to"
+    var devToURL = "https://dev.to"
 
     override func viewDidLoad() {
         super.viewDidLoad()
