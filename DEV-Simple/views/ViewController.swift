@@ -60,6 +60,8 @@ class ViewController: UIViewController, WKNavigationDelegate {
     @IBOutlet weak var navigationToolBar: UIToolbar!
 
     var lightAlpha = CGFloat(0.2)
+    var useDarkMode = false
+    let darkBackgroundColor = UIColor(red: 22/255, green: 31/255, blue: 43/255, alpha: 1)
 
     let pushNotifications = PushNotifications.shared
     lazy var errorBanner: NotificationBanner = {
@@ -68,6 +70,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
 
     struct UserData: Codable {
         var id: Int
+        var config_body_class: String
     }
 
     var devToURL = "https://dev.to"
@@ -96,13 +99,15 @@ class ViewController: UIViewController, WKNavigationDelegate {
 
         }
 
-    override func viewWillAppear(_ animated: Bool) {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(reachabilityChanged),
-            name: .flagsChanged,
-            object: Network.reachability)
-    }
+// Commented out reachability because it should only show up when attempting to navigate.
+// Currently shows up when network changes in awkward times. Better off for now. Maybe implement via web?
+//    override func viewWillAppear(_ animated: Bool) {
+//        NotificationCenter.default.addObserver(
+//            self,
+//            selector: #selector(reachabilityChanged),
+//            name: .flagsChanged,
+//            object: Network.reachability)
+//    }
 
     // MARK: - Reachability
     @objc private func reachabilityChanged(note: Notification) {
@@ -273,6 +278,22 @@ class ViewController: UIViewController, WKNavigationDelegate {
                     let user = try jsonDecoder.decode(UserData.self, from: Data(jsonString.utf8))
                     let notificationSubscription = "user-notifications-\(String(user.id))"
                     try? self.pushNotifications.subscribe(interest: notificationSubscription)
+                    if (user.config_body_class.contains("night-theme")) {
+                        guard let statusBarView = UIApplication.shared.value(forKeyPath: "statusBarWindow.statusBar") as? UIView else {
+                            return
+                        }
+                        statusBarView.backgroundColor = self.darkBackgroundColor
+                        self.useDarkMode = true
+                        self.setNeedsStatusBarAppearanceUpdate()
+                        self.navigationToolBar.isTranslucent = false
+                        self.navigationToolBar.barTintColor = self.darkBackgroundColor
+                        self.safariButton.tintColor = UIColor.white
+                        self.backButton.tintColor = UIColor.white
+                        self.forwardButton.tintColor = UIColor.white
+                        self.view.backgroundColor = self.darkBackgroundColor
+                        self.activityIndicator.color = UIColor.white
+                    }
+
                 } catch {
                     print("Error info: \(error)")
                 }
@@ -345,6 +366,10 @@ class ViewController: UIViewController, WKNavigationDelegate {
                 externalPage.destinationUrl = sender as? URL
             }
         }
+    }
+
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return useDarkMode ? .lightContent : .default
     }
 }
 
