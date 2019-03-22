@@ -70,7 +70,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
 
     struct UserData: Codable {
         var id: Int
-        var config_body_class: String
+        var configBodyClass: String
     }
 
     var devToURL = "https://dev.to"
@@ -278,7 +278,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
                     let user = try jsonDecoder.decode(UserData.self, from: Data(jsonString.utf8))
                     let notificationSubscription = "user-notifications-\(String(user.id))"
                     try? self.pushNotifications.subscribe(interest: notificationSubscription)
-                    if (user.config_body_class.contains("night-theme")) {
+                    if (user.configBodyClass.contains("night-theme")) {
                         guard let statusBarView = UIApplication.shared.value(forKeyPath: "statusBarWindow.statusBar") as? UIView else {
                             return
                         }
