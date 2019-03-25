@@ -18,7 +18,7 @@ extension Notification.Name {
     static let completedLengthyDownload = Notification.Name("completedLengthyDownload")
 }
 
-class ViewController: UIViewController, WKNavigationDelegate {
+class ViewController: UIViewController {
 
     @IBOutlet weak var backButton: UIBarButtonItem!
     @IBOutlet weak var forwardButton: UIBarButtonItem!
@@ -55,6 +55,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
         webView.accessibilityIgnoresInvertColors = true
         return webView
     }()
+    
     @IBOutlet weak var safariButton: UIBarButtonItem!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var navigationToolBar: UIToolbar!
@@ -183,64 +184,6 @@ class ViewController: UIViewController, WKNavigationDelegate {
         }
     }
 
-    // MARK: - WKWebView Delegate Functions
-
-    func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
-        activityIndicator.startAnimating()
-    }
-
-    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        let js = "document.getElementsByTagName('body')[0].getAttribute('data-user-status')"
-        webView.evaluateJavaScript(js) { [weak self] result, error in
-
-            guard let `self` = self else {
-                return
-            }
-
-            if let error = error {
-                print("Error getting user data: \(error)")
-            }
-            if let jsonString = result as? String {
-                self.modifyShellDesign()
-                if jsonString == "logged-in" {
-                    self.populateUserData()
-                }
-            }
-        }
-
-        activityIndicator.stopAnimating()
-    }
-
-    func webView(_ webView: WKWebView, decidePolicyFor
-        navigationAction: WKNavigationAction,decisionHandler: @escaping (WKNavigationActionPolicy) -> Swift.Void) {
-
-        guard let url = navigationAction.request.url else {
-            decisionHandler(.allow)
-            return
-        }
-
-        let policy = navigationPolicy(url: url, navigationType: navigationAction.navigationType)
-        decisionHandler(policy)
-    }
-
-    // MARK: - Action Policy
-    func navigationPolicy(url: URL, navigationType: WKNavigationType) -> WKNavigationActionPolicy {
-
-        if url.scheme == "mailto" {
-            openURL(url)
-            return .cancel
-        } else if url.absoluteString == "about:blank" {
-            return .allow
-        } else if isAuthLink(url) {
-            return .allow
-        } else if url.host != "dev.to" && navigationType.rawValue == 0 {
-            performSegue(withIdentifier: DoAction.openExternalURL, sender: url)
-            return .cancel
-        } else {
-            return .allow
-        }
-    }
-
     func openURL(_ url: URL) {
         if UIApplication.shared.canOpenURL(url) {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
@@ -271,34 +214,39 @@ class ViewController: UIViewController, WKNavigationDelegate {
 
             if let error = error {
                 print("Error getting user data: \(error)")
+                return
             }
+            
             if let jsonString = result as? String {
                 do {
-                    let jsonDecoder = JSONDecoder()
-                    let user = try jsonDecoder.decode(UserData.self, from: Data(jsonString.utf8))
+                    let user = try JSONDecoder().decode(UserData.self, from: Data(jsonString.utf8))
                     let notificationSubscription = "user-notifications-\(String(user.id))"
                     try? self.pushNotifications.subscribe(interest: notificationSubscription)
-                    if (user.configBodyClass.contains("night-theme")) {
-                        guard let statusBarView = UIApplication.shared.value(forKeyPath: "statusBarWindow.statusBar") as? UIView else {
-                            return
-                        }
-                        statusBarView.backgroundColor = self.darkBackgroundColor
-                        self.useDarkMode = true
-                        self.setNeedsStatusBarAppearanceUpdate()
-                        self.navigationToolBar.isTranslucent = false
-                        self.navigationToolBar.barTintColor = self.darkBackgroundColor
-                        self.safariButton.tintColor = UIColor.white
-                        self.backButton.tintColor = UIColor.white
-                        self.forwardButton.tintColor = UIColor.white
-                        self.view.backgroundColor = self.darkBackgroundColor
-                        self.activityIndicator.color = UIColor.white
+                    if user.configBodyClass.contains("night-theme") {
+                        self.applyDarkTheme()
                     }
-
                 } catch {
                     print("Error info: \(error)")
                 }
             }
         }
+    }
+    
+    private func applyDarkTheme() {
+        guard let statusBarView = UIApplication.shared.value(forKeyPath: "statusBarWindow.statusBar") as? UIView else {
+            return
+        }
+        
+        statusBarView.backgroundColor = darkBackgroundColor
+        useDarkMode = true
+        setNeedsStatusBarAppearanceUpdate()
+        navigationToolBar.isTranslucent = false
+        navigationToolBar.barTintColor = darkBackgroundColor
+        safariButton.tintColor = UIColor.white
+        backButton.tintColor = UIColor.white
+        forwardButton.tintColor = UIColor.white
+        view.backgroundColor = darkBackgroundColor
+        activityIndicator.color = UIColor.white
     }
 
     func modifyShellDesign() {
@@ -370,6 +318,63 @@ class ViewController: UIViewController, WKNavigationDelegate {
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return useDarkMode ? .lightContent : .default
+    }
+}
+
+extension ViewController: WKNavigationDelegate {
+    func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+        activityIndicator.startAnimating()
+    }
+    
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        let js = "document.getElementsByTagName('body')[0].getAttribute('data-user-status')"
+        webView.evaluateJavaScript(js) { [weak self] result, error in
+            
+            guard let `self` = self else {
+                return
+            }
+            
+            if let error = error {
+                print("Error getting user data: \(error)")
+            }
+            if let jsonString = result as? String {
+                self.modifyShellDesign()
+                if jsonString == "logged-in" {
+                    self.populateUserData()
+                }
+            }
+        }
+        
+        activityIndicator.stopAnimating()
+    }
+    
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction,
+                 decisionHandler: @escaping (WKNavigationActionPolicy) -> Swift.Void) {
+        
+        guard let url = navigationAction.request.url else {
+            decisionHandler(.allow)
+            return
+        }
+        
+        let policy = navigationPolicy(url: url, navigationType: navigationAction.navigationType)
+        decisionHandler(policy)
+    }
+    
+    // MARK: - Action Policy
+    func navigationPolicy(url: URL, navigationType: WKNavigationType) -> WKNavigationActionPolicy {
+        if url.scheme == "mailto" {
+            openURL(url)
+            return .cancel
+        } else if url.absoluteString == "about:blank" {
+            return .allow
+        } else if isAuthLink(url) {
+            return .allow
+        } else if url.host != "dev.to" && navigationType.rawValue == 0 {
+            performSegue(withIdentifier: DoAction.openExternalURL, sender: url)
+            return .cancel
+        } else {
+            return .allow
+        }
     }
 }
 
