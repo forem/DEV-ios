@@ -266,12 +266,10 @@ class ViewController: UIViewController {
                 print("Error getting user data: \(error)")
             }
             
-            do {
-                if result as? String == "stories-show" {
-                    self.removeShellShadow()
-                } else {
-                    self.addShellShadow()
-                }
+            if result as? String == "stories-show" {
+                self.removeShellShadow()
+            } else {
+                self.addShellShadow()
             }
         }
     }
