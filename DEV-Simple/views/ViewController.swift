@@ -180,7 +180,7 @@ class ViewController: UIViewController {
         let appDelegate = UIApplication.shared.delegate as? AppDelegate
         let serverURL = appDelegate?.serverURL
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak self] in
-            guard let `self` = self else {
+            guard let self = self else {
                 return
             }
             
@@ -258,7 +258,7 @@ class ViewController: UIViewController {
         let javascript = "document.getElementById('page-content').getAttribute('data-current-page')"
         webView.evaluateJavaScript(javascript) { [weak self] result, error in
 
-            guard let `self` = self else {
+            guard let self = self else {
                 return
             }
             
@@ -294,7 +294,7 @@ class ViewController: UIViewController {
         let options: UNAuthorizationOptions = [.alert, .sound, .badge]
         center.requestAuthorization(options: options) { [weak self] granted, _  in
 
-            guard let `self` = self else {
+            guard let self = self else {
                 return
             }
 
@@ -334,7 +334,7 @@ extension ViewController: WKNavigationDelegate {
         let javascript = "document.getElementsByTagName('body')[0].getAttribute('data-user-status')"
         webView.evaluateJavaScript(javascript) { [weak self] result, error in
             
-            guard let `self` = self else {
+            guard let self = self else {
                 return
             }
             
