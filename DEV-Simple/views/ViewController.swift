@@ -64,7 +64,7 @@ class ViewController: UIViewController {
         webView.accessibilityIgnoresInvertColors = true
         return webView
     }()
-    
+
     @IBOutlet weak var safariButton: UIBarButtonItem!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var navigationToolBar: UIToolbar!
@@ -183,7 +183,7 @@ class ViewController: UIViewController {
             guard let self = self else {
                 return
             }
-            
+
             // Wait a split second if first launch (Hack, probably a race condition)
             self.webView.load(serverURL ?? "https://dev.to")
         }
@@ -221,7 +221,7 @@ class ViewController: UIViewController {
                 print("Error getting user data: \(error)")
                 return
             }
-            
+
             if let jsonString = result as? String {
                 do {
                     let user = try JSONDecoder().decode(UserData.self, from: Data(jsonString.utf8))
@@ -236,12 +236,12 @@ class ViewController: UIViewController {
             }
         }
     }
-    
+
     private func applyDarkTheme() {
         guard let statusBarView = UIApplication.shared.value(forKeyPath: "statusBarWindow.statusBar") as? UIView else {
             return
         }
-        
+
         statusBarView.backgroundColor = darkBackgroundColor
         useDarkMode = true
         setNeedsStatusBarAppearanceUpdate()
@@ -261,11 +261,11 @@ class ViewController: UIViewController {
             guard let self = self else {
                 return
             }
-            
+
             if let error = error {
                 print("Error getting user data: \(error)")
             }
-            
+
             if result as? String == "stories-show" {
                 self.removeShellShadow()
             } else {
@@ -329,15 +329,15 @@ extension ViewController: WKNavigationDelegate {
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
         activityIndicator.startAnimating()
     }
-    
+
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         let javascript = "document.getElementsByTagName('body')[0].getAttribute('data-user-status')"
         webView.evaluateJavaScript(javascript) { [weak self] result, error in
-            
+
             guard let self = self else {
                 return
             }
-            
+
             if let error = error {
                 print("Error getting user data: \(error)")
             }
@@ -348,22 +348,22 @@ extension ViewController: WKNavigationDelegate {
                 }
             }
         }
-        
+
         activityIndicator.stopAnimating()
     }
-    
+
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction,
                  decisionHandler: @escaping (WKNavigationActionPolicy) -> Swift.Void) {
-        
+
         guard let url = navigationAction.request.url else {
             decisionHandler(.allow)
             return
         }
-        
+
         let policy = navigationPolicy(url: url, navigationType: navigationAction.navigationType)
         decisionHandler(policy)
     }
-    
+
     // MARK: - Action Policy
     func navigationPolicy(url: URL, navigationType: WKNavigationType) -> WKNavigationActionPolicy {
         if url.scheme == "mailto" {
