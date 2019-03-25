@@ -18,6 +18,15 @@ extension Notification.Name {
     static let completedLengthyDownload = Notification.Name("completedLengthyDownload")
 }
 
+struct UserData: Codable {
+    enum CodingKeys: String, CodingKey {
+        case userID = "id"
+        case configBodyClass = "config_body_class"
+    }
+    var userID: Int
+    var configBodyClass: String
+}
+
 class ViewController: UIViewController {
 
     @IBOutlet weak var backButton: UIBarButtonItem!
@@ -68,11 +77,6 @@ class ViewController: UIViewController {
     lazy var errorBanner: NotificationBanner = {
         return NotificationBanner(title: "Network not reachable", style: .danger)
     }()
-
-    struct UserData: Codable {
-        var id: Int
-        var configBodyClass: String
-    }
 
     var devToURL = "https://dev.to"
 
