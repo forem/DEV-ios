@@ -179,6 +179,7 @@ class ViewController: UIViewController {
             guard let `self` = self else {
                 return
             }
+            
             // Wait a split second if first launch (Hack, probably a race condition)
             self.webView.load(serverURL ?? "https://dev.to")
         }
@@ -209,8 +210,8 @@ class ViewController: UIViewController {
     }
 
     func populateUserData() {
-        let js = "document.getElementsByTagName('body')[0].getAttribute('data-user')"
-        webView.evaluateJavaScript(js) { result, error in
+        let javascript = "document.getElementsByTagName('body')[0].getAttribute('data-user')"
+        webView.evaluateJavaScript(javascript) { result, error in
 
             if let error = error {
                 print("Error getting user data: \(error)")
@@ -220,7 +221,7 @@ class ViewController: UIViewController {
             if let jsonString = result as? String {
                 do {
                     let user = try JSONDecoder().decode(UserData.self, from: Data(jsonString.utf8))
-                    let notificationSubscription = "user-notifications-\(String(user.id))"
+                    let notificationSubscription = "user-notifications-\(String(user.userID))"
                     try? self.pushNotifications.subscribe(interest: notificationSubscription)
                     if user.configBodyClass.contains("night-theme") {
                         self.applyDarkTheme()
@@ -250,16 +251,17 @@ class ViewController: UIViewController {
     }
 
     func modifyShellDesign() {
-        let js = "document.getElementById('page-content').getAttribute('data-current-page')"
-        webView.evaluateJavaScript(js) { [weak self] result, error in
+        let javascript = "document.getElementById('page-content').getAttribute('data-current-page')"
+        webView.evaluateJavaScript(javascript) { [weak self] result, error in
 
             guard let `self` = self else {
                 return
             }
-
+            
             if let error = error {
                 print("Error getting user data: \(error)")
             }
+            
             do {
                 if result as? String == "stories-show" {
                     self.removeShellShadow()
@@ -327,8 +329,8 @@ extension ViewController: WKNavigationDelegate {
     }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        let js = "document.getElementsByTagName('body')[0].getAttribute('data-user-status')"
-        webView.evaluateJavaScript(js) { [weak self] result, error in
+        let javascript = "document.getElementsByTagName('body')[0].getAttribute('data-user-status')"
+        webView.evaluateJavaScript(javascript) { [weak self] result, error in
             
             guard let `self` = self else {
                 return
