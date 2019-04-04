@@ -89,6 +89,7 @@ class ViewController: UIViewController {
         webView.customUserAgent = "DEV-Native-ios"
         webView.scrollView.scrollIndicatorInsets.top = view.safeAreaInsets.top + 50
         webView.load(devToURL)
+        webView.configuration.allowsInlineMediaPlayback = true
         webView.configuration.userContentController.add(self, name: "haptic")
         webView.allowsBackForwardNavigationGestures = true
         webView.addObserver(self, forKeyPath: #keyPath(WKWebView.canGoBack), options: [.new, .old], context: nil)
