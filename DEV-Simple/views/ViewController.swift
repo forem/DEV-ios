@@ -126,6 +126,10 @@ class ViewController: UIViewController {
             if errorBanner.isDisplaying {
                 errorBanner.dismiss()
             }
+        case .wwan:
+            if errorBanner.isDisplaying {
+                errorBanner.dismiss()
+            }
         default:
             break
         }
