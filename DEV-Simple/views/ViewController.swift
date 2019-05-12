@@ -75,7 +75,10 @@ class ViewController: UIViewController {
 
     let pushNotifications = PushNotifications.shared
     lazy var errorBanner: NotificationBanner = {
-        return NotificationBanner(title: "Network not reachable", style: .danger)
+        let banner = NotificationBanner(title: "Network not reachable", style: .danger)
+        banner.autoDismiss = false
+        banner.dismissOnTap = true
+        return banner
     }()
 
     var devToURL = "https://dev.to"
@@ -104,15 +107,13 @@ class ViewController: UIViewController {
 
         }
 
-// Commented out reachability because it should only show up when attempting to navigate.
-// Currently shows up when network changes in awkward times. Better off for now. Maybe implement via web?
-//    override func viewWillAppear(_ animated: Bool) {
-//        NotificationCenter.default.addObserver(
-//            self,
-//            selector: #selector(reachabilityChanged),
-//            name: .flagsChanged,
-//            object: Network.reachability)
-//    }
+    override func viewWillAppear(_ animated: Bool) {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(reachabilityChanged),
+            name: .flagsChanged,
+            object: Network.reachability)
+    }
 
     // MARK: - Reachability
     @objc private func reachabilityChanged(note: Notification) {
@@ -124,28 +125,14 @@ class ViewController: UIViewController {
         case .wifi:
             if errorBanner.isDisplaying {
                 errorBanner.dismiss()
-                displayWifiBanner()
             }
         case .wwan:
             if errorBanner.isDisplaying {
                 errorBanner.dismiss()
-                displayCellularBanner()
             }
-        case .unreachable:
-            errorBanner.show()
+        default:
+            break
         }
-    }
-
-    private func displayWifiBanner() {
-        let banner = NotificationBanner(title: "Re-connected to WiFi", style: .success)
-        banner.duration = 1.5
-        banner.show()
-    }
-
-    private func displayCellularBanner() {
-        let banner = NotificationBanner(title: "Re-connected to Cellular", style: .warning)
-        banner.duration = 1.5
-        banner.show()
     }
 
     // MARK: - IBActions
@@ -327,6 +314,12 @@ class ViewController: UIViewController {
 
 extension ViewController: WKNavigationDelegate {
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+        let reachability = Network.reachability
+        guard let isNetworkReachable = reachability?.isReachable, isNetworkReachable else {
+            errorBanner.show()
+            return
+        }
+        
         activityIndicator.startAnimating()
     }
 
