@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         launchOptions:[UIApplication.LaunchOptionsKey:Any]?) -> Bool {
         self.pushNotifications.start(instanceId: "cdaf9857-fad0-4bfb-b360-64c1b2693ef3")
         self.pushNotifications.registerForRemoteNotifications()
-        try? self.pushNotifications.subscribe(interest: "broadcast")
+        try? self.pushNotifications.addDeviceInterest(interest: "broadcast")
 
         setupReachability()
 
