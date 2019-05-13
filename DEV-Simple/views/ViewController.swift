@@ -71,7 +71,7 @@ class ViewController: UIViewController {
 
     var lightAlpha = CGFloat(0.2)
     var useDarkMode = false
-    let darkBackgroundColor = UIColor(red: 22/255, green: 31/255, blue: 43/255, alpha: 1)
+    let darkBackgroundColor = UIColor(red: 13/255, green: 18/255, blue: 25/255, alpha: 1)
 
     let pushNotifications = PushNotifications.shared
     lazy var errorBanner: NotificationBanner = {
@@ -214,7 +214,7 @@ class ViewController: UIViewController {
                 do {
                     let user = try JSONDecoder().decode(UserData.self, from: Data(jsonString.utf8))
                     let notificationSubscription = "user-notifications-\(String(user.userID))"
-                    try? self.pushNotifications.subscribe(interest: notificationSubscription)
+                    try? self.pushNotifications.addDeviceInterest(interest: notificationSubscription)
                     if user.configBodyClass.contains("night-theme") {
                         self.applyDarkTheme()
                     }

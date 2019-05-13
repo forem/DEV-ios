@@ -1,2 +1,2 @@
 github "pusher/push-notifications-swift"
-github "Daltron/NotificationBanner" "master"
+github "Daltron/NotificationBanner" "2.1.0"
