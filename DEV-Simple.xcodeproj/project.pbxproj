@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		16800D5B22CD05C300429E36 /* OfflineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16800D5A22CD05C300429E36 /* OfflineViewController.swift */; };
+		16800D5F22CD067D00429E36 /* DEVColorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16800D5D22CD067D00429E36 /* DEVColorCollectionViewCell.swift */; };
+		16800D6022CD067D00429E36 /* DEVColorCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 16800D5E22CD067D00429E36 /* DEVColorCollectionViewCell.xib */; };
+		16800D6222CD0C9500429E36 /* DEVCanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16800D6122CD0C9500429E36 /* DEVCanvasView.swift */; };
 		1B032B1821E409FE00A2108A /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B032B1721E409FE00A2108A /* Globals.swift */; };
 		1BA17C87220C8470007A8EF5 /* invertedImages.css in Resources */ = {isa = PBXBuildFile; fileRef = 1BA17C86220C8470007A8EF5 /* invertedImages.css */; };
 		73D7673C218BA66700BD13B6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D7673B218BA66700BD13B6 /* AppDelegate.swift */; };
@@ -44,6 +48,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		16800D5A22CD05C300429E36 /* OfflineViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineViewController.swift; sourceTree = "<group>"; };
+		16800D5D22CD067D00429E36 /* DEVColorCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DEVColorCollectionViewCell.swift; sourceTree = "<group>"; };
+		16800D5E22CD067D00429E36 /* DEVColorCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DEVColorCollectionViewCell.xib; sourceTree = "<group>"; };
+		16800D6122CD0C9500429E36 /* DEVCanvasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DEVCanvasView.swift; sourceTree = "<group>"; };
 		1B032B1721E409FE00A2108A /* Globals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
 		1BA17C86220C8470007A8EF5 /* invertedImages.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = invertedImages.css; sourceTree = "<group>"; };
 		73D76738218BA66700BD13B6 /* DEV-Simple.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DEV-Simple.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -99,11 +107,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		16800D5C22CD065300429E36 /* UICollectionViewCells */ = {
+			isa = PBXGroup;
+			children = (
+				16800D5D22CD067D00429E36 /* DEVColorCollectionViewCell.swift */,
+				16800D5E22CD067D00429E36 /* DEVColorCollectionViewCell.xib */,
+			);
+			path = UICollectionViewCells;
+			sourceTree = "<group>";
+		};
 		1BA17C88220C847B007A8EF5 /* views */ = {
 			isa = PBXGroup;
 			children = (
+				16800D5C22CD065300429E36 /* UICollectionViewCells */,
 				73D7673D218BA66700BD13B6 /* ViewController.swift */,
 				73E8ACC62192165E009CE057 /* BrowserViewController.swift */,
+				16800D5A22CD05C300429E36 /* OfflineViewController.swift */,
+				16800D6122CD0C9500429E36 /* DEVCanvasView.swift */,
 			);
 			path = views;
 			sourceTree = "<group>";
@@ -322,6 +342,7 @@
 				73D76746218BA66B00BD13B6 /* LaunchScreen.storyboard in Resources */,
 				73D76743218BA66B00BD13B6 /* Assets.xcassets in Resources */,
 				73D76741218BA66700BD13B6 /* Main.storyboard in Resources */,
+				16800D6022CD067D00429E36 /* DEVColorCollectionViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -392,8 +413,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				16800D5B22CD05C300429E36 /* OfflineViewController.swift in Sources */,
 				73D7673E218BA66700BD13B6 /* ViewController.swift in Sources */,
+				16800D5F22CD067D00429E36 /* DEVColorCollectionViewCell.swift in Sources */,
 				73E8ACC72192165E009CE057 /* BrowserViewController.swift in Sources */,
+				16800D6222CD0C9500429E36 /* DEVCanvasView.swift in Sources */,
 				73D7673C218BA66700BD13B6 /* AppDelegate.swift in Sources */,
 				1B032B1821E409FE00A2108A /* Globals.swift in Sources */,
 				BD5C906C21B63CCC000D9F79 /* NetworkReachability.swift in Sources */,
