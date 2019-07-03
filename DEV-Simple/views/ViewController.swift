@@ -74,13 +74,6 @@ class ViewController: UIViewController {
     let darkBackgroundColor = UIColor(red: 13/255, green: 18/255, blue: 25/255, alpha: 1)
 
     let pushNotifications = PushNotifications.shared
-    lazy var errorBanner: NotificationBanner = {
-        let banner = NotificationBanner(title: "Network not reachable", style: .danger)
-        banner.autoDismiss = false
-        banner.dismissOnTap = true
-        return banner
-    }()
-
     var devToURL = "https://dev.to"
 
     override func viewDidLoad() {
@@ -124,12 +117,12 @@ class ViewController: UIViewController {
 
         switch reachability.status {
         case .wifi:
-            if errorBanner.isDisplaying {
-                errorBanner.dismiss()
+            if self.presentedViewController != nil {
+                self.dismiss(animated: true, completion: nil)
             }
         case .wwan:
-            if errorBanner.isDisplaying {
-                errorBanner.dismiss()
+            if self.presentedViewController != nil {
+                self.dismiss(animated: true, completion: nil)
             }
         default:
             break
@@ -154,7 +147,7 @@ class ViewController: UIViewController {
     }
 
     // MARK: - Observers
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey:Any]?,
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?,
                                context: UnsafeMutableRawPointer?) {
         backButton.isEnabled = webView.canGoBack
         forwardButton.isEnabled = webView.canGoForward
@@ -317,10 +310,10 @@ extension ViewController: WKNavigationDelegate {
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
         let reachability = Network.reachability
         guard let isNetworkReachable = reachability?.isReachable, isNetworkReachable else {
-            errorBanner.show()
+            self.performSegue(withIdentifier: DoAction.offlineViewController, sender: self)
             return
         }
-        
+
         activityIndicator.startAnimating()
     }
 
