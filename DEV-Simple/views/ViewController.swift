@@ -74,13 +74,6 @@ class ViewController: UIViewController {
     let darkBackgroundColor = UIColor(red: 13/255, green: 18/255, blue: 25/255, alpha: 1)
 
     let pushNotifications = PushNotifications.shared
-    lazy var errorBanner: NotificationBanner = {
-        let banner = NotificationBanner(title: "Network not reachable", style: .danger)
-        banner.autoDismiss = false
-        banner.dismissOnTap = true
-        return banner
-    }()
-
     var devToURL = "https://dev.to"
 
     override func viewDidLoad() {
