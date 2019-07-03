@@ -310,7 +310,7 @@ extension ViewController: WKNavigationDelegate {
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
         let reachability = Network.reachability
         guard let isNetworkReachable = reachability?.isReachable, isNetworkReachable else {
-            self.performSegue(withIdentifier: OfflineViewController.segueId, sender: self)
+            self.performSegue(withIdentifier: DoAction.offlineViewController, sender: self)
             return
         }
 

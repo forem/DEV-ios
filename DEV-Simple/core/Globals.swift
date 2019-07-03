@@ -10,4 +10,5 @@ import Foundation
 
 struct DoAction {
     static var openExternalURL = "showExternalPage"
+    static let offlineViewController = "showOffline"
 }
