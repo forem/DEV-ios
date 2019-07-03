@@ -13,7 +13,7 @@ class DEVCanvasView: UIView {
     var touchPoint: CGPoint!
     var path: UIBezierPath!
     var strokeColor: CGColor! = UIColor(red: 244/255, green: 144/255, blue: 142/255, alpha: 1).cgColor
-    
+
     func setStrokeColor(_ color: UIColor) {
         self.strokeColor = color.cgColor
     }
