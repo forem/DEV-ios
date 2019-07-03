@@ -13,7 +13,7 @@ class OfflineViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var drawingCanvas: DEVCanvasView!
     var selectedCell: DEVColorCollectionViewCell?
-    
+
     let colors = [
         UIColor(red: 244/255, green: 144/255, blue: 142/255, alpha: 1),
         UIColor(red: 242/255, green: 240/255, blue: 151/255, alpha: 1),

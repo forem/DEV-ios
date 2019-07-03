@@ -17,7 +17,7 @@ class DEVCanvasView: UIView {
     func setStrokeColor(_ color: UIColor) {
         self.strokeColor = color.cgColor
     }
-    
+
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         let touch = touches.first
         startingPoint = touch?.location(in: self)
@@ -26,7 +26,7 @@ class DEVCanvasView: UIView {
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         let touch = touches.first
         touchPoint = touch?.location(in: self)
-        
+
         path = UIBezierPath()
         path?.move(to: startingPoint)
         path?.addLine(to: touchPoint)
@@ -43,5 +43,5 @@ class DEVCanvasView: UIView {
         self.layer.addSublayer(shapeLayer)
         self.setNeedsDisplay()
     }
-    
+
 }
