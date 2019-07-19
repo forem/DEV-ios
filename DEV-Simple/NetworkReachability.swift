@@ -5,6 +5,7 @@
 //  Created by Daniel Chick on 12/3/18.
 //  Copyright © 2018 DEV. All rights reserved.
 //
+// swiftlint:disable identifier_name
 
 import UIKit
 import SystemConfiguration
@@ -148,7 +149,8 @@ extension Reachability {
     ///     such as EDGE or GPRS.
     var isWWAN: Bool { return flags?.contains(.isWWAN) == true }
 
-    /// The specified node name or address can be reached using the current network configuration, but a connection must first be established.
+    /// The specified node name or address can be reached using the current network
+    /// configuration, but a connection must first be established.
     /// If this flag is set the specified node name or address can be reached via a transient connection, such as PPP.
     var isConnectionRequiredAndTransientConnection: Bool {
         return (flags?.intersection(
