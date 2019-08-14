@@ -18,9 +18,9 @@
 		73D7675C218BA66B00BD13B6 /* DEV_SimpleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D7675B218BA66B00BD13B6 /* DEV_SimpleUITests.swift */; };
 		73D7676B2190D88B00BD13B6 /* PushNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73D7676A2190D88B00BD13B6 /* PushNotifications.framework */; };
 		73E8ACC72192165E009CE057 /* BrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E8ACC62192165E009CE057 /* BrowserViewController.swift */; };
+		BA7610B322E20FB9004DBB9E /* MarqueeLabel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA7610B222E20FB9004DBB9E /* MarqueeLabel.framework */; };
 		BD5C906C21B63CCC000D9F79 /* NetworkReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5C906B21B63CCC000D9F79 /* NetworkReachability.swift */; };
 		BD5C906F21B6436F000D9F79 /* NotificationBanner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD5C906E21B6436F000D9F79 /* NotificationBanner.framework */; };
-		BD5C907121B645BE000D9F79 /* MarqueeLabelSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD5C907021B645BE000D9F79 /* MarqueeLabelSwift.framework */; };
 		BD5C907321B645CD000D9F79 /* SnapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD5C907221B645CD000D9F79 /* SnapKit.framework */; };
 		CCEA9AFC219B403100AEF5BE /* ViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCEA9AFB219B403100AEF5BE /* ViewControllerTests.swift */; };
 		CCEA9AFE219B410300AEF5BE /* test.html in Resources */ = {isa = PBXBuildFile; fileRef = CCEA9AFD219B410300AEF5BE /* test.html */; };
@@ -62,6 +62,7 @@
 		73D767692190CE3900BD13B6 /* DEV-Simple.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "DEV-Simple.entitlements"; sourceTree = "<group>"; };
 		73D7676A2190D88B00BD13B6 /* PushNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PushNotifications.framework; path = Carthage/Build/iOS/PushNotifications.framework; sourceTree = "<group>"; };
 		73E8ACC62192165E009CE057 /* BrowserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserViewController.swift; sourceTree = "<group>"; };
+		BA7610B222E20FB9004DBB9E /* MarqueeLabel.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MarqueeLabel.framework; path = Carthage/Build/iOS/MarqueeLabel.framework; sourceTree = "<group>"; };
 		BD5C906B21B63CCC000D9F79 /* NetworkReachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkReachability.swift; sourceTree = "<group>"; };
 		BD5C906E21B6436F000D9F79 /* NotificationBanner.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationBanner.framework; path = Carthage/Build/iOS/NotificationBanner.framework; sourceTree = "<group>"; };
 		BD5C907021B645BE000D9F79 /* MarqueeLabelSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MarqueeLabelSwift.framework; path = Carthage/Build/iOS/MarqueeLabelSwift.framework; sourceTree = "<group>"; };
@@ -75,8 +76,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BA7610B322E20FB9004DBB9E /* MarqueeLabel.framework in Frameworks */,
 				BD5C907321B645CD000D9F79 /* SnapKit.framework in Frameworks */,
-				BD5C907121B645BE000D9F79 /* MarqueeLabelSwift.framework in Frameworks */,
 				BD5C906F21B6436F000D9F79 /* NotificationBanner.framework in Frameworks */,
 				73D7676B2190D88B00BD13B6 /* PushNotifications.framework in Frameworks */,
 			);
@@ -194,6 +195,7 @@
 		BD5C906D21B6436E000D9F79 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				BA7610B222E20FB9004DBB9E /* MarqueeLabel.framework */,
 				BD5C907221B645CD000D9F79 /* SnapKit.framework */,
 				BD5C907021B645BE000D9F79 /* MarqueeLabelSwift.framework */,
 				BD5C906E21B6436F000D9F79 /* NotificationBanner.framework */,
@@ -271,6 +273,7 @@
 				TargetAttributes = {
 					73D76737218BA66700BD13B6 = {
 						CreatedOnToolsVersion = 10.0;
+						LastSwiftMigration = 1020;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -372,7 +375,7 @@
 				"$(SRCROOT)/Carthage/Build/iOS/PushNotifications.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/NotificationBanner.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/SnapKit.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/MarqueeLabelSwift.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/MarqueeLabel.framework",
 			);
 			name = "Copy Carthage Frameworks";
 			outputFileListPaths = (
@@ -587,7 +590,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = to.dev.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -611,7 +614,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = to.dev.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

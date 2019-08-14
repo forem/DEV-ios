@@ -1,4 +1,4 @@
-github "Daltron/NotificationBanner" "2.1.0"
-github "SnapKit/SnapKit" "4.2.0"
-github "cbpowell/MarqueeLabel" "3.2.1"
-github "pusher/push-notifications-swift" "2.0.0"
+github "Daltron/NotificationBanner" "2.5.0"
+github "SnapKit/SnapKit" "5.0.0"
+github "cbpowell/MarqueeLabel" "4.0.0"
+github "pusher/push-notifications-swift" "2.1.2"

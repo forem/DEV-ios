@@ -320,7 +320,7 @@ extension ViewController: WKNavigationDelegate {
             errorBanner.show()
             return
         }
-        
+
         activityIndicator.startAnimating()
     }
 

@@ -17,7 +17,7 @@ class ViewControllerTests: XCTestCase {
     override func setUp() {
         let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
         viewController = mainStoryboard.instantiateInitialViewController() as? ViewController
-        viewController.devToURL = URL(fileURLWithPath: "test.html")
+        viewController.devToURL = "test.html"
         super.setUp()
     }
     
