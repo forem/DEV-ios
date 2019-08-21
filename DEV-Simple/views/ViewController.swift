@@ -149,6 +149,10 @@ class ViewController: UIViewController {
         }
     }
 
+    @IBAction func refreshButtonTapped(_ sender: Any) {
+        webView.reload()
+    }
+
     @IBAction func safariButtonTapped(_ sender: Any) {
         openInBrowser()
     }
