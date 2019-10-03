@@ -12,12 +12,6 @@ import UserNotifications
 import PushNotifications
 import NotificationBanner
 
-extension Notification.Name {
-    static let didReceiveData = Notification.Name("didReceiveData")
-    static let didCompleteTask = Notification.Name("didCompleteTask")
-    static let completedLengthyDownload = Notification.Name("completedLengthyDownload")
-}
-
 struct UserData: Codable {
     enum CodingKeys: String, CodingKey {
         case userID = "id"
@@ -395,15 +389,6 @@ extension ViewController: WKScriptMessageHandler {
                 let notification = UINotificationFeedbackGenerator()
                 notification.notificationOccurred(.success)
             }
-        }
-    }
-}
-
-extension WKWebView {
-    func load(_ urlString: String) {
-        if let url = URL(string: urlString) {
-            let request = URLRequest(url: url)
-            load(request)
         }
     }
 }
