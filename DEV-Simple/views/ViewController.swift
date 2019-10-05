@@ -226,11 +226,6 @@ class ViewController: UIViewController {
     }
 
     private func applyDarkTheme() {
-        guard let statusBarView = UIApplication.shared.value(forKeyPath: "statusBarWindow.statusBar") as? UIView else {
-            return
-        }
-
-        statusBarView.backgroundColor = darkBackgroundColor
         useDarkMode = true
         setNeedsStatusBarAppearanceUpdate()
         navigationToolBar.isTranslucent = false
