@@ -19,6 +19,8 @@
 		73D7676B2190D88B00BD13B6 /* PushNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73D7676A2190D88B00BD13B6 /* PushNotifications.framework */; };
 		73E8ACC72192165E009CE057 /* BrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E8ACC62192165E009CE057 /* BrowserViewController.swift */; };
 		BA7610B322E20FB9004DBB9E /* MarqueeLabel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA7610B222E20FB9004DBB9E /* MarqueeLabel.framework */; };
+		BD2103FE2345A5B000F1F6FB /* WKWebView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2103FD2345A5B000F1F6FB /* WKWebView+Extensions.swift */; };
+		BD2104002345A66B00F1F6FB /* Notification+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2103FF2345A66B00F1F6FB /* Notification+Extensions.swift */; };
 		BD5C906C21B63CCC000D9F79 /* NetworkReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5C906B21B63CCC000D9F79 /* NetworkReachability.swift */; };
 		BD5C906F21B6436F000D9F79 /* NotificationBanner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD5C906E21B6436F000D9F79 /* NotificationBanner.framework */; };
 		BD5C907321B645CD000D9F79 /* SnapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD5C907221B645CD000D9F79 /* SnapKit.framework */; };
@@ -63,6 +65,8 @@
 		73D7676A2190D88B00BD13B6 /* PushNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PushNotifications.framework; path = Carthage/Build/iOS/PushNotifications.framework; sourceTree = "<group>"; };
 		73E8ACC62192165E009CE057 /* BrowserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserViewController.swift; sourceTree = "<group>"; };
 		BA7610B222E20FB9004DBB9E /* MarqueeLabel.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MarqueeLabel.framework; path = Carthage/Build/iOS/MarqueeLabel.framework; sourceTree = "<group>"; };
+		BD2103FD2345A5B000F1F6FB /* WKWebView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WKWebView+Extensions.swift"; sourceTree = "<group>"; };
+		BD2103FF2345A66B00F1F6FB /* Notification+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Extensions.swift"; sourceTree = "<group>"; };
 		BD5C906B21B63CCC000D9F79 /* NetworkReachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkReachability.swift; sourceTree = "<group>"; };
 		BD5C906E21B6436F000D9F79 /* NotificationBanner.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationBanner.framework; path = Carthage/Build/iOS/NotificationBanner.framework; sourceTree = "<group>"; };
 		BD5C907021B645BE000D9F79 /* MarqueeLabelSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MarqueeLabelSwift.framework; path = Carthage/Build/iOS/MarqueeLabelSwift.framework; sourceTree = "<group>"; };
@@ -161,6 +165,7 @@
 		73D7673A218BA66700BD13B6 /* DEV-Simple */ = {
 			isa = PBXGroup;
 			children = (
+				BD2103FC2345A59900F1F6FB /* Extensions */,
 				1BA17C8B220C84C3007A8EF5 /* assets */,
 				1BA17C8A220C84A2007A8EF5 /* core */,
 				1BA17C89220C848B007A8EF5 /* storyboards */,
@@ -190,6 +195,15 @@
 				73D7675D218BA66B00BD13B6 /* Info.plist */,
 			);
 			path = "DEV-SimpleUITests";
+			sourceTree = "<group>";
+		};
+		BD2103FC2345A59900F1F6FB /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				BD2103FD2345A5B000F1F6FB /* WKWebView+Extensions.swift */,
+				BD2103FF2345A66B00F1F6FB /* Notification+Extensions.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		BD5C906D21B6436E000D9F79 /* Frameworks */ = {
@@ -398,8 +412,10 @@
 				73D7673E218BA66700BD13B6 /* ViewController.swift in Sources */,
 				73E8ACC72192165E009CE057 /* BrowserViewController.swift in Sources */,
 				73D7673C218BA66700BD13B6 /* AppDelegate.swift in Sources */,
+				BD2104002345A66B00F1F6FB /* Notification+Extensions.swift in Sources */,
 				1B032B1821E409FE00A2108A /* Globals.swift in Sources */,
 				BD5C906C21B63CCC000D9F79 /* NetworkReachability.swift in Sources */,
+				BD2103FE2345A5B000F1F6FB /* WKWebView+Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
