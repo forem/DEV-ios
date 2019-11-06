@@ -44,6 +44,12 @@
                                             <action selector="forwardButtonTapped:" destination="BYZ-38-t0r" id="SVx-iz-VOJ"/>
                                         </connections>
                                     </barButtonItem>
+                                    <barButtonItem systemItem="refresh" id="ufZ-bL-rY6">
+                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <connections>
+                                            <action selector="refreshButtonTapped:" destination="BYZ-38-t0r" id="0HM-2b-6FW"/>
+                                        </connections>
+                                    </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="Anc-Ki-ftU"/>
                                     <barButtonItem image="Safari" id="ax9-e8-CVX" userLabel="Safari">
                                         <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
