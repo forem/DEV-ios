@@ -302,10 +302,12 @@
 					};
 					73D7674B218BA66B00BD13B6 = {
 						CreatedOnToolsVersion = 10.0;
+						LastSwiftMigration = 1100;
 						TestTargetID = 73D76737218BA66700BD13B6;
 					};
 					73D76756218BA66B00BD13B6 = {
 						CreatedOnToolsVersion = 10.0;
+						LastSwiftMigration = 1100;
 						TestTargetID = 73D76737218BA66700BD13B6;
 					};
 				};
@@ -650,7 +652,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "DEV.DEV-SimpleTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DEV-Simple.app/DEV-Simple";
 			};
@@ -671,7 +673,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "DEV.DEV-SimpleTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DEV-Simple.app/DEV-Simple";
 			};
@@ -691,7 +693,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "DEV.DEV-SimpleUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = "DEV-Simple";
 			};
@@ -711,7 +713,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "DEV.DEV-SimpleUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = "DEV-Simple";
 			};

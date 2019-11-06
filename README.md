@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.com/thepracticaldev/DEV-ios.svg?branch=master)](https://travis-ci.com/thepracticaldev/DEV-ios)
 [![GitHub License](http://img.shields.io/badge/License-GPL%20v3-blue.svg?style=flat)](https://github.com/thepracticaldev/DEV-ios/blob/master/LICENSE)
-[![Language](https://img.shields.io/badge/Language-Swift_4.1-f48041.svg?style=flat)](https://developer.apple.com/swift)
+[![Language](https://img.shields.io/badge/Language-Swift_5-f48041.svg?style=flat)](https://developer.apple.com/swift)
 [![Maintainability](https://api.codeclimate.com/v1/badges/b162322067740725ad02/maintainability)](https://codeclimate.com/github/thepracticaldev/DEV-ios/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/b162322067740725ad02/test_coverage)](https://codeclimate.com/github/thepracticaldev/DEV-ios/test_coverage)
 
