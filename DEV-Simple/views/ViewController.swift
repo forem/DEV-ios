@@ -8,6 +8,7 @@
 
 import UIKit
 import WebKit
+import AVFoundation
 import UserNotifications
 import PushNotifications
 import NotificationBanner
@@ -63,6 +64,9 @@ class ViewController: UIViewController {
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var navigationToolBar: UIToolbar!
 
+    var avPlayer: AVPlayer?
+    var currentPodcast: AVPlayerItem?
+
     var lightAlpha = CGFloat(0.2)
     var useDarkMode = false
     let darkBackgroundColor = UIColor(red: 13/255, green: 18/255, blue: 25/255, alpha: 1)
@@ -75,7 +79,8 @@ class ViewController: UIViewController {
         return banner
     }()
 
-    var devToURL = "https://dev.to"
+    var devToURL = "http://localhost:3000"
+//    var devToURL = "https://dev.to"
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -88,6 +93,7 @@ class ViewController: UIViewController {
         webView.load(devToURL)
         webView.configuration.allowsInlineMediaPlayback = true
         webView.configuration.userContentController.add(self, name: "haptic")
+        webView.configuration.userContentController.add(self, name: "podcast")
         webView.allowsBackForwardNavigationGestures = true
         webView.addObserver(self, forKeyPath: #keyPath(WKWebView.canGoBack), options: [.new, .old], context: nil)
         webView.addObserver(self, forKeyPath: #keyPath(WKWebView.canGoForward), options: [.new, .old], context: nil)
@@ -387,6 +393,33 @@ extension ViewController: WKScriptMessageHandler {
             default:
                 let notification = UINotificationFeedbackGenerator()
                 notification.notificationOccurred(.success)
+            }
+        }
+
+        if message.name == "podcast", let message = message.body as? String {
+            switch message {
+            case "play":
+                avPlayer?.play()
+            case "pause":
+                avPlayer?.pause()
+            case "load":
+                let javascript = "document.getElementById('audio').querySelector('source').src"
+                webView.evaluateJavaScript(javascript) { [weak self] result, error in
+
+                    guard let self = self else { return }
+
+                    if let error = error {
+                        print("Error getting user data: \(error)")
+                    }
+
+                    guard let audioUrl = result as? String else { return }
+                    guard let url = NSURL(string: audioUrl) else { return }
+                    self.currentPodcast = AVPlayerItem.init(url: url as URL)
+                    self.avPlayer = AVPlayer.init(playerItem: self.currentPodcast)
+                    self.avPlayer?.volume = 1.0
+                }
+            default:
+                print("ERROR: Unknown action")
             }
         }
     }
