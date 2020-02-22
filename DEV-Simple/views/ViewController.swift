@@ -65,6 +65,7 @@ class ViewController: UIViewController {
 
     var lightAlpha = CGFloat(0.2)
     var useDarkMode = false
+    let statusBarStyleDarkContentRawValue = 3
     let darkBackgroundColor = UIColor(red: 13/255, green: 18/255, blue: 25/255, alpha: 1)
 
     let pushNotifications = PushNotifications.shared
@@ -302,6 +303,12 @@ class ViewController: UIViewController {
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
+        if #available(iOS 13.0, *) {
+            if !useDarkMode && traitCollection.userInterfaceStyle == .dark {
+                return UIStatusBarStyle.init(rawValue: statusBarStyleDarkContentRawValue)!
+            }
+        }
+
         return useDarkMode ? .lightContent : .default
     }
 }
