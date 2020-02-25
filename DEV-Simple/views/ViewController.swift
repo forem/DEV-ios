@@ -335,6 +335,7 @@ class ViewController: UIViewController {
         switch action {
         case "play":
             guard let parameter = parameter, let seconds = Double(parameter) else { return }
+            guard avPlayer?.timeControlStatus != .playing else { return }
             avPlayer?.seek(to: CMTime(seconds: seconds, preferredTimescale: CMTimeScale(NSEC_PER_SEC)))
             avPlayer?.play()
         case "pause":
