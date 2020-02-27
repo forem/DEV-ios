@@ -26,6 +26,9 @@
 		BD5C907321B645CD000D9F79 /* SnapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD5C907221B645CD000D9F79 /* SnapKit.framework */; };
 		CCEA9AFC219B403100AEF5BE /* ViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCEA9AFB219B403100AEF5BE /* ViewControllerTests.swift */; };
 		CCEA9AFE219B410300AEF5BE /* test.html in Resources */ = {isa = PBXBuildFile; fileRef = CCEA9AFD219B410300AEF5BE /* test.html */; };
+		DCEC88492406D58C00871B95 /* PodcastManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCEC88482406D58C00871B95 /* PodcastManager.swift */; };
+		DCEC884A2406D58C00871B95 /* PodcastManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCEC88482406D58C00871B95 /* PodcastManager.swift */; };
+		DCEC884B2406D58C00871B95 /* PodcastManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCEC88482406D58C00871B95 /* PodcastManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +76,7 @@
 		BD5C907221B645CD000D9F79 /* SnapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SnapKit.framework; path = Carthage/Build/iOS/SnapKit.framework; sourceTree = "<group>"; };
 		CCEA9AFB219B403100AEF5BE /* ViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerTests.swift; sourceTree = "<group>"; };
 		CCEA9AFD219B410300AEF5BE /* test.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = test.html; sourceTree = "<group>"; };
+		DCEC88482406D58C00871B95 /* PodcastManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,6 +130,7 @@
 			isa = PBXGroup;
 			children = (
 				1B032B1721E409FE00A2108A /* Globals.swift */,
+				DCEC88482406D58C00871B95 /* PodcastManager.swift */,
 				73D7673B218BA66700BD13B6 /* AppDelegate.swift */,
 			);
 			path = core;
@@ -229,7 +234,6 @@
 				73D76736218BA66700BD13B6 /* Resources */,
 				73D7676C2190D8D900BD13B6 /* Copy Carthage Frameworks */,
 				1BE5876521B1868C00CCF86E /* SwiftLint */,
-				DC701A8923FA467B009C0C64 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -405,23 +409,6 @@
 			shellPath = /bin/sh;
 			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n/usr/local/bin/carthage copy-frameworks\n";
 		};
-		DC701A8923FA467B009C0C64 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -430,6 +417,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				73D7673E218BA66700BD13B6 /* ViewController.swift in Sources */,
+				DCEC88492406D58C00871B95 /* PodcastManager.swift in Sources */,
 				73E8ACC72192165E009CE057 /* BrowserViewController.swift in Sources */,
 				73D7673C218BA66700BD13B6 /* AppDelegate.swift in Sources */,
 				BD2104002345A66B00F1F6FB /* Notification+Extensions.swift in Sources */,
@@ -445,6 +433,7 @@
 			files = (
 				CCEA9AFC219B403100AEF5BE /* ViewControllerTests.swift in Sources */,
 				73D76751218BA66B00BD13B6 /* DEV_SimpleTests.swift in Sources */,
+				DCEC884A2406D58C00871B95 /* PodcastManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -453,6 +442,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				73D7675C218BA66B00BD13B6 /* DEV_SimpleUITests.swift in Sources */,
+				DCEC884B2406D58C00871B95 /* PodcastManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

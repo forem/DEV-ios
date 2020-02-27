@@ -8,7 +8,6 @@
 
 import UIKit
 import WebKit
-import AVFoundation
 import UserNotifications
 import PushNotifications
 import NotificationBanner
@@ -64,10 +63,6 @@ class ViewController: UIViewController {
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var navigationToolBar: UIToolbar!
 
-    var avPlayer: AVPlayer?
-    var currentPodcast: AVPlayerItem?
-    var currentPodcastURL: String?
-
     var lightAlpha = CGFloat(0.2)
     var useDarkMode = false
     let darkBackgroundColor = UIColor(red: 13/255, green: 18/255, blue: 25/255, alpha: 1)
@@ -80,6 +75,7 @@ class ViewController: UIViewController {
         return banner
     }()
 
+    var podcastManager: PodcastManager?
     var devToURL = "https://dev.to"
 
     override func viewDidLoad() {
@@ -313,62 +309,6 @@ class ViewController: UIViewController {
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return useDarkMode ? .lightContent : .default
     }
-
-    // MARK: - Podcast bridge method
-
-    func sendPodcastMessage(name: String, parameter: String?) {
-        var message = name
-        if let parameter = parameter {
-            message += ";\(parameter)"
-        }
-        let javascript = "document.getElementById('audiocontent').setAttribute('data-podcast', '\(message)')"
-        webView.evaluateJavaScript(javascript) { _, error in
-            if let error = error {
-                print("Error sending Podcast message (\(message)): \(error.localizedDescription)")
-            }
-        }
-    }
-
-    func handlePodcastMessage(action: String?, parameter: String?) {
-        guard let action = action else { return }
-
-        switch action {
-        case "play":
-            guard let parameter = parameter, let seconds = Double(parameter) else { return }
-            guard avPlayer?.timeControlStatus != .playing else { return }
-            avPlayer?.seek(to: CMTime(seconds: seconds, preferredTimescale: CMTimeScale(NSEC_PER_SEC)))
-            avPlayer?.play()
-        case "pause":
-            avPlayer?.pause()
-        case "load":
-            guard let audioUrl = parameter, currentPodcastURL != audioUrl else { return }
-            guard let url = NSURL(string: audioUrl) else { return }
-            currentPodcastURL = audioUrl
-            currentPodcast = AVPlayerItem.init(url: url as URL)
-            avPlayer = AVPlayer.init(playerItem: currentPodcast)
-            avPlayer?.volume = 1.0
-            let interval = CMTime(seconds: 0.5, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
-            avPlayer?.addPeriodicTimeObserver(forInterval: interval, queue: DispatchQueue.main) { [weak self] time in
-                let currentTime = String(format: "%.4f", time.seconds)
-                self?.sendPodcastMessage(name: "time", parameter: currentTime)
-
-                guard let duration = self?.currentPodcast?.duration.seconds else { return }
-                self?.sendPodcastMessage(name: "duration", parameter: String(format: "%.4f", duration))
-            }
-        case "seek":
-            guard let parameter = parameter, let seconds = Double(parameter) else { return }
-            avPlayer?.seek(to: CMTime(seconds: seconds, preferredTimescale: CMTimeScale(NSEC_PER_SEC)))
-        case "rate":
-            guard let parameter = parameter, let rate = Float(parameter) else { return }
-            avPlayer?.rate = rate
-        case "muted":
-            avPlayer?.isMuted = parameter == "true"
-        case "terminate":
-            avPlayer?.pause()
-        default:
-            print("ERROR: Unknown action")
-        }
-    }
 }
 
 extension ViewController: WKNavigationDelegate {
@@ -400,7 +340,6 @@ extension ViewController: WKNavigationDelegate {
                 }
             }
         }
-
         activityIndicator.stopAnimating()
     }
 
@@ -456,14 +395,26 @@ extension ViewController: WKScriptMessageHandler {
         }
 
         if message.name == "podcast", let message = message.body as? String {
-            var action, parameter: String?
-            if let separatorIndex = message.firstIndex(of: ";") {
-                action = String(message[..<separatorIndex])
-                parameter = String(message[message.index(after: separatorIndex)...])
-            } else {
-                action = message
+            if podcastManager == nil {
+               podcastManager = PodcastManager(delegate: self)
             }
-            handlePodcastMessage(action: action, parameter: parameter)
+            podcastManager?.handlePodcastMessage(message)
+        }
+    }
+}
+
+extension ViewController: PodcastManagerDelegate {
+    func sendPodcastMessage(name: String, parameter: String?) {
+        var message = name
+        if let parameter = parameter {
+            message += ";\(parameter)"
+        }
+
+        let javascript = "document.getElementById('audiocontent').setAttribute('data-podcast', '\(message)')"
+        webView.evaluateJavaScript(javascript) { _, error in
+            if let error = error {
+                print("Error sending Podcast message (\(message)): \(error.localizedDescription)")
+            }
         }
     }
 }
