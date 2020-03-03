@@ -19,10 +19,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Silver" translatesAutoresizingMaskIntoConstraints="NO" id="vbi-aI-w68">
-                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <rect key="frame" x="0.0" y="10" width="375" height="657"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Jmv-kW-DVW">
-                                <rect key="frame" x="0.0" y="242" width="375" height="240"/>
+                                <rect key="frame" x="-82.5" y="213.5" width="540" height="240"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="240" id="UNt-zA-3Lw"/>
                                 </constraints>
@@ -31,17 +31,11 @@
                         <color key="backgroundColor" red="0.68766850233078003" green="0.68446153402328491" blue="0.70595914125442505" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="vbi-aI-w68" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="7QL-G9-jPt"/>
-                            <constraint firstItem="vbi-aI-w68" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="AwS-vv-BXj"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="vbi-aI-w68" secondAttribute="bottom" id="Kop-a2-iVt"/>
-                            <constraint firstItem="Jmv-kW-DVW" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="LnU-en-uB2"/>
                             <constraint firstItem="vbi-aI-w68" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="-10" id="OI3-bP-zSM"/>
-                            <constraint firstItem="vbi-aI-w68" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="WMD-eq-kQf"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="vbi-aI-w68" secondAttribute="trailing" id="X3y-bb-a9T"/>
-                            <constraint firstItem="vbi-aI-w68" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="XWU-ya-Klu"/>
-                            <constraint firstItem="vbi-aI-w68" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="bRl-Ya-mil"/>
-                            <constraint firstItem="Jmv-kW-DVW" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="222" id="iha-sr-zAq"/>
-                            <constraint firstItem="Jmv-kW-DVW" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="jVa-Dm-m9E"/>
-                            <constraint firstItem="vbi-aI-w68" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="jew-hP-x4M"/>
+                            <constraint firstItem="Jmv-kW-DVW" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="gEc-HH-0yR"/>
+                            <constraint firstItem="Jmv-kW-DVW" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="j3T-Ma-0iB"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
