@@ -7,76 +7,45 @@
 //
 
 import UIKit
+import WebKit
 import Foundation
 import AVFoundation
 import MediaPlayer
 
-protocol PodcastManagerDelegate: class {
-    func sendPodcastMessage(name: String, parameter: String?)
-}
+class MediaManager: NSObject {
 
-class PodcastManager: NSObject {
-
-    weak var delegate: PodcastManagerDelegate?
+    weak var webView: WKWebView?
 
     var avPlayer: AVPlayer?
+
     var currentPodcast: AVPlayerItem?
     var currentPodcastURL: String?
     var episodeName: String?
     var podcastName: String?
-    var podcastImageUrl: String?
 
-    init(delegate: PodcastManagerDelegate) {
-        self.delegate = delegate
+    init(webView: WKWebView) {
+        self.webView = webView
     }
 
-    func handlePodcastMessage(_ message: String) {
-        var action = message
-        var parameter: String?
-        if let separatorIndex = message.firstIndex(of: ";") {
-            action = String(message[..<separatorIndex])
-            parameter = String(message[message.index(after: separatorIndex)...])
-        }
-
-        if let parameter = parameter {
-            podcastAction(action, parameter: parameter)
-        } else {
-            podcastAction(action)
-        }
-    }
-
-    // MARK: - Action Management Functions
-
-    private func podcastAction(_ action: String, parameter: String) {
-        switch action {
+    func handlePodcastMessage(_ message: [String: String]) {
+        switch message["action"] {
         case "play":
-            guard let seconds = Double(parameter) else { return }
-            play(at: seconds)
+            play(at: message["seconds"])
         case "load":
-            load(with: parameter)
+            load(audioUrl: message["url"])
         case "seek":
-            seek(with: parameter)
+            seek(to: message["seconds"])
         case "rate":
-            rate(with: parameter)
+            rate(speed: message["rate"])
         case "muted":
-            avPlayer?.isMuted = (parameter == "true")
-        case "episodeName":
-            episodeName = parameter
-        case "podcastName":
-            podcastName = parameter
-        case "podcastImage":
-            podcastImageUrl = parameter
-        default:
-            print("ERROR: Unknown action")
-        }
-    }
-
-    private func podcastAction(_ action: String) {
-        switch action {
+            avPlayer?.isMuted = (message["muted"] == "true")
         case "pause":
             avPlayer?.pause()
         case "terminate":
             avPlayer?.pause()
+        case "metadata":
+            episodeName = message["episodeName"]
+            podcastName = message["podcastName"]
         default:
             print("ERROR: Unknown action")
         }
@@ -84,7 +53,8 @@ class PodcastManager: NSObject {
 
     // MARK: - Action Functions
 
-    private func play(at seconds: Double) {
+    private func play(at seconds: String?) {
+        guard let secondsStr = seconds, let seconds = Double(secondsStr) else { return }
         guard avPlayer?.timeControlStatus != .playing else { return }
         avPlayer?.seek(to: CMTime(seconds: seconds, preferredTimescale: CMTimeScale(NSEC_PER_SEC)))
         avPlayer?.play()
@@ -92,35 +62,58 @@ class PodcastManager: NSObject {
         setupNowPlayingInfoCenter()
     }
 
-    private func seek(with parameter: String) {
-        guard let seconds = Double(parameter) else { return }
+    private func seek(to seconds: String?) {
+        guard let secondsStr = seconds, let seconds = Double(secondsStr) else { return }
         avPlayer?.seek(to: CMTime(seconds: seconds, preferredTimescale: CMTimeScale(NSEC_PER_SEC)))
     }
 
-    private func rate(with parameter: String) {
-        guard let rate = Float(parameter) else { return }
+    private func rate(speed: String?) {
+        guard let rateStr = speed, let rate = Float(rateStr) else { return }
         avPlayer?.rate = rate
     }
 
-    private func load(with audioUrl: String) {
-        guard currentPodcastURL != audioUrl else { return }
-        guard let url = NSURL(string: audioUrl) else { return }
+    private func load(audioUrl: String?) {
+        guard currentPodcastURL != audioUrl && audioUrl != nil else { return }
+        guard let url = NSURL(string: audioUrl!) else { return }
         currentPodcastURL = audioUrl
         currentPodcast = AVPlayerItem.init(url: url as URL)
         avPlayer = AVPlayer.init(playerItem: currentPodcast)
         avPlayer?.volume = 1.0
 
-        delegate?.sendPodcastMessage(name: "duration", parameter: String(format: "%.4f", 0))
-        delegate?.sendPodcastMessage(name: "time", parameter: String(format: "%.4f", 0))
+        let message = [
+            "action": "tick",
+            "duration": String(format: "%.4f", 0),
+            "currentTime": String(format: "%.4f", 0)
+        ]
+        sendPodcastMessage(message)
 
         let interval = CMTime(seconds: 0.5, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
         avPlayer?.addPeriodicTimeObserver(forInterval: interval, queue: DispatchQueue.main) { [weak self] _ in
             guard let duration = self?.currentPodcast?.duration.seconds else { return }
-            self?.delegate?.sendPodcastMessage(name: "duration", parameter: String(format: "%.4f", duration))
-
             let time: Double = self?.avPlayer?.currentTime().seconds ?? 0
-            let currentTime = String(format: "%.4f", time)
-            self?.delegate?.sendPodcastMessage(name: "time", parameter: currentTime)
+
+            let message = [
+                "action": "tick",
+                "duration": String(format: "%.4f", duration),
+                "currentTime": String(format: "%.4f", time)
+            ]
+            self?.sendPodcastMessage(message)
+            self?.updateNowPlayingInfoCenter()
+        }
+    }
+
+    private func sendPodcastMessage(_ message: [String: String]) {
+        var jsonString = ""
+        let encoder = JSONEncoder()
+        if let jsonData = try? encoder.encode(message) {
+            jsonString = String(data: jsonData, encoding: .utf8) ?? ""
+        }
+
+        let javascript = "document.getElementById('audiocontent').setAttribute('data-podcast', '\(jsonString)')"
+        webView?.evaluateJavaScript(javascript) { _, error in
+            if let error = error {
+                print("Error sending Podcast message (\(message)): \(error.localizedDescription)")
+            }
         }
     }
 
@@ -129,7 +122,7 @@ class PodcastManager: NSObject {
     private func setupNowPlayingInfoCenter() {
         UIApplication.shared.beginReceivingRemoteControlEvents()
         MPRemoteCommandCenter.shared().playCommand.addTarget { _ in
-            self.play(at: self.avPlayer?.currentTime().seconds ?? 0)
+            self.play(at: String(self.avPlayer?.currentTime().seconds ?? 0))
             self.updateNowPlayingInfoCenter()
             return .success
         }
@@ -147,9 +140,9 @@ class PodcastManager: NSObject {
 
     private func updateNowPlayingInfoCenter() {
         MPNowPlayingInfoCenter.default().nowPlayingInfo = [
-            MPMediaItemPropertyTitle: episodeName ?? "Podcast @ DEV",
+            MPMediaItemPropertyTitle: episodeName ?? "Podcast",
             MPMediaItemPropertyAlbumTitle: "",
-            MPMediaItemPropertyArtist: podcastName ?? "",
+            MPMediaItemPropertyArtist: podcastName ?? "DEV Community",
             MPMediaItemPropertyPlaybackDuration: avPlayer?.currentItem?.duration.seconds ?? 0,
             MPNowPlayingInfoPropertyElapsedPlaybackTime: avPlayer?.currentTime().seconds ?? 0
         ]

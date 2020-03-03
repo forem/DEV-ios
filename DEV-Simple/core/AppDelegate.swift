@@ -28,7 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             try audioSession.setCategory(.playback, options: .allowBluetoothA2DP)
             try audioSession.setActive(true)
         } catch {
-            print("Failed to set audio session category & .")
+            print("Failed to set audio session category")
         }
 
         setupReachability()
