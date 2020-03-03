@@ -104,40 +104,34 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1BA17C88220C847B007A8EF5 /* views */ = {
-			isa = PBXGroup;
-			children = (
-				73D7673D218BA66700BD13B6 /* ViewController.swift */,
-				73E8ACC62192165E009CE057 /* BrowserViewController.swift */,
-			);
-			path = views;
-			sourceTree = "<group>";
-		};
-		1BA17C89220C848B007A8EF5 /* storyboards */ = {
+		1BA17C89220C848B007A8EF5 /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
 				73D76744218BA66B00BD13B6 /* LaunchScreen.storyboard */,
 				73D7673F218BA66700BD13B6 /* Main.storyboard */,
 			);
-			path = storyboards;
+			path = Storyboards;
 			sourceTree = "<group>";
 		};
-		1BA17C8A220C84A2007A8EF5 /* core */ = {
+		1BA17C8A220C84A2007A8EF5 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				1B032B1721E409FE00A2108A /* Globals.swift */,
+				73D76747218BA66B00BD13B6 /* Info.plist */,
 				73D7673B218BA66700BD13B6 /* AppDelegate.swift */,
+				1B032B1721E409FE00A2108A /* Globals.swift */,
+				BD5C906B21B63CCC000D9F79 /* NetworkReachability.swift */,
+				BD2103FC2345A59900F1F6FB /* Extensions */,
 			);
-			path = core;
+			path = Utilities;
 			sourceTree = "<group>";
 		};
-		1BA17C8B220C84C3007A8EF5 /* assets */ = {
+		1BA17C8B220C84C3007A8EF5 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
 				73D76742218BA66B00BD13B6 /* Assets.xcassets */,
 				1BA17C86220C8470007A8EF5 /* invertedImages.css */,
 			);
-			path = assets;
+			path = Assets;
 			sourceTree = "<group>";
 		};
 		73D7672F218BA66700BD13B6 = {
@@ -165,14 +159,11 @@
 		73D7673A218BA66700BD13B6 /* DEV-Simple */ = {
 			isa = PBXGroup;
 			children = (
-				BD2103FC2345A59900F1F6FB /* Extensions */,
-				1BA17C8B220C84C3007A8EF5 /* assets */,
-				1BA17C8A220C84A2007A8EF5 /* core */,
-				1BA17C89220C848B007A8EF5 /* storyboards */,
-				1BA17C88220C847B007A8EF5 /* views */,
+				73D7673D218BA66700BD13B6 /* ViewController.swift */,
+				73E8ACC62192165E009CE057 /* BrowserViewController.swift */,
+				BAD22374240EAEF100C98292 /* Resources */,
+				1BA17C8A220C84A2007A8EF5 /* Utilities */,
 				73D767692190CE3900BD13B6 /* DEV-Simple.entitlements */,
-				73D76747218BA66B00BD13B6 /* Info.plist */,
-				BD5C906B21B63CCC000D9F79 /* NetworkReachability.swift */,
 			);
 			path = "DEV-Simple";
 			sourceTree = "<group>";
@@ -195,6 +186,15 @@
 				73D7675D218BA66B00BD13B6 /* Info.plist */,
 			);
 			path = "DEV-SimpleUITests";
+			sourceTree = "<group>";
+		};
+		BAD22374240EAEF100C98292 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				1BA17C8B220C84C3007A8EF5 /* Assets */,
+				1BA17C89220C848B007A8EF5 /* Storyboards */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		BD2103FC2345A59900F1F6FB /* Extensions */ = {
