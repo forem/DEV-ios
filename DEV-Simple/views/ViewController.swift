@@ -328,7 +328,7 @@ extension ViewController: WKNavigationDelegate {
             if let error = error {
                 print("Error getting user data: \(error)")
             }
-            
+
             if let jsonString = result as? String {
                 self.modifyShellDesign()
                 if jsonString == "logged-in" {
