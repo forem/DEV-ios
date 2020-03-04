@@ -23,6 +23,8 @@ struct UserData: Codable {
 
 class ViewController: UIViewController {
 
+    private var observations: [NSKeyValueObservation] = []
+
     @IBOutlet weak var backButton: UIBarButtonItem!
     @IBOutlet weak var forwardButton: UIBarButtonItem!
     @IBOutlet weak var webView: DEVWKWebView!
@@ -56,9 +58,7 @@ class ViewController: UIViewController {
         webView.configuration.allowsInlineMediaPlayback = true
         webView.configuration.userContentController.add(self, name: "haptic")
         webView.allowsBackForwardNavigationGestures = true
-        webView.addObserver(self, forKeyPath: #keyPath(WKWebView.canGoBack), options: [.new, .old], context: nil)
-        webView.addObserver(self, forKeyPath: #keyPath(WKWebView.canGoForward), options: [.new, .old], context: nil)
-        webView.addObserver(self, forKeyPath: #keyPath(WKWebView.url), options: [.new, .old], context: nil)
+        setupObservers()
         addShellShadow()
         let notificationName = Notification.Name("updateWebView")
         NotificationCenter.default.addObserver(
@@ -116,17 +116,6 @@ class ViewController: UIViewController {
 
     @IBAction func safariButtonTapped(_ sender: Any) {
         openInBrowser()
-    }
-
-    // MARK: - Observers
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey:Any]?,
-                               context: UnsafeMutableRawPointer?) {
-        backButton.isEnabled = webView.canGoBack
-        forwardButton.isEnabled = webView.canGoForward
-        if let url = webView.url {
-             webView.scrollView.isScrollEnabled = !(url.path.hasPrefix("/connect")) //Remove scroll if /connect view
-        }
-        modifyShellDesign()
     }
 
     @objc func updateWebView() {
@@ -270,6 +259,30 @@ class ViewController: UIViewController {
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return useDarkMode ? .lightContent : .default
+    }
+
+    private func setupObservers() {
+        observations = [
+            webView.observe(\DEVWKWebView.canGoBack, options: [.new, .old], changeHandler: { _, _ in
+                self.updateNavigationBar()
+            }),
+            webView.observe(\DEVWKWebView.canGoForward, options: [.new, .old], changeHandler: { _, _ in
+                self.updateNavigationBar()
+            }),
+
+            webView.observe(\DEVWKWebView.url, options: [.new, .old], changeHandler: { _, _ in
+                self.updateNavigationBar()
+            })
+        ]
+    }
+
+    private func updateNavigationBar() {
+        backButton.isEnabled = webView.canGoBack
+        forwardButton.isEnabled = webView.canGoForward
+        if let url = webView.url {
+            webView.scrollView.isScrollEnabled = !(url.path.hasPrefix("/connect")) //Remove scroll if /connect view
+        }
+        modifyShellDesign()
     }
 }
 
