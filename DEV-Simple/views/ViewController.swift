@@ -75,7 +75,20 @@ class ViewController: UIViewController {
         return banner
     }()
 
-    var devToURL = "https://dev.to"
+    lazy var mediaManager: MediaManager = {
+        return MediaManager(webView: self.webView)
+    }()
+
+    var devToURL: String = {
+        if let developmentURL = ProcessInfo.processInfo.environment["DEV_URL"] {
+            return developmentURL
+        }
+        return "https://dev.to"
+    }()
+    lazy var devToHost: String? = {
+        var url = URL(string: self.devToURL)
+        return url?.host
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -88,6 +101,7 @@ class ViewController: UIViewController {
         webView.load(devToURL)
         webView.configuration.allowsInlineMediaPlayback = true
         webView.configuration.userContentController.add(self, name: "haptic")
+        webView.configuration.userContentController.add(self, name: "podcast")
         webView.allowsBackForwardNavigationGestures = true
         webView.addObserver(self, forKeyPath: #keyPath(WKWebView.canGoBack), options: [.new, .old], context: nil)
         webView.addObserver(self, forKeyPath: #keyPath(WKWebView.canGoForward), options: [.new, .old], context: nil)
@@ -152,7 +166,7 @@ class ViewController: UIViewController {
     }
 
     // MARK: - Observers
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey:Any]?,
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?,
                                context: UnsafeMutableRawPointer?) {
         backButton.isEnabled = webView.canGoBack
         forwardButton.isEnabled = webView.canGoForward
@@ -202,7 +216,6 @@ class ViewController: UIViewController {
     func populateUserData() {
         let javascript = "document.getElementsByTagName('body')[0].getAttribute('data-user')"
         webView.evaluateJavaScript(javascript) { result, error in
-
             if let error = error {
                 print("Error getting user data: \(error)")
                 return
@@ -238,11 +251,7 @@ class ViewController: UIViewController {
     func modifyShellDesign() {
         let javascript = "document.getElementById('page-content').getAttribute('data-current-page')"
         webView.evaluateJavaScript(javascript) { [weak self] result, error in
-
-            guard let self = self else {
-                return
-            }
-
+            guard let self = self else { return }
             if let error = error {
                 print("Error getting user data: \(error)")
             }
@@ -274,11 +283,7 @@ class ViewController: UIViewController {
         let center = UNUserNotificationCenter.current()
         let options: UNAuthorizationOptions = [.alert, .sound, .badge]
         center.requestAuthorization(options: options) { [weak self] granted, _  in
-
-            guard let self = self else {
-                return
-            }
-
+            guard let self = self else { return }
             guard granted else { return }
             self.getNotificationSettings()
         }
@@ -313,21 +318,17 @@ extension ViewController: WKNavigationDelegate {
             errorBanner.show()
             return
         }
-
         activityIndicator.startAnimating()
     }
 
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         let javascript = "document.getElementsByTagName('body')[0].getAttribute('data-user-status')"
         webView.evaluateJavaScript(javascript) { [weak self] result, error in
-
-            guard let self = self else {
-                return
-            }
-
+            guard let self = self else { return }
             if let error = error {
                 print("Error getting user data: \(error)")
             }
+
             if let jsonString = result as? String {
                 self.modifyShellDesign()
                 if jsonString == "logged-in" {
@@ -335,7 +336,6 @@ extension ViewController: WKNavigationDelegate {
                 }
             }
         }
-
         activityIndicator.stopAnimating()
     }
 
@@ -360,7 +360,7 @@ extension ViewController: WKNavigationDelegate {
             return .allow
         } else if isAuthLink(url) {
             return .allow
-        } else if url.host != "dev.to" && navigationType.rawValue == 0 {
+        } else if url.host != devToHost && navigationType.rawValue == 0 {
             performSegue(withIdentifier: DoAction.openExternalURL, sender: url)
             return .cancel
         } else {
@@ -369,9 +369,8 @@ extension ViewController: WKNavigationDelegate {
     }
 }
 
+// MARK: - webkit messagehandler protocol
 extension ViewController: WKScriptMessageHandler {
-
-    // MARK: - webkit messagehandler protocol
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         if message.name == "haptic", let hapticType = message.body as? String {
             switch hapticType {
@@ -388,6 +387,10 @@ extension ViewController: WKScriptMessageHandler {
                 let notification = UINotificationFeedbackGenerator()
                 notification.notificationOccurred(.success)
             }
+        }
+
+        if message.name == "podcast", let message = message.body as? [String: String] {
+            mediaManager.handlePodcastMessage(message)
         }
     }
 }
