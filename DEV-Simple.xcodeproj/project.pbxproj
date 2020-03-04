@@ -26,6 +26,7 @@
 		BD5C907321B645CD000D9F79 /* SnapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD5C907221B645CD000D9F79 /* SnapKit.framework */; };
 		CCEA9AFC219B403100AEF5BE /* ViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCEA9AFB219B403100AEF5BE /* ViewControllerTests.swift */; };
 		CCEA9AFE219B410300AEF5BE /* test.html in Resources */ = {isa = PBXBuildFile; fileRef = CCEA9AFD219B410300AEF5BE /* test.html */; };
+		DC7C024C2409AAE100926396 /* DEV-Simple.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 73D767692190CE3900BD13B6 /* DEV-Simple.entitlements */; };
 		DCEC88492406D58C00871B95 /* MediaManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCEC88482406D58C00871B95 /* MediaManager.swift */; };
 		DCEC884A2406D58C00871B95 /* MediaManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCEC88482406D58C00871B95 /* MediaManager.swift */; };
 		DCEC884B2406D58C00871B95 /* MediaManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCEC88482406D58C00871B95 /* MediaManager.swift */; };
@@ -342,6 +343,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DC7C024C2409AAE100926396 /* DEV-Simple.entitlements in Resources */,
 				1BA17C87220C8470007A8EF5 /* invertedImages.css in Resources */,
 				73D76746218BA66B00BD13B6 /* LaunchScreen.storyboard in Resources */,
 				73D76743218BA66B00BD13B6 /* Assets.xcassets in Resources */,
