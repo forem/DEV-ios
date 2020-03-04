@@ -8,6 +8,7 @@
 
 import UIKit
 import PushNotifications
+import AVFoundation
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -21,6 +22,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.pushNotifications.start(instanceId: "cdaf9857-fad0-4bfb-b360-64c1b2693ef3")
         self.pushNotifications.registerForRemoteNotifications()
         try? self.pushNotifications.addDeviceInterest(interest: "broadcast")
+
+        let audioSession = AVAudioSession.sharedInstance()
+        do {
+            try audioSession.setCategory(.playback, options: .allowBluetoothA2DP)
+            try audioSession.setActive(true)
+        } catch {
+            print("Failed to set audio session category")
+        }
 
         setupReachability()
 

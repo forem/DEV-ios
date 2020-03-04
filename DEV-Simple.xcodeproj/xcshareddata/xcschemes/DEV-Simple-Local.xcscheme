@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1010"
+   LastUpgradeVersion = "1130"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -27,36 +27,7 @@
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "73D76737218BA66700BD13B6"
-            BuildableName = "DEV-Simple.app"
-            BlueprintName = "DEV-Simple"
-            ReferencedContainer = "container:DEV-Simple.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "73D7674B218BA66B00BD13B6"
-               BuildableName = "DEV-SimpleTests.xctest"
-               BlueprintName = "DEV-SimpleTests"
-               ReferencedContainer = "container:DEV-Simple.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "73D76756218BA66B00BD13B6"
-               BuildableName = "DEV-SimpleUITests.xctest"
-               BlueprintName = "DEV-SimpleUITests"
-               ReferencedContainer = "container:DEV-Simple.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
@@ -79,6 +50,13 @@
             ReferencedContainer = "container:DEV-Simple.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <EnvironmentVariables>
+         <EnvironmentVariable
+            key = "DEV_URL"
+            value = "http://localhost:3000"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+      </EnvironmentVariables>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
