@@ -25,6 +25,7 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var backButton: UIBarButtonItem!
     @IBOutlet weak var forwardButton: UIBarButtonItem!
+    @IBOutlet weak var refreshButton: UIBarButtonItem!
     @IBOutlet lazy var webView: WKWebView! = {
 
         if !UIAccessibility.isInvertColorsEnabled {
@@ -245,6 +246,7 @@ class ViewController: UIViewController {
         safariButton.tintColor = UIColor.white
         backButton.tintColor = UIColor.white
         forwardButton.tintColor = UIColor.white
+        refreshButton.tintColor = UIColor.white
         view.backgroundColor = darkBackgroundColor
         activityIndicator.color = UIColor.white
     }
@@ -395,7 +397,6 @@ extension ViewController: WKScriptMessageHandler {
                 notification.notificationOccurred(.success)
             }
         }
-
         if message.name == "podcast", let message = message.body as? [String: String] {
             mediaManager.handlePodcastMessage(message)
         }
