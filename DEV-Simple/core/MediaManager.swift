@@ -62,7 +62,7 @@ class MediaManager: NSObject {
         avPlayer?.play()
         updateNowPlayingInfoCenter()
         setupNowPlayingInfoCenter()
-        if (podcastRate != nil) {
+        if podcastRate != nil {
             rate(speed: podcastRate)
         }
     }
