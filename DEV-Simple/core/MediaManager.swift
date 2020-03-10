@@ -66,7 +66,7 @@ class MediaManager: NSObject {
         guard let secondsStr = seconds, let seconds = Double(secondsStr) else { return }
         avPlayer?.seek(to: CMTime(seconds: seconds, preferredTimescale: CMTimeScale(NSEC_PER_SEC)))
     }
-    
+
     private func seekForward(_ sender: Any) {
         guard let duration  = avPlayer?.currentItem?.duration else {
             return
@@ -81,7 +81,7 @@ class MediaManager: NSObject {
 
         }
     }
-    
+
     private func seekBackward(_ sender: Any) {
         let playerCurrentTime = CMTimeGetSeconds(avPlayer!.currentTime())
             var newTime = playerCurrentTime - 15
