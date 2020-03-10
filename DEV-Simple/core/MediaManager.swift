@@ -23,6 +23,8 @@ class MediaManager: NSObject {
     var episodeName: String?
     var podcastName: String?
     var podcastRate: String?
+    var podcastImageUrl: String?
+    var podcastImageFetched: Bool = false
 
     init(webView: WKWebView) {
         self.webView = webView
@@ -49,6 +51,10 @@ class MediaManager: NSObject {
         case "metadata":
             episodeName = message["episodeName"]
             podcastName = message["podcastName"]
+            if let newImageUrl = message["podcastImageUrl"], newImageUrl != podcastImageUrl {
+                podcastImageUrl = newImageUrl
+                podcastImageFetched = false
+            }
         default:
             print("ERROR: Unknown action")
         }
@@ -176,12 +182,24 @@ class MediaManager: NSObject {
     }
 
     private func updateNowPlayingInfoCenter() {
-        MPNowPlayingInfoCenter.default().nowPlayingInfo = [
-            MPMediaItemPropertyTitle: episodeName ?? "Podcast",
-            MPMediaItemPropertyAlbumTitle: "",
-            MPMediaItemPropertyArtist: podcastName ?? "DEV Community",
-            MPMediaItemPropertyPlaybackDuration: avPlayer?.currentItem?.duration.seconds ?? 0,
-            MPNowPlayingInfoPropertyElapsedPlaybackTime: avPlayer?.currentTime().seconds ?? 0
-        ]
+        var info = MPNowPlayingInfoCenter.default().nowPlayingInfo ?? [:]
+        info[MPMediaItemPropertyTitle] = episodeName ?? "Podcast"
+        info[MPMediaItemPropertyArtist] = podcastName ?? "DEV Community"
+        info[MPMediaItemPropertyPlaybackDuration] = avPlayer?.currentItem?.duration.seconds ?? 0
+        info[MPNowPlayingInfoPropertyElapsedPlaybackTime] = avPlayer?.currentTime().seconds ?? 0
+        MPNowPlayingInfoCenter.default().nowPlayingInfo = info
+
+        // Only attempt to fetch the image once
+        guard !podcastImageFetched else { return }
+        podcastImageFetched = true
+        guard podcastImageUrl != nil, let imageURL = URL(string: podcastImageUrl!) else { return }
+        let task = URLSession.shared.dataTask(with: imageURL) { data, response, error in
+            guard let data = data, error == nil else { return }
+            guard let mimeType = response?.mimeType, mimeType.contains("image/") else { return }
+            guard let image = UIImage(data: data) else { return }
+            let artwork = MPMediaItemArtwork(boundsSize: image.size) { _ in return image }
+            MPNowPlayingInfoCenter.default().nowPlayingInfo?[MPMediaItemPropertyArtwork] = artwork
+        }
+        task.resume()
     }
 }
