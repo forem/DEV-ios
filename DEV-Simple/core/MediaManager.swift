@@ -66,6 +66,32 @@ class MediaManager: NSObject {
         guard let secondsStr = seconds, let seconds = Double(secondsStr) else { return }
         avPlayer?.seek(to: CMTime(seconds: seconds, preferredTimescale: CMTimeScale(NSEC_PER_SEC)))
     }
+    
+    private func seekForward(_ sender: Any) {
+        guard let duration  = avPlayer?.currentItem?.duration else {
+            return
+        }
+        let playerCurrentTime = CMTimeGetSeconds(avPlayer!.currentTime())
+        let newTime = playerCurrentTime + 15
+
+        if newTime < (CMTimeGetSeconds(duration) - 5) {
+
+            let time2: CMTime = CMTimeMake(value: Int64(newTime * 1000 as Float64), timescale: 1000)
+            avPlayer!.seek(to: time2, toleranceBefore: CMTime.zero, toleranceAfter: CMTime.zero)
+
+        }
+    }
+    
+    private func seekBackward(_ sender: Any) {
+        let playerCurrentTime = CMTimeGetSeconds(avPlayer!.currentTime())
+            var newTime = playerCurrentTime - 15
+
+            if newTime < 0 {
+                newTime = 0
+            }
+        let time2: CMTime = CMTimeMake(value: Int64(newTime * 1000 as Float64), timescale: 1000)
+        avPlayer!.seek(to: time2, toleranceBefore: CMTime.zero, toleranceAfter: CMTime.zero)
+    }
 
     private func rate(speed: String?) {
         guard let rateStr = speed, let rate = Float(rateStr) else { return }
@@ -121,19 +147,26 @@ class MediaManager: NSObject {
 
     private func setupNowPlayingInfoCenter() {
         UIApplication.shared.beginReceivingRemoteControlEvents()
-        MPRemoteCommandCenter.shared().playCommand.addTarget { _ in
+        let commandCenter = MPRemoteCommandCenter.shared()
+        commandCenter.skipForwardCommand.isEnabled = true
+        commandCenter.skipBackwardCommand.isEnabled = true
+        commandCenter.skipForwardCommand.preferredIntervals = [15]
+        commandCenter.skipBackwardCommand.preferredIntervals = [15]
+        commandCenter.playCommand.addTarget { _ in
             self.play(at: String(self.avPlayer?.currentTime().seconds ?? 0))
             self.updateNowPlayingInfoCenter()
             return .success
         }
-        MPRemoteCommandCenter.shared().pauseCommand.addTarget { _ in
+        commandCenter.pauseCommand.addTarget { _ in
             self.avPlayer?.pause()
             return .success
         }
-        MPRemoteCommandCenter.shared().nextTrackCommand.addTarget { _ in
+        commandCenter.skipForwardCommand.addTarget { _ in
+            self.seekForward(15)
             return .success
         }
-        MPRemoteCommandCenter.shared().previousTrackCommand.addTarget { _ in
+        commandCenter.skipBackwardCommand.addTarget { _ in
+            self.seekBackward(15)
             return .success
         }
     }
