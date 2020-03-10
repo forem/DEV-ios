@@ -45,6 +45,7 @@ class MediaManager: NSObject {
             avPlayer?.pause()
         case "terminate":
             avPlayer?.pause()
+            UIApplication.shared.endReceivingRemoteControlEvents()
         case "metadata":
             episodeName = message["episodeName"]
             podcastName = message["podcastName"]
