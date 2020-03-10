@@ -74,21 +74,19 @@ class MediaManager: NSObject {
         let playerCurrentTime = CMTimeGetSeconds(avPlayer!.currentTime())
         let newTime = playerCurrentTime + 15
 
-        if newTime < (CMTimeGetSeconds(duration) - 5) {
-
+        if newTime < (CMTimeGetSeconds(duration) - 15) {
             let time2: CMTime = CMTimeMake(value: Int64(newTime * 1000 as Float64), timescale: 1000)
             avPlayer!.seek(to: time2, toleranceBefore: CMTime.zero, toleranceAfter: CMTime.zero)
-
         }
     }
 
     private func seekBackward(_ sender: Any) {
         let playerCurrentTime = CMTimeGetSeconds(avPlayer!.currentTime())
-            var newTime = playerCurrentTime - 15
+        var newTime = playerCurrentTime - 15
 
-            if newTime < 0 {
-                newTime = 0
-            }
+        if newTime < 0 {
+            newTime = 0
+        }
         let time2: CMTime = CMTimeMake(value: Int64(newTime * 1000 as Float64), timescale: 1000)
         avPlayer!.seek(to: time2, toleranceBefore: CMTime.zero, toleranceAfter: CMTime.zero)
     }
