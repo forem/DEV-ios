@@ -22,6 +22,7 @@ class MediaManager: NSObject {
     var currentPodcastURL: String?
     var episodeName: String?
     var podcastName: String?
+    var podcastRate: String?
 
     init(webView: WKWebView) {
         self.webView = webView
@@ -37,6 +38,7 @@ class MediaManager: NSObject {
             seek(to: message["seconds"])
         case "rate":
             rate(speed: message["rate"])
+            podcastRate = message["rate"]
         case "muted":
             avPlayer?.isMuted = (message["muted"] == "true")
         case "pause":
@@ -60,6 +62,9 @@ class MediaManager: NSObject {
         avPlayer?.play()
         updateNowPlayingInfoCenter()
         setupNowPlayingInfoCenter()
+        if podcastRate != nil {
+            rate(speed: podcastRate)
+        }
     }
 
     private func seek(to seconds: String?) {
