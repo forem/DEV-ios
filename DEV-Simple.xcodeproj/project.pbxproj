@@ -28,6 +28,8 @@
 		CCEA9AFE219B410300AEF5BE /* test.html in Resources */ = {isa = PBXBuildFile; fileRef = CCEA9AFD219B410300AEF5BE /* test.html */; };
 		DC0134922418621400308B7E /* Bundle+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC0134912418621300308B7E /* Bundle+Extensions.swift */; };
 		DC7C024C2409AAE100926396 /* DEV-Simple.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 73D767692190CE3900BD13B6 /* DEV-Simple.entitlements */; };
+		DCD263752418CBC0002FDD38 /* Bundle+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC0134912418621300308B7E /* Bundle+Extensions.swift */; };
+		DCD263762418CBC1002FDD38 /* Bundle+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC0134912418621300308B7E /* Bundle+Extensions.swift */; };
 		DCEC88492406D58C00871B95 /* MediaManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCEC88482406D58C00871B95 /* MediaManager.swift */; };
 		DCEC884A2406D58C00871B95 /* MediaManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCEC88482406D58C00871B95 /* MediaManager.swift */; };
 		DCEC884B2406D58C00871B95 /* MediaManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCEC88482406D58C00871B95 /* MediaManager.swift */; };
@@ -440,6 +442,7 @@
 				CCEA9AFC219B403100AEF5BE /* ViewControllerTests.swift in Sources */,
 				73D76751218BA66B00BD13B6 /* DEV_SimpleTests.swift in Sources */,
 				DCEC884A2406D58C00871B95 /* MediaManager.swift in Sources */,
+				DCD263752418CBC0002FDD38 /* Bundle+Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -447,6 +450,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DCD263762418CBC1002FDD38 /* Bundle+Extensions.swift in Sources */,
 				73D7675C218BA66B00BD13B6 /* DEV_SimpleUITests.swift in Sources */,
 				DCEC884B2406D58C00871B95 /* MediaManager.swift in Sources */,
 			);
