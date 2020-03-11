@@ -180,6 +180,13 @@ class MediaManager: NSObject {
             return .success
         }
     }
+    
+    private func setupInfoCenterDefaultIcon() {
+        if let appIcon = Bundle.main.icon {
+            let artwork = MPMediaItemArtwork(boundsSize: appIcon.size) { _ in return appIcon }
+            MPNowPlayingInfoCenter.default().nowPlayingInfo?[MPMediaItemPropertyArtwork] = artwork
+        }
+    }
 
     private func updateNowPlayingInfoCenter() {
         var info = MPNowPlayingInfoCenter.default().nowPlayingInfo ?? [:]
@@ -192,11 +199,19 @@ class MediaManager: NSObject {
         // Only attempt to fetch the image once
         guard !podcastImageFetched else { return }
         podcastImageFetched = true
-        guard podcastImageUrl != nil, let imageURL = URL(string: podcastImageUrl!) else { return }
+        guard podcastImageUrl != nil, let imageURL = URL(string: podcastImageUrl!) else {
+            setupInfoCenterDefaultIcon()
+            return
+        }
+
         let task = URLSession.shared.dataTask(with: imageURL) { data, response, error in
-            guard let data = data, error == nil else { return }
-            guard let mimeType = response?.mimeType, mimeType.contains("image/") else { return }
-            guard let image = UIImage(data: data) else { return }
+            guard let data = data, error == nil,
+                let mimeType = response?.mimeType, mimeType.contains("image/"),
+                let image = UIImage(data: data)
+            else {
+                self.setupInfoCenterDefaultIcon()
+                return
+            }
             let artwork = MPMediaItemArtwork(boundsSize: image.size) { _ in return image }
             MPNowPlayingInfoCenter.default().nowPlayingInfo?[MPMediaItemPropertyArtwork] = artwork
         }
