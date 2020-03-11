@@ -49,12 +49,7 @@ class MediaManager: NSObject {
             avPlayer?.pause()
             UIApplication.shared.endReceivingRemoteControlEvents()
         case "metadata":
-            episodeName = message["episodeName"]
-            podcastName = message["podcastName"]
-            if let newImageUrl = message["podcastImageUrl"], newImageUrl != podcastImageUrl {
-                podcastImageUrl = newImageUrl
-                podcastImageFetched = false
-            }
+            loadMetadata(from: message)
         default:
             print("ERROR: Unknown action")
         }
@@ -106,6 +101,15 @@ class MediaManager: NSObject {
     private func rate(speed: String?) {
         guard let rateStr = speed, let rate = Float(rateStr) else { return }
         avPlayer?.rate = rate
+    }
+
+    private func loadMetadata(from message: [String: String]) {
+        episodeName = message["episodeName"]
+        podcastName = message["podcastName"]
+        if let newImageUrl = message["podcastImageUrl"], newImageUrl != podcastImageUrl {
+            podcastImageUrl = newImageUrl
+            podcastImageFetched = false
+        }
     }
 
     private func load(audioUrl: String?) {
@@ -180,7 +184,7 @@ class MediaManager: NSObject {
             return .success
         }
     }
-    
+
     private func setupInfoCenterDefaultIcon() {
         if let appIcon = Bundle.main.icon {
             let artwork = MPMediaItemArtwork(boundsSize: appIcon.size) { _ in return appIcon }
