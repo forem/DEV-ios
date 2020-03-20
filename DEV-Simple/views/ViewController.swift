@@ -310,12 +310,9 @@ class ViewController: UIViewController {
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        if #available(iOS 13.0, *) {
-            if !useDarkMode && traitCollection.userInterfaceStyle == .dark {
-                return UIStatusBarStyle.init(rawValue: statusBarStyleDarkContentRawValue)!
-            }
+        if !useDarkMode && traitCollection.userInterfaceStyle == .dark {
+            return UIStatusBarStyle.init(rawValue: statusBarStyleDarkContentRawValue)!
         }
-
         return useDarkMode ? .lightContent : .default
     }
 }
@@ -337,7 +334,6 @@ extension ViewController: WKNavigationDelegate {
             if let error = error {
                 print("Error getting user data: \(error)")
             }
-
             if let jsonString = result as? String {
                 self.modifyShellDesign()
                 if jsonString == "logged-in" {
