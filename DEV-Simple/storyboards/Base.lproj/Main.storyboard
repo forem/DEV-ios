@@ -134,7 +134,7 @@
                                 </items>
                             </navigationBar>
                         </subviews>
-                        <color key="backgroundColor" red="0.98823529409999999" green="0.97647058819999999" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="arP-qV-Ajc" firstAttribute="leading" secondItem="29u-q3-2SN" secondAttribute="leading" id="5Km-PG-rx3"/>
                             <constraint firstItem="arP-qV-Ajc" firstAttribute="trailing" secondItem="29u-q3-2SN" secondAttribute="trailing" id="H9D-Mv-QBR"/>
