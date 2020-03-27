@@ -67,7 +67,7 @@ class ViewController: UIViewController {
     var lightAlpha = CGFloat(0.2)
     var useDarkMode = false
     let statusBarStyleDarkContentRawValue = 3
-    let darkBackgroundColor = UIColor(red: 13/255, green: 18/255, blue: 25/255, alpha: 1)
+    let darkBackgroundColor = UIColor(red: 26/255, green: 38/255, blue: 52/255, alpha: 1)
 
     let pushNotifications = PushNotifications.shared
     lazy var errorBanner: NotificationBanner = {
