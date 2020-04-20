@@ -15,6 +15,7 @@ import MediaPlayer
 class MediaManager: NSObject {
 
     weak var webView: WKWebView?
+    var devToURL: String
 
     var avPlayer: AVPlayer?
 
@@ -26,8 +27,9 @@ class MediaManager: NSObject {
     var podcastImageUrl: String?
     var podcastImageFetched: Bool = false
 
-    init(webView: WKWebView) {
+    init(webView: WKWebView, devToURL: String) {
         self.webView = webView
+        self.devToURL = devToURL
     }
 
     func handlePodcastMessage(_ message: [String: String]) {
@@ -129,7 +131,7 @@ class MediaManager: NSObject {
 
         let interval = CMTime(seconds: 0.5, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
         avPlayer?.addPeriodicTimeObserver(forInterval: interval, queue: DispatchQueue.main) { [weak self] _ in
-            guard let duration = self?.currentPodcast?.duration.seconds else { return }
+            guard let duration = self?.currentPodcast?.duration.seconds, !duration.isNaN else { return }
             let time: Double = self?.avPlayer?.currentTime().seconds ?? 0
 
             let message = [
@@ -200,15 +202,29 @@ class MediaManager: NSObject {
         info[MPNowPlayingInfoPropertyElapsedPlaybackTime] = avPlayer?.currentTime().seconds ?? 0
         MPNowPlayingInfoCenter.default().nowPlayingInfo = info
 
-        // Only attempt to fetch the image once
+        fetchRemoteArtwork(podcastImageUrl)
+    }
+
+    private func fetchRemoteArtwork(_ remoteURL: String?) {
+        // Only attempt to fetch the image once and if unavailable setup default (App Icon)
         guard !podcastImageFetched else { return }
         podcastImageFetched = true
-        guard podcastImageUrl != nil, let imageURL = URL(string: podcastImageUrl!) else {
+        guard podcastImageUrl != nil else {
             setupInfoCenterDefaultIcon()
             return
         }
 
-        let task = URLSession.shared.dataTask(with: imageURL) { data, response, error in
+        // On local development the url might be relative and these checks take care of that
+        var imageURL = URL(string: remoteURL!)
+        if imageURL?.host == nil {
+            imageURL = URL(string: "\(devToURL)\(remoteURL!)")
+        }
+        guard imageURL != nil else {
+            setupInfoCenterDefaultIcon()
+            return
+        }
+
+        let task = URLSession.shared.dataTask(with: imageURL!) { data, response, error in
             guard let data = data, error == nil,
                 let mimeType = response?.mimeType, mimeType.contains("image/"),
                 let image = UIImage(data: data)
