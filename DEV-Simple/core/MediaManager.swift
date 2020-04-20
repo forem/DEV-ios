@@ -202,39 +202,36 @@ class MediaManager: NSObject {
         info[MPNowPlayingInfoPropertyElapsedPlaybackTime] = avPlayer?.currentTime().seconds ?? 0
         MPNowPlayingInfoCenter.default().nowPlayingInfo = info
 
-        fetchRemoteArtwork(podcastImageUrl)
-    }
-
-    private func fetchRemoteArtwork(_ remoteURL: String?) {
         // Only attempt to fetch the image once and if unavailable setup default (App Icon)
         guard !podcastImageFetched else { return }
         podcastImageFetched = true
-        guard podcastImageUrl != nil else {
-            setupInfoCenterDefaultIcon()
-            return
-        }
+        fetchRemoteArtwork()
+    }
 
-        // On local development the url might be relative and these checks take care of that
-        var imageURL = URL(string: remoteURL!)
-        if imageURL?.host == nil {
-            imageURL = URL(string: "\(devToURL)\(remoteURL!)")
-        }
-        guard imageURL != nil else {
-            setupInfoCenterDefaultIcon()
-            return
-        }
-
-        let task = URLSession.shared.dataTask(with: imageURL!) { data, response, error in
-            guard let data = data, error == nil,
-                let mimeType = response?.mimeType, mimeType.contains("image/"),
-                let image = UIImage(data: data)
-            else {
-                self.setupInfoCenterDefaultIcon()
-                return
+    private func fetchRemoteArtwork() {
+        var resolvedURL: URL?
+        if let podcastImageUrl = podcastImageUrl {
+            resolvedURL = URL(string: podcastImageUrl)
+            // On local development the url might be relative and this check ensures an absolute URL
+            if resolvedURL?.host == nil {
+                resolvedURL = URL(string: "\(devToURL)\(podcastImageUrl)")
             }
-            let artwork = MPMediaItemArtwork(boundsSize: image.size) { _ in return image }
-            MPNowPlayingInfoCenter.default().nowPlayingInfo?[MPMediaItemPropertyArtwork] = artwork
         }
-        task.resume()
+        if let resolvedURL = resolvedURL {
+            let task = URLSession.shared.dataTask(with: resolvedURL) { data, response, error in
+                guard error == nil, let data = data,
+                    let mimeType = response?.mimeType, mimeType.contains("image/"),
+                    let image = UIImage(data: data)
+                else {
+                    self.setupInfoCenterDefaultIcon()
+                    return
+                }
+                let artwork = MPMediaItemArtwork(boundsSize: image.size) { _ in return image }
+                MPNowPlayingInfoCenter.default().nowPlayingInfo?[MPMediaItemPropertyArtwork] = artwork
+            }
+            task.resume()
+        } else {
+            setupInfoCenterDefaultIcon()
+        }
     }
 }
