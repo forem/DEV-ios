@@ -28,6 +28,7 @@
 		CCEA9AFE219B410300AEF5BE /* test.html in Resources */ = {isa = PBXBuildFile; fileRef = CCEA9AFD219B410300AEF5BE /* test.html */; };
 		DC0134922418621400308B7E /* Bundle+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC0134912418621300308B7E /* Bundle+Extensions.swift */; };
 		DC7C024C2409AAE100926396 /* DEV-Simple.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 73D767692190CE3900BD13B6 /* DEV-Simple.entitlements */; };
+		DC8C833A244D7F100081F6CE /* URL+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC8C8339244D7F100081F6CE /* URL+Extensions.swift */; };
 		DCD263752418CBC0002FDD38 /* Bundle+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC0134912418621300308B7E /* Bundle+Extensions.swift */; };
 		DCD263762418CBC1002FDD38 /* Bundle+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC0134912418621300308B7E /* Bundle+Extensions.swift */; };
 		DCEC88492406D58C00871B95 /* MediaManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCEC88482406D58C00871B95 /* MediaManager.swift */; };
@@ -81,6 +82,7 @@
 		CCEA9AFB219B403100AEF5BE /* ViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerTests.swift; sourceTree = "<group>"; };
 		CCEA9AFD219B410300AEF5BE /* test.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = test.html; sourceTree = "<group>"; };
 		DC0134912418621300308B7E /* Bundle+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Extensions.swift"; sourceTree = "<group>"; };
+		DC8C8339244D7F100081F6CE /* URL+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Extensions.swift"; sourceTree = "<group>"; };
 		DCEC88482406D58C00871B95 /* MediaManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -212,6 +214,7 @@
 			children = (
 				BD2103FD2345A5B000F1F6FB /* WKWebView+Extensions.swift */,
 				DC0134912418621300308B7E /* Bundle+Extensions.swift */,
+				DC8C8339244D7F100081F6CE /* URL+Extensions.swift */,
 				BD2103FF2345A66B00F1F6FB /* Notification+Extensions.swift */,
 			);
 			path = Extensions;
@@ -430,6 +433,7 @@
 				73D7673C218BA66700BD13B6 /* AppDelegate.swift in Sources */,
 				BD2104002345A66B00F1F6FB /* Notification+Extensions.swift in Sources */,
 				1B032B1821E409FE00A2108A /* Globals.swift in Sources */,
+				DC8C833A244D7F100081F6CE /* URL+Extensions.swift in Sources */,
 				BD5C906C21B63CCC000D9F79 /* NetworkReachability.swift in Sources */,
 				BD2103FE2345A5B000F1F6FB /* WKWebView+Extensions.swift in Sources */,
 			);

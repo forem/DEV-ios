@@ -209,15 +209,7 @@ class MediaManager: NSObject {
     }
 
     private func fetchRemoteArtwork() {
-        var resolvedURL: URL?
-        if let podcastImageUrl = podcastImageUrl {
-            resolvedURL = URL(string: podcastImageUrl)
-            // On local development the url might be relative and this check ensures an absolute URL
-            if resolvedURL?.host == nil {
-                resolvedURL = URL(string: "\(devToURL)\(podcastImageUrl)")
-            }
-        }
-        if let resolvedURL = resolvedURL {
+        if let resolvedURL = URL.from(urlString: podcastImageUrl, defaultHost: devToURL) {
             let task = URLSession.shared.dataTask(with: resolvedURL) { data, response, error in
                 guard error == nil, let data = data,
                     let mimeType = response?.mimeType, mimeType.contains("image/"),
