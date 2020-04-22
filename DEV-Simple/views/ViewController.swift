@@ -78,7 +78,7 @@ class ViewController: UIViewController {
     }()
 
     lazy var mediaManager: MediaManager = {
-        return MediaManager(webView: self.webView)
+        return MediaManager(webView: self.webView, devToURL: self.devToURL)
     }()
 
     var devToURL: String = {

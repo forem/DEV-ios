@@ -15,6 +15,7 @@ import MediaPlayer
 class MediaManager: NSObject {
 
     weak var webView: WKWebView?
+    var devToURL: String
 
     var avPlayer: AVPlayer?
 
@@ -26,8 +27,9 @@ class MediaManager: NSObject {
     var podcastImageUrl: String?
     var podcastImageFetched: Bool = false
 
-    init(webView: WKWebView) {
+    init(webView: WKWebView, devToURL: String) {
         self.webView = webView
+        self.devToURL = devToURL
     }
 
     func handlePodcastMessage(_ message: [String: String]) {
@@ -129,7 +131,7 @@ class MediaManager: NSObject {
 
         let interval = CMTime(seconds: 0.5, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
         avPlayer?.addPeriodicTimeObserver(forInterval: interval, queue: DispatchQueue.main) { [weak self] _ in
-            guard let duration = self?.currentPodcast?.duration.seconds else { return }
+            guard let duration = self?.currentPodcast?.duration.seconds, !duration.isNaN else { return }
             let time: Double = self?.avPlayer?.currentTime().seconds ?? 0
 
             let message = [
@@ -200,25 +202,28 @@ class MediaManager: NSObject {
         info[MPNowPlayingInfoPropertyElapsedPlaybackTime] = avPlayer?.currentTime().seconds ?? 0
         MPNowPlayingInfoCenter.default().nowPlayingInfo = info
 
-        // Only attempt to fetch the image once
+        // Only attempt to fetch the image once and if unavailable setup default (App Icon)
         guard !podcastImageFetched else { return }
         podcastImageFetched = true
-        guard podcastImageUrl != nil, let imageURL = URL(string: podcastImageUrl!) else {
-            setupInfoCenterDefaultIcon()
-            return
-        }
+        fetchRemoteArtwork()
+    }
 
-        let task = URLSession.shared.dataTask(with: imageURL) { data, response, error in
-            guard let data = data, error == nil,
-                let mimeType = response?.mimeType, mimeType.contains("image/"),
-                let image = UIImage(data: data)
-            else {
-                self.setupInfoCenterDefaultIcon()
-                return
+    private func fetchRemoteArtwork() {
+        if let resolvedURL = URL.from(urlString: podcastImageUrl, defaultHost: devToURL) {
+            let task = URLSession.shared.dataTask(with: resolvedURL) { data, response, error in
+                guard error == nil, let data = data,
+                    let mimeType = response?.mimeType, mimeType.contains("image/"),
+                    let image = UIImage(data: data)
+                else {
+                    self.setupInfoCenterDefaultIcon()
+                    return
+                }
+                let artwork = MPMediaItemArtwork(boundsSize: image.size) { _ in return image }
+                MPNowPlayingInfoCenter.default().nowPlayingInfo?[MPMediaItemPropertyArtwork] = artwork
             }
-            let artwork = MPMediaItemArtwork(boundsSize: image.size) { _ in return image }
-            MPNowPlayingInfoCenter.default().nowPlayingInfo?[MPMediaItemPropertyArtwork] = artwork
+            task.resume()
+        } else {
+            setupInfoCenterDefaultIcon()
         }
-        task.resume()
     }
 }
