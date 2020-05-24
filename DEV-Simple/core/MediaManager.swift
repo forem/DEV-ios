@@ -35,7 +35,7 @@ class MediaManager: NSObject {
     func handlePodcastMessage(_ message: [String: String]) {
         switch message["action"] {
         case "play":
-            play(at: message["seconds"])
+            play(audioUrl: message["url"], at: message["seconds"])
         case "load":
             load(audioUrl: message["url"])
         case "seek":
@@ -50,6 +50,8 @@ class MediaManager: NSObject {
         case "terminate":
             avPlayer?.pause()
             UIApplication.shared.endReceivingRemoteControlEvents()
+        case "volume":
+            volume(percentage: message["volume"])
         case "metadata":
             loadMetadata(from: message)
         default:
@@ -59,8 +61,15 @@ class MediaManager: NSObject {
 
     // MARK: - Action Functions
 
-    private func play(at seconds: String?) {
-        guard let secondsStr = seconds, let seconds = Double(secondsStr) else { return }
+    private func play(audioUrl: String?, at seconds: String?) {
+        guard let secondsStr = seconds, var seconds = Double(secondsStr) else { return }
+        if currentPodcastURL != audioUrl && audioUrl != nil {
+            avPlayer?.pause()
+            seconds = 0
+            currentPodcastURL = nil
+            load(audioUrl: audioUrl)
+        }
+
         guard avPlayer?.timeControlStatus != .playing else { return }
         avPlayer?.seek(to: CMTime(seconds: seconds, preferredTimescale: CMTimeScale(NSEC_PER_SEC)))
         avPlayer?.play()
@@ -105,6 +114,11 @@ class MediaManager: NSObject {
         avPlayer?.rate = rate
     }
 
+    private func volume(percentage: String?) {
+        guard let volumeStr = percentage, let volume = Float(volumeStr) else { return }
+        avPlayer?.volume = volume
+    }
+
     private func loadMetadata(from message: [String: String]) {
         episodeName = message["episodeName"]
         podcastName = message["podcastName"]
@@ -114,32 +128,35 @@ class MediaManager: NSObject {
         }
     }
 
+    private func updateTimeLabel(currentTime: Double, duration: Double) {
+        guard currentTime > 0 && duration > 0 else {
+            sendPodcastMessage(["action": "init"])
+            return
+        }
+
+        let message = [
+            "action": "tick",
+            "duration": String(format: "%.4f", duration),
+            "currentTime": String(format: "%.4f", currentTime)
+        ]
+        sendPodcastMessage(message)
+    }
+
     private func load(audioUrl: String?) {
-        guard currentPodcastURL != audioUrl && audioUrl != nil else { return }
+        guard currentPodcastURL == nil && audioUrl != nil else { return }
         guard let url = NSURL(string: audioUrl!) else { return }
         currentPodcastURL = audioUrl
         currentPodcast = AVPlayerItem.init(url: url as URL)
         avPlayer = AVPlayer.init(playerItem: currentPodcast)
         avPlayer?.volume = 1.0
-
-        let message = [
-            "action": "tick",
-            "duration": String(format: "%.4f", 0),
-            "currentTime": String(format: "%.4f", 0)
-        ]
-        sendPodcastMessage(message)
+        updateTimeLabel(currentTime: 0, duration: 0)
 
         let interval = CMTime(seconds: 0.5, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
         avPlayer?.addPeriodicTimeObserver(forInterval: interval, queue: DispatchQueue.main) { [weak self] _ in
             guard let duration = self?.currentPodcast?.duration.seconds, !duration.isNaN else { return }
             let time: Double = self?.avPlayer?.currentTime().seconds ?? 0
 
-            let message = [
-                "action": "tick",
-                "duration": String(format: "%.4f", duration),
-                "currentTime": String(format: "%.4f", time)
-            ]
-            self?.sendPodcastMessage(message)
+            self?.updateTimeLabel(currentTime: time, duration: duration)
             self?.updateNowPlayingInfoCenter()
         }
     }
@@ -169,7 +186,8 @@ class MediaManager: NSObject {
         commandCenter.skipForwardCommand.preferredIntervals = [15]
         commandCenter.skipBackwardCommand.preferredIntervals = [15]
         commandCenter.playCommand.addTarget { _ in
-            self.play(at: String(self.avPlayer?.currentTime().seconds ?? 0))
+            let currentTime = String(self.avPlayer?.currentTime().seconds ?? 0)
+            self.play(audioUrl: self.currentPodcastURL, at: currentTime)
             self.updateNowPlayingInfoCenter()
             return .success
         }
