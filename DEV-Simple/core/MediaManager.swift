@@ -62,7 +62,7 @@ class MediaManager: NSObject {
     // MARK: - Action Functions
 
     private func play(audioUrl: String?, at seconds: String?) {
-        guard let secondsStr = seconds, var seconds = Double(secondsStr) else { return }
+        var seconds = Double(seconds ?? "0")
         if currentPodcastURL != audioUrl && audioUrl != nil {
             avPlayer?.pause()
             seconds = 0
@@ -71,7 +71,7 @@ class MediaManager: NSObject {
         }
 
         guard avPlayer?.timeControlStatus != .playing else { return }
-        avPlayer?.seek(to: CMTime(seconds: seconds, preferredTimescale: CMTimeScale(NSEC_PER_SEC)))
+        avPlayer?.seek(to: CMTime(seconds: seconds ?? 0, preferredTimescale: CMTimeScale(NSEC_PER_SEC)))
         avPlayer?.play()
         updateNowPlayingInfoCenter()
         setupNowPlayingInfoCenter()
@@ -110,13 +110,15 @@ class MediaManager: NSObject {
     }
 
     private func rate(speed: String?) {
-        guard let rateStr = speed, let rate = Float(rateStr) else { return }
-        avPlayer?.rate = rate
+        if let rate = Float(speed ?? "1") {
+            avPlayer?.rate = rate
+        }
     }
 
     private func volume(percentage: String?) {
-        guard let volumeStr = percentage, let volume = Float(volumeStr) else { return }
-        avPlayer?.volume = volume
+        if let volume = Float(percentage ?? "1") {
+            avPlayer?.volume = volume
+        }
     }
 
     private func loadMetadata(from message: [String: String]) {
