@@ -93,20 +93,21 @@ class MediaManager: NSObject {
         let newTime = playerCurrentTime + 15
 
         if newTime < (CMTimeGetSeconds(duration) - 15) {
-            let time2: CMTime = CMTimeMake(value: Int64(newTime * 1000 as Float64), timescale: 1000)
-            avPlayer!.seek(to: time2, toleranceBefore: CMTime.zero, toleranceAfter: CMTime.zero)
+            avPlayer!.seek(to: seekableTime(newTime), toleranceBefore: CMTime.zero, toleranceAfter: CMTime.zero)
         }
     }
 
     private func seekBackward(_ sender: Any) {
         let playerCurrentTime = CMTimeGetSeconds(avPlayer!.currentTime())
         var newTime = playerCurrentTime - 15
-
         if newTime < 0 {
             newTime = 0
         }
-        let time2: CMTime = CMTimeMake(value: Int64(newTime * 1000 as Float64), timescale: 1000)
-        avPlayer!.seek(to: time2, toleranceBefore: CMTime.zero, toleranceAfter: CMTime.zero)
+        avPlayer!.seek(to: seekableTime(newTime), toleranceBefore: CMTime.zero, toleranceAfter: CMTime.zero)
+    }
+
+    private func seekableTime(_ seconds: Double) -> CMTime {
+        return CMTimeMake(value: Int64(seconds * 1000 as Float64), timescale: 1000)
     }
 
     private func loadMetadata(from message: [String: String]) {
