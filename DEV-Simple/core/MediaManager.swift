@@ -23,7 +23,8 @@ class MediaManager: NSObject {
     var currentPodcastURL: String?
     var episodeName: String?
     var podcastName: String?
-    var podcastRate: String?
+    var podcastRate: Float?
+    var podcastVolume: Float?
     var podcastImageUrl: String?
     var podcastImageFetched: Bool = false
 
@@ -41,8 +42,8 @@ class MediaManager: NSObject {
         case "seek":
             seek(to: message["seconds"])
         case "rate":
-            rate(speed: message["rate"])
-            podcastRate = message["rate"]
+            podcastRate = Float(message["rate"] ?? "1")
+            avPlayer?.rate = podcastRate ?? 1
         case "muted":
             avPlayer?.isMuted = (message["muted"] == "true")
         case "pause":
@@ -51,7 +52,8 @@ class MediaManager: NSObject {
             avPlayer?.pause()
             UIApplication.shared.endReceivingRemoteControlEvents()
         case "volume":
-            volume(percentage: message["volume"])
+            podcastVolume = Float(message["volume"] ?? "1")
+            avPlayer?.rate = podcastVolume ?? 1
         case "metadata":
             loadMetadata(from: message)
         default:
@@ -73,11 +75,9 @@ class MediaManager: NSObject {
         guard avPlayer?.timeControlStatus != .playing else { return }
         avPlayer?.seek(to: CMTime(seconds: seconds ?? 0, preferredTimescale: CMTimeScale(NSEC_PER_SEC)))
         avPlayer?.play()
+        avPlayer?.rate = podcastRate ?? 1
         updateNowPlayingInfoCenter()
         setupNowPlayingInfoCenter()
-        if podcastRate != nil {
-            rate(speed: podcastRate)
-        }
     }
 
     private func seek(to seconds: String?) {
@@ -107,18 +107,6 @@ class MediaManager: NSObject {
         }
         let time2: CMTime = CMTimeMake(value: Int64(newTime * 1000 as Float64), timescale: 1000)
         avPlayer!.seek(to: time2, toleranceBefore: CMTime.zero, toleranceAfter: CMTime.zero)
-    }
-
-    private func rate(speed: String?) {
-        if let rate = Float(speed ?? "1") {
-            avPlayer?.rate = rate
-        }
-    }
-
-    private func volume(percentage: String?) {
-        if let volume = Float(percentage ?? "1") {
-            avPlayer?.volume = volume
-        }
     }
 
     private func loadMetadata(from message: [String: String]) {
