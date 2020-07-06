@@ -104,6 +104,7 @@ class ViewController: UIViewController {
         webView.configuration.allowsInlineMediaPlayback = true
         webView.configuration.userContentController.add(self, name: "haptic")
         webView.configuration.userContentController.add(self, name: "podcast")
+        webView.configuration.userContentController.add(self, name: "video")
         webView.allowsBackForwardNavigationGestures = true
         webView.addObserver(self, forKeyPath: #keyPath(WKWebView.canGoBack), options: [.new, .old], context: nil)
         webView.addObserver(self, forKeyPath: #keyPath(WKWebView.canGoForward), options: [.new, .old], context: nil)
@@ -302,10 +303,15 @@ class ViewController: UIViewController {
 
     // MARK: - Navegation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == DoAction.openExternalURL {
+        switch segue.identifier {
+        case DoAction.openExternalURL:
             if let externalPage = segue.destination as? BrowserViewController {
                 externalPage.destinationUrl = sender as? URL
             }
+        case DoAction.openVideoPlayer:
+            mediaManager.prepareVideoPlayerViewController(viewController: segue.destination)
+        default:
+            print("Unknown segue")
         }
     }
 
@@ -395,6 +401,10 @@ extension ViewController: WKScriptMessageHandler {
         }
         if message.name == "podcast", let message = message.body as? [String: String] {
             mediaManager.handlePodcastMessage(message)
+        }
+        if message.name == "video", let message = message.body as? [String: String] {
+            mediaManager.loadVideoPlayer(videoUrl: message["url"], seconds: message["seconds"])
+            performSegue(withIdentifier: DoAction.openVideoPlayer, sender: nil)
         }
     }
 }

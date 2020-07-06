@@ -10,6 +10,7 @@ import UIKit
 import WebKit
 import Foundation
 import AVFoundation
+import AVKit
 import MediaPlayer
 
 class MediaManager: NSObject {
@@ -18,9 +19,9 @@ class MediaManager: NSObject {
     var devToURL: String
 
     var avPlayer: AVPlayer?
+    var playerItem: AVPlayerItem?
+    var currentStreamURL: String?
 
-    var currentPodcast: AVPlayerItem?
-    var currentPodcastURL: String?
     var episodeName: String?
     var podcastName: String?
     var podcastRate: String?
@@ -30,6 +31,22 @@ class MediaManager: NSObject {
     init(webView: WKWebView, devToURL: String) {
         self.webView = webView
         self.devToURL = devToURL
+    }
+
+    func loadVideoPlayer(videoUrl: String?, seconds: String?) {
+        if let videoUrl = videoUrl, let url = NSURL(string: videoUrl) {
+            currentStreamURL = videoUrl
+            playerItem = AVPlayerItem.init(url: url as URL)
+            avPlayer = AVPlayer.init(playerItem: playerItem)
+            avPlayer?.volume = 1.0
+        }
+    }
+
+    func prepareVideoPlayerViewController(viewController: UIViewController) {
+        if let videoPlayerViewController = viewController as? AVPlayerViewController {
+            videoPlayerViewController.player = avPlayer
+            avPlayer?.play()
+        }
     }
 
     func handlePodcastMessage(_ message: [String: String]) {
@@ -115,11 +132,11 @@ class MediaManager: NSObject {
     }
 
     private func load(audioUrl: String?) {
-        guard currentPodcastURL != audioUrl && audioUrl != nil else { return }
+        guard currentStreamURL != audioUrl && audioUrl != nil else { return }
         guard let url = NSURL(string: audioUrl!) else { return }
-        currentPodcastURL = audioUrl
-        currentPodcast = AVPlayerItem.init(url: url as URL)
-        avPlayer = AVPlayer.init(playerItem: currentPodcast)
+        currentStreamURL = audioUrl
+        playerItem = AVPlayerItem.init(url: url as URL)
+        avPlayer = AVPlayer.init(playerItem: playerItem)
         avPlayer?.volume = 1.0
 
         let message = [
@@ -131,7 +148,7 @@ class MediaManager: NSObject {
 
         let interval = CMTime(seconds: 0.5, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
         avPlayer?.addPeriodicTimeObserver(forInterval: interval, queue: DispatchQueue.main) { [weak self] _ in
-            guard let duration = self?.currentPodcast?.duration.seconds, !duration.isNaN else { return }
+            guard let duration = self?.playerItem?.duration.seconds, !duration.isNaN else { return }
             let time: Double = self?.avPlayer?.currentTime().seconds ?? 0
 
             let message = [
