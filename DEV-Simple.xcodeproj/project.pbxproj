@@ -19,6 +19,7 @@
 		73D7676B2190D88B00BD13B6 /* PushNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73D7676A2190D88B00BD13B6 /* PushNotifications.framework */; };
 		73E8ACC72192165E009CE057 /* BrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E8ACC62192165E009CE057 /* BrowserViewController.swift */; };
 		BA7610B322E20FB9004DBB9E /* MarqueeLabel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA7610B222E20FB9004DBB9E /* MarqueeLabel.framework */; };
+		BAD22376240ED2D900C98292 /* DEVWKWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAD22375240ED2D900C98292 /* DEVWKWebView.swift */; };
 		BD2103FE2345A5B000F1F6FB /* WKWebView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2103FD2345A5B000F1F6FB /* WKWebView+Extensions.swift */; };
 		BD2104002345A66B00F1F6FB /* Notification+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2103FF2345A66B00F1F6FB /* Notification+Extensions.swift */; };
 		BD5C906C21B63CCC000D9F79 /* NetworkReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5C906B21B63CCC000D9F79 /* NetworkReachability.swift */; };
@@ -75,6 +76,7 @@
 		73D7676A2190D88B00BD13B6 /* PushNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PushNotifications.framework; path = Carthage/Build/iOS/PushNotifications.framework; sourceTree = "<group>"; };
 		73E8ACC62192165E009CE057 /* BrowserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserViewController.swift; sourceTree = "<group>"; };
 		BA7610B222E20FB9004DBB9E /* MarqueeLabel.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MarqueeLabel.framework; path = Carthage/Build/iOS/MarqueeLabel.framework; sourceTree = "<group>"; };
+		BAD22375240ED2D900C98292 /* DEVWKWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DEVWKWebView.swift; sourceTree = "<group>"; };
 		BD2103FD2345A5B000F1F6FB /* WKWebView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WKWebView+Extensions.swift"; sourceTree = "<group>"; };
 		BD2103FF2345A66B00F1F6FB /* Notification+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Extensions.swift"; sourceTree = "<group>"; };
 		BD5C906B21B63CCC000D9F79 /* NetworkReachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkReachability.swift; sourceTree = "<group>"; };
@@ -179,6 +181,7 @@
 		73D7673A218BA66700BD13B6 /* DEV-Simple */ = {
 			isa = PBXGroup;
 			children = (
+				BAD22375240ED2D900C98292 /* DEVWKWebView.swift */,
 				BD2103FC2345A59900F1F6FB /* Extensions */,
 				1BA17C8B220C84C3007A8EF5 /* assets */,
 				1BA17C8A220C84A2007A8EF5 /* core */,
@@ -436,6 +439,7 @@
 				BD2104002345A66B00F1F6FB /* Notification+Extensions.swift in Sources */,
 				1B032B1821E409FE00A2108A /* Globals.swift in Sources */,
 				DC8C833A244D7F100081F6CE /* URL+Extensions.swift in Sources */,
+				BAD22376240ED2D900C98292 /* DEVWKWebView.swift in Sources */,
 				BD5C906C21B63CCC000D9F79 /* NetworkReachability.swift in Sources */,
 				BD2103FE2345A5B000F1F6FB /* WKWebView+Extensions.swift in Sources */,
 			);

@@ -23,43 +23,12 @@ struct UserData: Codable {
 
 class ViewController: UIViewController {
 
+    private var observations: [NSKeyValueObservation] = []
+
     @IBOutlet weak var backButton: UIBarButtonItem!
     @IBOutlet weak var forwardButton: UIBarButtonItem!
     @IBOutlet weak var refreshButton: UIBarButtonItem!
-    @IBOutlet lazy var webView: WKWebView! = {
-
-        if !UIAccessibility.isInvertColorsEnabled {
-            return WKWebView()
-        }
-
-        guard let path = Bundle.main.path(forResource: "invertedImages", ofType: "css") else {
-            return WKWebView()
-        }
-
-        let cssString = try? String(contentsOfFile: path).components(separatedBy: .newlines).joined()
-        let source = """
-        var style = document.createElement('style');
-        style.innerHTML = '\(cssString)';
-        document.head.appendChild(style);
-        """
-
-        let userScript = WKUserScript(source: source,
-                                      injectionTime: .atDocumentEnd,
-                                      forMainFrameOnly: true)
-
-        let userContentController = WKUserContentController()
-        userContentController.addUserScript(userScript)
-
-        let configuration = WKWebViewConfiguration()
-        configuration.userContentController = userContentController
-
-        let webView = WKWebView(frame: .zero,
-                                configuration: configuration)
-
-        webView.accessibilityIgnoresInvertColors = true
-        return webView
-    }()
-
+    @IBOutlet weak var webView: DEVWKWebView!
     @IBOutlet weak var safariButton: UIBarButtonItem!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var navigationToolBar: UIToolbar!
@@ -98,7 +67,6 @@ class ViewController: UIViewController {
         backButton.isEnabled = false
         forwardButton.isEnabled = false
         webView.navigationDelegate = self
-        webView.customUserAgent = "DEV-Native-ios"
         webView.scrollView.scrollIndicatorInsets.top = view.safeAreaInsets.top + 50
         webView.load(devToURL)
         webView.configuration.allowsInlineMediaPlayback = true
@@ -106,9 +74,7 @@ class ViewController: UIViewController {
         webView.configuration.userContentController.add(self, name: "podcast")
         webView.configuration.userContentController.add(self, name: "video")
         webView.allowsBackForwardNavigationGestures = true
-        webView.addObserver(self, forKeyPath: #keyPath(WKWebView.canGoBack), options: [.new, .old], context: nil)
-        webView.addObserver(self, forKeyPath: #keyPath(WKWebView.canGoForward), options: [.new, .old], context: nil)
-        webView.addObserver(self, forKeyPath: #keyPath(WKWebView.url), options: [.new, .old], context: nil)
+        setupObservers()
         addShellShadow()
         let notificationName = Notification.Name("updateWebView")
         NotificationCenter.default.addObserver(
@@ -320,6 +286,30 @@ class ViewController: UIViewController {
             return UIStatusBarStyle.init(rawValue: statusBarStyleDarkContentRawValue)!
         }
         return useDarkMode ? .lightContent : .default
+    }
+
+    private func setupObservers() {
+        observations = [
+            webView.observe(\DEVWKWebView.canGoBack, options: [.new, .old], changeHandler: { _, _ in
+                self.updateNavigationBar()
+            }),
+            webView.observe(\DEVWKWebView.canGoForward, options: [.new, .old], changeHandler: { _, _ in
+                self.updateNavigationBar()
+            }),
+
+            webView.observe(\DEVWKWebView.url, options: [.new, .old], changeHandler: { _, _ in
+                self.updateNavigationBar()
+            })
+        ]
+    }
+
+    private func updateNavigationBar() {
+        backButton.isEnabled = webView.canGoBack
+        forwardButton.isEnabled = webView.canGoForward
+        if let url = webView.url {
+            webView.scrollView.isScrollEnabled = !(url.path.hasPrefix("/connect")) //Remove scroll if /connect view
+        }
+        modifyShellDesign()
     }
 }
 
