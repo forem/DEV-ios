@@ -24,7 +24,8 @@ class MediaManager: NSObject {
 
     var episodeName: String?
     var podcastName: String?
-    var podcastRate: String?
+    var podcastRate: Float?
+    var podcastVolume: Float?
     var podcastImageUrl: String?
     var podcastImageFetched: Bool = false
 
@@ -52,14 +53,14 @@ class MediaManager: NSObject {
     func handlePodcastMessage(_ message: [String: String]) {
         switch message["action"] {
         case "play":
-            play(at: message["seconds"])
+            play(audioUrl: message["url"], at: message["seconds"])
         case "load":
             load(audioUrl: message["url"])
         case "seek":
             seek(to: message["seconds"])
         case "rate":
-            rate(speed: message["rate"])
-            podcastRate = message["rate"]
+            podcastRate = Float(message["rate"] ?? "1")
+            avPlayer?.rate = podcastRate ?? 1
         case "muted":
             avPlayer?.isMuted = (message["muted"] == "true")
         case "pause":
@@ -67,6 +68,9 @@ class MediaManager: NSObject {
         case "terminate":
             avPlayer?.pause()
             UIApplication.shared.endReceivingRemoteControlEvents()
+        case "volume":
+            podcastVolume = Float(message["volume"] ?? "1")
+            avPlayer?.rate = podcastVolume ?? 1
         case "metadata":
             loadMetadata(from: message)
         default:
@@ -76,16 +80,21 @@ class MediaManager: NSObject {
 
     // MARK: - Action Functions
 
-    private func play(at seconds: String?) {
-        guard let secondsStr = seconds, let seconds = Double(secondsStr) else { return }
+    private func play(audioUrl: String?, at seconds: String?) {
+        var seconds = Double(seconds ?? "0")
+        if currentStreamURL != audioUrl && audioUrl != nil {
+            avPlayer?.pause()
+            seconds = 0
+            currentStreamURL = nil
+            load(audioUrl: audioUrl)
+        }
+
         guard avPlayer?.timeControlStatus != .playing else { return }
-        avPlayer?.seek(to: CMTime(seconds: seconds, preferredTimescale: CMTimeScale(NSEC_PER_SEC)))
+        avPlayer?.seek(to: CMTime(seconds: seconds ?? 0, preferredTimescale: CMTimeScale(NSEC_PER_SEC)))
         avPlayer?.play()
+        avPlayer?.rate = podcastRate ?? 1
         updateNowPlayingInfoCenter()
         setupNowPlayingInfoCenter()
-        if podcastRate != nil {
-            rate(speed: podcastRate)
-        }
     }
 
     private func seek(to seconds: String?) {
@@ -101,25 +110,21 @@ class MediaManager: NSObject {
         let newTime = playerCurrentTime + 15
 
         if newTime < (CMTimeGetSeconds(duration) - 15) {
-            let time2: CMTime = CMTimeMake(value: Int64(newTime * 1000 as Float64), timescale: 1000)
-            avPlayer!.seek(to: time2, toleranceBefore: CMTime.zero, toleranceAfter: CMTime.zero)
+            avPlayer!.seek(to: seekableTime(newTime), toleranceBefore: CMTime.zero, toleranceAfter: CMTime.zero)
         }
     }
 
     private func seekBackward(_ sender: Any) {
         let playerCurrentTime = CMTimeGetSeconds(avPlayer!.currentTime())
         var newTime = playerCurrentTime - 15
-
         if newTime < 0 {
             newTime = 0
         }
-        let time2: CMTime = CMTimeMake(value: Int64(newTime * 1000 as Float64), timescale: 1000)
-        avPlayer!.seek(to: time2, toleranceBefore: CMTime.zero, toleranceAfter: CMTime.zero)
+        avPlayer!.seek(to: seekableTime(newTime), toleranceBefore: CMTime.zero, toleranceAfter: CMTime.zero)
     }
 
-    private func rate(speed: String?) {
-        guard let rateStr = speed, let rate = Float(rateStr) else { return }
-        avPlayer?.rate = rate
+    private func seekableTime(_ seconds: Double) -> CMTime {
+        return CMTimeMake(value: Int64(seconds * 1000 as Float64), timescale: 1000)
     }
 
     private func loadMetadata(from message: [String: String]) {
@@ -131,6 +136,20 @@ class MediaManager: NSObject {
         }
     }
 
+    private func updateTimeLabel(currentTime: Double, duration: Double) {
+        guard currentTime > 0 && duration > 0 else {
+            sendPodcastMessage(["action": "init"])
+            return
+        }
+
+        let message = [
+            "action": "tick",
+            "duration": String(format: "%.4f", duration),
+            "currentTime": String(format: "%.4f", currentTime)
+        ]
+        sendPodcastMessage(message)
+    }
+
     private func load(audioUrl: String?) {
         guard currentStreamURL != audioUrl && audioUrl != nil else { return }
         guard let url = NSURL(string: audioUrl!) else { return }
@@ -138,25 +157,14 @@ class MediaManager: NSObject {
         playerItem = AVPlayerItem.init(url: url as URL)
         avPlayer = AVPlayer.init(playerItem: playerItem)
         avPlayer?.volume = 1.0
-
-        let message = [
-            "action": "tick",
-            "duration": String(format: "%.4f", 0),
-            "currentTime": String(format: "%.4f", 0)
-        ]
-        sendPodcastMessage(message)
+        updateTimeLabel(currentTime: 0, duration: 0)
 
         let interval = CMTime(seconds: 0.5, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
         avPlayer?.addPeriodicTimeObserver(forInterval: interval, queue: DispatchQueue.main) { [weak self] _ in
             guard let duration = self?.playerItem?.duration.seconds, !duration.isNaN else { return }
             let time: Double = self?.avPlayer?.currentTime().seconds ?? 0
 
-            let message = [
-                "action": "tick",
-                "duration": String(format: "%.4f", duration),
-                "currentTime": String(format: "%.4f", time)
-            ]
-            self?.sendPodcastMessage(message)
+            self?.updateTimeLabel(currentTime: time, duration: duration)
             self?.updateNowPlayingInfoCenter()
         }
     }
@@ -186,7 +194,8 @@ class MediaManager: NSObject {
         commandCenter.skipForwardCommand.preferredIntervals = [15]
         commandCenter.skipBackwardCommand.preferredIntervals = [15]
         commandCenter.playCommand.addTarget { _ in
-            self.play(at: String(self.avPlayer?.currentTime().seconds ?? 0))
+            let currentTime = String(self.avPlayer?.currentTime().seconds ?? 0)
+            self.play(audioUrl: self.currentStreamURL, at: currentTime)
             self.updateNowPlayingInfoCenter()
             return .success
         }
