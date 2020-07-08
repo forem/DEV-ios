@@ -12,15 +12,6 @@ import UserNotifications
 import PushNotifications
 import NotificationBanner
 
-struct UserData: Codable {
-    enum CodingKeys: String, CodingKey {
-        case userID = "id"
-        case configBodyClass = "config_body_class"
-    }
-    var userID: Int
-    var configBodyClass: String
-}
-
 class ViewController: UIViewController {
 
     private var observations: [NSKeyValueObservation] = []
@@ -33,10 +24,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var navigationToolBar: UIToolbar!
 
-    var lightAlpha = CGFloat(0.2)
     var useDarkMode = false
-    let statusBarStyleDarkContentRawValue = 3
-    let darkBackgroundColor = UIColor(red: 26/255, green: 38/255, blue: 52/255, alpha: 1)
 
     let pushNotifications = PushNotifications.shared
     lazy var errorBanner: NotificationBanner = {
@@ -66,14 +54,11 @@ class ViewController: UIViewController {
         activityIndicator.hidesWhenStopped = true
         backButton.isEnabled = false
         forwardButton.isEnabled = false
-        webView.navigationDelegate = self
-        webView.scrollView.scrollIndicatorInsets.top = view.safeAreaInsets.top + 50
+
+        webView.setup(navigationDelegate: self, messageHandler: self)
+        webView.scrollView.verticalScrollIndicatorInsets.top = view.safeAreaInsets.top + 50
         webView.load(devToURL)
-        webView.configuration.allowsInlineMediaPlayback = true
-        webView.configuration.userContentController.add(self, name: "haptic")
-        webView.configuration.userContentController.add(self, name: "podcast")
-        webView.configuration.userContentController.add(self, name: "video")
-        webView.allowsBackForwardNavigationGestures = true
+
         setupObservers()
         addShellShadow()
         let notificationName = Notification.Name("updateWebView")
@@ -82,8 +67,7 @@ class ViewController: UIViewController {
             selector: #selector(updateWebView),
             name: notificationName,
             object: nil)
-
-        }
+    }
 
     override func viewWillAppear(_ animated: Bool) {
         NotificationCenter.default.addObserver(
@@ -108,8 +92,7 @@ class ViewController: UIViewController {
             if errorBanner.isDisplaying {
                 errorBanner.dismiss()
             }
-        default:
-            break
+        default: ()
         }
     }
 
@@ -132,17 +115,6 @@ class ViewController: UIViewController {
 
     @IBAction func safariButtonTapped(_ sender: Any) {
         openInBrowser()
-    }
-
-    // MARK: - Observers
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?,
-                               context: UnsafeMutableRawPointer?) {
-        backButton.isEnabled = webView.canGoBack
-        forwardButton.isEnabled = webView.canGoForward
-        if let url = webView.url {
-             webView.scrollView.isScrollEnabled = !(url.path.hasPrefix("/connect")) //Remove scroll if /connect view
-        }
-        modifyShellDesign()
     }
 
     @objc func updateWebView() {
@@ -183,24 +155,12 @@ class ViewController: UIViewController {
     }
 
     func populateUserData() {
-        let javascript = "document.getElementsByTagName('body')[0].getAttribute('data-user')"
-        webView.evaluateJavaScript(javascript) { result, error in
-            if let error = error {
-                print("Error getting user data: \(error)")
-                return
-            }
-
-            if let jsonString = result as? String {
-                do {
-                    let user = try JSONDecoder().decode(UserData.self, from: Data(jsonString.utf8))
-                    let notificationSubscription = "user-notifications-\(String(user.userID))"
-                    try? self.pushNotifications.addDeviceInterest(interest: notificationSubscription)
-                    if user.configBodyClass.contains("night-theme") {
-                        self.applyDarkTheme()
-                    }
-                } catch {
-                    print("Error info: \(error)")
-                }
+        webView.fetchUserData { user in
+            guard let user = user else { return }
+            let notificationSubscription = "user-notifications-\(String(user.userID))"
+            try? self.pushNotifications.addDeviceInterest(interest: notificationSubscription)
+            if user.configBodyClass.contains("night-theme") {
+                self.applyDarkTheme()
             }
         }
     }
@@ -209,42 +169,33 @@ class ViewController: UIViewController {
         useDarkMode = true
         setNeedsStatusBarAppearanceUpdate()
         navigationToolBar.isTranslucent = false
-        navigationToolBar.barTintColor = darkBackgroundColor
+        navigationToolBar.barTintColor = ThemeColors.darkBackgroundColor
         safariButton.tintColor = UIColor.white
         backButton.tintColor = UIColor.white
         forwardButton.tintColor = UIColor.white
         refreshButton.tintColor = UIColor.white
-        view.backgroundColor = darkBackgroundColor
+        view.backgroundColor = ThemeColors.darkBackgroundColor
         activityIndicator.color = UIColor.white
     }
 
     func modifyShellDesign() {
-        let javascript = "document.getElementById('page-content').getAttribute('data-current-page')"
-        webView.evaluateJavaScript(javascript) { [weak self] result, error in
-            guard let self = self else { return }
-            if let error = error {
-                print("Error getting user data: \(error)")
-            }
-
-            if result as? String == "stories-show" {
-                self.removeShellShadow()
-            } else {
+        webView.shouldUseShellShadow { useShell in
+            if useShell {
                 self.addShellShadow()
+            } else {
+                self.removeShellShadow()
             }
         }
     }
 
     // MARK: - Theme configs
     func addShellShadow() {
-        webView.layer.shadowColor = UIColor.gray.cgColor
-        webView.layer.shadowOffset = CGSize(width: 0.0, height: 0.9)
-        webView.layer.shadowOpacity = 0.5
-        webView.layer.shadowRadius = 0.0
+        webView.setShellShadow(true)
         navigationToolBar.clipsToBounds = false
     }
 
     func removeShellShadow() {
-        webView.layer.shadowOpacity = 0.0
+        webView.setShellShadow(true)
         navigationToolBar.clipsToBounds = true
     }
 
@@ -276,14 +227,13 @@ class ViewController: UIViewController {
             }
         case DoAction.openVideoPlayer:
             mediaManager.prepareVideoPlayerViewController(viewController: segue.destination)
-        default:
-            print("Unknown segue")
+        default: ()
         }
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
         if !useDarkMode && traitCollection.userInterfaceStyle == .dark {
-            return UIStatusBarStyle.init(rawValue: statusBarStyleDarkContentRawValue)!
+            return UIStatusBarStyle.init(rawValue: ThemeColors.statusBarStyleDarkContentRawValue)!
         }
         return useDarkMode ? .lightContent : .default
     }
@@ -296,7 +246,6 @@ class ViewController: UIViewController {
             webView.observe(\DEVWKWebView.canGoForward, options: [.new, .old], changeHandler: { _, _ in
                 self.updateNavigationBar()
             }),
-
             webView.observe(\DEVWKWebView.url, options: [.new, .old], changeHandler: { _, _ in
                 self.updateNavigationBar()
             })
@@ -324,20 +273,13 @@ extension ViewController: WKNavigationDelegate {
     }
 
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        let javascript = "document.getElementsByTagName('body')[0].getAttribute('data-user-status')"
-        webView.evaluateJavaScript(javascript) { [weak self] result, error in
-            guard let self = self else { return }
-            if let error = error {
-                print("Error getting user data: \(error)")
-            }
-            if let jsonString = result as? String {
-                self.modifyShellDesign()
-                if jsonString == "logged-in" {
-                    self.populateUserData()
-                }
+        self.webView.fetchUserStatus { status in
+            self.activityIndicator.stopAnimating()
+            self.modifyShellDesign()
+            if status == "logged-in" {
+                self.populateUserData()
             }
         }
-        activityIndicator.stopAnimating()
     }
 
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction,
@@ -373,7 +315,14 @@ extension ViewController: WKNavigationDelegate {
 // MARK: - webkit messagehandler protocol
 extension ViewController: WKScriptMessageHandler {
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
-        if message.name == "haptic", let hapticType = message.body as? String {
+        switch message.name {
+        case "podcast":
+            mediaManager.handlePodcastMessage(message.body as? [String: String] ?? [:])
+        case "video":
+            mediaManager.handleVideoMessage(message.body as? [String: String] ?? [:])
+            performSegue(withIdentifier: DoAction.openVideoPlayer, sender: nil)
+        case "haptic":
+            guard let hapticType = message.body as? String else { return }
             switch hapticType {
             case "heavy":
                 let heavyImpact = UIImpactFeedbackGenerator(style: .heavy)
@@ -388,13 +337,7 @@ extension ViewController: WKScriptMessageHandler {
                 let notification = UINotificationFeedbackGenerator()
                 notification.notificationOccurred(.success)
             }
-        }
-        if message.name == "podcast", let message = message.body as? [String: String] {
-            mediaManager.handlePodcastMessage(message)
-        }
-        if message.name == "video", let message = message.body as? [String: String] {
-            mediaManager.loadVideoPlayer(videoUrl: message["url"], seconds: message["seconds"])
-            performSegue(withIdentifier: DoAction.openVideoPlayer, sender: nil)
+        default: ()
         }
     }
 }

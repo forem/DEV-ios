@@ -15,7 +15,7 @@ import MediaPlayer
 
 class MediaManager: NSObject {
 
-    weak var webView: WKWebView?
+    weak var webView: DEVWKWebView?
     var devToURL: String
 
     var avPlayer: AVPlayer?
@@ -29,7 +29,7 @@ class MediaManager: NSObject {
     var podcastImageUrl: String?
     var podcastImageFetched: Bool = false
 
-    init(webView: WKWebView, devToURL: String) {
+    init(webView: DEVWKWebView, devToURL: String) {
         self.webView = webView
         self.devToURL = devToURL
     }
@@ -47,6 +47,14 @@ class MediaManager: NSObject {
         if let videoPlayerViewController = viewController as? AVPlayerViewController {
             videoPlayerViewController.player = avPlayer
             avPlayer?.play()
+        }
+    }
+
+    func handleVideoMessage(_ message: [String: String]) {
+        switch message["action"] {
+        case "play":
+            loadVideoPlayer(videoUrl: message["url"], seconds: message["seconds"])
+        default: ()
         }
     }
 
@@ -73,8 +81,7 @@ class MediaManager: NSObject {
             avPlayer?.rate = podcastVolume ?? 1
         case "metadata":
             loadMetadata(from: message)
-        default:
-            print("ERROR: Unknown action")
+        default: ()
         }
     }
 
