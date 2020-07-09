@@ -32,6 +32,11 @@
 		DC8C833A244D7F100081F6CE /* URL+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC8C8339244D7F100081F6CE /* URL+Extensions.swift */; };
 		DC8C833B244D8A0A0081F6CE /* URL+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC8C8339244D7F100081F6CE /* URL+Extensions.swift */; };
 		DC8C833C244D8A0B0081F6CE /* URL+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC8C8339244D7F100081F6CE /* URL+Extensions.swift */; };
+		DC96AF2624B60AB10018AE11 /* DEVWKWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAD22375240ED2D900C98292 /* DEVWKWebView.swift */; };
+		DC96AF2724B60AB10018AE11 /* DEVWKWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAD22375240ED2D900C98292 /* DEVWKWebView.swift */; };
+		DC96AF2924B6564F0018AE11 /* DEVAVPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC96AF2824B6564F0018AE11 /* DEVAVPlayerView.swift */; };
+		DC96AF2A24B6564F0018AE11 /* DEVAVPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC96AF2824B6564F0018AE11 /* DEVAVPlayerView.swift */; };
+		DC96AF2B24B6564F0018AE11 /* DEVAVPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC96AF2824B6564F0018AE11 /* DEVAVPlayerView.swift */; };
 		DCD263752418CBC0002FDD38 /* Bundle+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC0134912418621300308B7E /* Bundle+Extensions.swift */; };
 		DCD263762418CBC1002FDD38 /* Bundle+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC0134912418621300308B7E /* Bundle+Extensions.swift */; };
 		DCEC88492406D58C00871B95 /* MediaManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCEC88482406D58C00871B95 /* MediaManager.swift */; };
@@ -87,6 +92,7 @@
 		CCEA9AFD219B410300AEF5BE /* test.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = test.html; sourceTree = "<group>"; };
 		DC0134912418621300308B7E /* Bundle+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Extensions.swift"; sourceTree = "<group>"; };
 		DC8C8339244D7F100081F6CE /* URL+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Extensions.swift"; sourceTree = "<group>"; };
+		DC96AF2824B6564F0018AE11 /* DEVAVPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DEVAVPlayerView.swift; sourceTree = "<group>"; };
 		DCEC88482406D58C00871B95 /* MediaManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -123,6 +129,7 @@
 			isa = PBXGroup;
 			children = (
 				BAD22375240ED2D900C98292 /* DEVWKWebView.swift */,
+				DC96AF2824B6564F0018AE11 /* DEVAVPlayerView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -437,6 +444,7 @@
 				DC0134922418621400308B7E /* Bundle+Extensions.swift in Sources */,
 				73D7673C218BA66700BD13B6 /* AppDelegate.swift in Sources */,
 				BD2104002345A66B00F1F6FB /* Notification+Extensions.swift in Sources */,
+				DC96AF2924B6564F0018AE11 /* DEVAVPlayerView.swift in Sources */,
 				1B032B1821E409FE00A2108A /* Globals.swift in Sources */,
 				DC8C833A244D7F100081F6CE /* URL+Extensions.swift in Sources */,
 				BAD22376240ED2D900C98292 /* DEVWKWebView.swift in Sources */,
@@ -450,10 +458,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				CCEA9AFC219B403100AEF5BE /* ViewControllerTests.swift in Sources */,
+				DC96AF2A24B6564F0018AE11 /* DEVAVPlayerView.swift in Sources */,
 				73D76751218BA66B00BD13B6 /* DEV_SimpleTests.swift in Sources */,
 				DC8C833B244D8A0A0081F6CE /* URL+Extensions.swift in Sources */,
 				DCEC884A2406D58C00871B95 /* MediaManager.swift in Sources */,
 				DCD263752418CBC0002FDD38 /* Bundle+Extensions.swift in Sources */,
+				DC96AF2624B60AB10018AE11 /* DEVWKWebView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -461,6 +471,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DC96AF2B24B6564F0018AE11 /* DEVAVPlayerView.swift in Sources */,
+				DC96AF2724B60AB10018AE11 /* DEVWKWebView.swift in Sources */,
 				DCD263762418CBC1002FDD38 /* Bundle+Extensions.swift in Sources */,
 				DC8C833C244D8A0B0081F6CE /* URL+Extensions.swift in Sources */,
 				73D7675C218BA66B00BD13B6 /* DEV_SimpleUITests.swift in Sources */,

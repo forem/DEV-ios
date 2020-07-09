@@ -43,11 +43,16 @@ class MediaManager: NSObject {
         }
     }
 
-    func prepareVideoPlayerViewController(viewController: UIViewController) {
-        if let videoPlayerViewController = viewController as? AVPlayerViewController {
-            videoPlayerViewController.player = avPlayer
-            avPlayer?.play()
-        }
+    func getVideoPlayer() -> AVPlayerViewController {
+        let videoPlayerVC = AVPlayerViewController()
+        videoPlayerVC.player = avPlayer
+        avPlayer?.play()
+        return videoPlayerVC
+    }
+
+    func dismissPlayer() {
+        avPlayer?.pause()
+        avPlayer = nil
     }
 
     func handleVideoMessage(_ message: [String: String]) {

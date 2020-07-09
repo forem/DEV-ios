@@ -8,6 +8,7 @@
 
 import UIKit
 import WebKit
+import AVKit
 import UserNotifications
 import PushNotifications
 import NotificationBanner
@@ -34,6 +35,7 @@ class ViewController: UIViewController {
         return banner
     }()
 
+    var videoPlayerView: DEVAVPlayerView?
     lazy var mediaManager: MediaManager = {
         return MediaManager(webView: self.webView, devToURL: self.devToURL)
     }()
@@ -79,16 +81,9 @@ class ViewController: UIViewController {
 
     // MARK: - Reachability
     @objc private func reachabilityChanged(note: Notification) {
-        guard let reachability = note.object as? Reachability else {
-            return
-        }
-
+        guard let reachability = note.object as? Reachability else { return }
         switch reachability.status {
-        case .wifi:
-            if errorBanner.isDisplaying {
-                errorBanner.dismiss()
-            }
-        case .wwan:
+        case .wifi, .wwan:
             if errorBanner.isDisplaying {
                 errorBanner.dismiss()
             }
@@ -145,13 +140,7 @@ class ViewController: UIViewController {
 
     // MARK: - Auth
     func isAuthLink(_ url: URL) -> Bool {
-        if url.absoluteString.hasPrefix("https://github.com/login") {
-            return true
-        }
-        if url.absoluteString.hasPrefix("https://api.twitter.com/oauth") {
-            return true
-        }
-        return false
+        return url.absoluteString.hasPrefix(AuthUrl.github) || url.absoluteString.hasPrefix(AuthUrl.twitter)
     }
 
     func populateUserData() {
@@ -220,14 +209,10 @@ class ViewController: UIViewController {
 
     // MARK: - Navegation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.identifier {
-        case DoAction.openExternalURL:
-            if let externalPage = segue.destination as? BrowserViewController {
-                externalPage.destinationUrl = sender as? URL
-            }
-        case DoAction.openVideoPlayer:
-            mediaManager.prepareVideoPlayerViewController(viewController: segue.destination)
-        default: ()
+        if segue.identifier == DoAction.openExternalURL,
+            let externalPage = segue.destination as? BrowserViewController {
+
+            externalPage.destinationUrl = sender as? URL
         }
     }
 
@@ -259,6 +244,14 @@ class ViewController: UIViewController {
             webView.scrollView.isScrollEnabled = !(url.path.hasPrefix("/connect")) //Remove scroll if /connect view
         }
         modifyShellDesign()
+    }
+
+    private func setupVideoPlayer() {
+        videoPlayerView = DEVAVPlayerView(frame: view.frame)
+        videoPlayerView?.delegate = self
+        view.addSubview(videoPlayerView!)
+        videoPlayerView?.addAVPlayerViewController(mediaManager.getVideoPlayer(), parentView: view)
+        videoPlayerView?.viewController?.didMove(toParent: self)
     }
 }
 
@@ -320,7 +313,7 @@ extension ViewController: WKScriptMessageHandler {
             mediaManager.handlePodcastMessage(message.body as? [String: String] ?? [:])
         case "video":
             mediaManager.handleVideoMessage(message.body as? [String: String] ?? [:])
-            performSegue(withIdentifier: DoAction.openVideoPlayer, sender: nil)
+            setupVideoPlayer()
         case "haptic":
             guard let hapticType = message.body as? String else { return }
             switch hapticType {
@@ -339,5 +332,13 @@ extension ViewController: WKScriptMessageHandler {
             }
         default: ()
         }
+    }
+}
+
+extension ViewController: DEVAVPlayerViewDelegate {
+    func playerDismissed() {
+        videoPlayerView?.removeFromSuperview()
+        videoPlayerView = nil
+        mediaManager.dismissPlayer()
     }
 }

@@ -17,3 +17,8 @@ struct ThemeColors {
     static var statusBarStyleDarkContentRawValue = 3
     static var darkBackgroundColor = UIColor(red: 26/255, green: 38/255, blue: 52/255, alpha: 1)
 }
+
+struct AuthUrl {
+    static var github = "https://github.com/login"
+    static var twitter = "https://api.twitter.com/oauth"
+}
