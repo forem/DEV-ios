@@ -1,11 +1,3 @@
-//
-//  MediaManager.swift
-//  DEV-Simple
-//
-//  Created by Fernando Valverde on 2/26/20.
-//  Copyright © 2020 DEV. All rights reserved.
-//
-
 import UIKit
 import WebKit
 import Foundation

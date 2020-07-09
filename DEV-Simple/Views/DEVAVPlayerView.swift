@@ -70,19 +70,19 @@ class DEVAVPlayerView: UIView {
     }
 
     private func initGestureRecognizers() {
-        let swipeUpGesture = UISwipeGestureRecognizer(target: self, action: #selector(didSwipeUp))
+        let swipeUpGesture = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipe))
         swipeUpGesture.direction = .up
         viewController?.view.addGestureRecognizer(swipeUpGesture)
 
-        let swipeDownGesture = UISwipeGestureRecognizer(target: self, action: #selector(didSwipeDown))
+        let swipeDownGesture = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipe))
         swipeDownGesture.direction = .down
         viewController?.view.addGestureRecognizer(swipeDownGesture)
 
-        let swipeLeftGesture = UISwipeGestureRecognizer(target: self, action: #selector(didSwipeLeft))
+        let swipeLeftGesture = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipe))
         swipeLeftGesture.direction = .left
         viewController?.view.addGestureRecognizer(swipeLeftGesture)
 
-        let swipeRightGesture = UISwipeGestureRecognizer(target: self, action: #selector(didSwipeRight))
+        let swipeRightGesture = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipe))
         swipeRightGesture.direction = .right
         viewController?.view.addGestureRecognizer(swipeRightGesture)
 
@@ -90,44 +90,30 @@ class DEVAVPlayerView: UIView {
         viewController?.view.addGestureRecognizer(tapGesture)
     }
 
-    @objc private func didSwipeUp(gesture: UISwipeGestureRecognizer) {
-        switch currentState {
-        case .fullscreen, .bottom:
-            animateCurrentState(state: .top)
-        case .top:
-            animateDismiss(direction: .up)
-        }
-    }
-
-    @objc private func didSwipeDown(gesture: UISwipeGestureRecognizer) {
-        switch currentState {
-        case .fullscreen, .top:
-            animateCurrentState(state: .bottom)
-        case .bottom:
-            animateDismiss(direction: .down)
-        }
-    }
-
-    @objc private func didSwipeLeft(gesture: UISwipeGestureRecognizer) {
-        switch currentState {
-        case .fullscreen: ()
-        case .top, .bottom:
-            animateDismiss(direction: .left)
-        }
-    }
-
-    @objc private func didSwipeRight(gesture: UISwipeGestureRecognizer) {
-        switch currentState {
-        case .fullscreen: ()
-        case .top, .bottom:
-            animateDismiss(direction: .right)
+    @objc private func handleSwipe(gesture: UISwipeGestureRecognizer) {
+        switch gesture.direction {
+        case .up:
+            if currentState == .top {
+                animateDismiss(direction: .up)
+            } else {
+                animateCurrentState(state: .top)
+            }
+        case .down:
+            if currentState == .bottom {
+                animateDismiss(direction: .down)
+            } else {
+                animateCurrentState(state: .bottom)
+            }
+        case .left, .right:
+            if currentState != .fullscreen {
+                animateDismiss(direction: gesture.direction)
+            }
+        default: ()
         }
     }
 
     @objc private func didTap(gesture: UITapGestureRecognizer) {
-        switch currentState {
-        case .fullscreen: ()
-        case .bottom, .top:
+        if currentState != .fullscreen {
             animateCurrentState(state: .fullscreen)
         }
     }
