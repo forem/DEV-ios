@@ -61,31 +61,33 @@ class DEVAVPlayerView: UIView {
             heightConstraint = make.height.equalTo(UIScreen.main.bounds.height).constraint
         }
 
-        // Gestures
-        let swipeUpGesture = UISwipeGestureRecognizer(target: self, action: #selector(didSwipeUp))
-        swipeUpGesture.direction = .up
-        viewController.view.addGestureRecognizer(swipeUpGesture)
-
-        let swipeDownGesture = UISwipeGestureRecognizer(target: self, action: #selector(didSwipeDown))
-        swipeDownGesture.direction = .down
-        viewController.view.addGestureRecognizer(swipeDownGesture)
-
-        let swipeLeftGesture = UISwipeGestureRecognizer(target: self, action: #selector(didSwipeLeft))
-        swipeLeftGesture.direction = .left
-        viewController.view.addGestureRecognizer(swipeLeftGesture)
-
-        let swipeRightGesture = UISwipeGestureRecognizer(target: self, action: #selector(didSwipeRight))
-        swipeRightGesture.direction = .right
-        viewController.view.addGestureRecognizer(swipeRightGesture)
-
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTap))
-        viewController.view.addGestureRecognizer(tapGesture)
-
+        initGestureRecognizers()
         UIDevice.current.beginGeneratingDeviceOrientationNotifications()
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(orientationChanged),
                                                name: UIDevice.orientationDidChangeNotification,
                                                object: nil)
+    }
+
+    private func initGestureRecognizers() {
+        let swipeUpGesture = UISwipeGestureRecognizer(target: self, action: #selector(didSwipeUp))
+        swipeUpGesture.direction = .up
+        viewController?.view.addGestureRecognizer(swipeUpGesture)
+
+        let swipeDownGesture = UISwipeGestureRecognizer(target: self, action: #selector(didSwipeDown))
+        swipeDownGesture.direction = .down
+        viewController?.view.addGestureRecognizer(swipeDownGesture)
+
+        let swipeLeftGesture = UISwipeGestureRecognizer(target: self, action: #selector(didSwipeLeft))
+        swipeLeftGesture.direction = .left
+        viewController?.view.addGestureRecognizer(swipeLeftGesture)
+
+        let swipeRightGesture = UISwipeGestureRecognizer(target: self, action: #selector(didSwipeRight))
+        swipeRightGesture.direction = .right
+        viewController?.view.addGestureRecognizer(swipeRightGesture)
+
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTap))
+        viewController?.view.addGestureRecognizer(tapGesture)
     }
 
     @objc private func didSwipeUp(gesture: UISwipeGestureRecognizer) {
@@ -155,13 +157,11 @@ class DEVAVPlayerView: UIView {
         leftConstraint?.update(offset: minimizedWidthMargin)
     }
 
-    func animateCurrentState(state: DEVAVPlayerPosition, force: Bool = false) {
-        guard !animating || force else { return }
+    func animateCurrentState(state: DEVAVPlayerPosition) {
+        guard !animating else { return }
         animating = true
 
         currentState = state
-        updateDisplayLayout()
-
         var animationDelay = 0.0
         if currentOrientation != .portrait && currentState != .fullscreen {
             // If necessary force portrait before trying to leave fullscreen
@@ -171,13 +171,8 @@ class DEVAVPlayerView: UIView {
             animationDelay = 0.4
         }
 
+        updateDisplayLayout()
         UIView.animate(withDuration: 0.5, delay: animationDelay, options: [.curveEaseOut], animations: { () -> Void in
-            if self.currentState == .fullscreen {
-                self.updateFullscreenConstraints()
-            } else {
-                self.updateMinimizedConstraints()
-            }
-
             self.layoutIfNeeded()
             self.superview?.layoutIfNeeded()
             self.viewController?.view.layoutIfNeeded()
@@ -213,6 +208,12 @@ class DEVAVPlayerView: UIView {
     }
 
     func updateDisplayLayout() {
+        if self.currentState == .fullscreen {
+            self.updateFullscreenConstraints()
+        } else {
+            self.updateMinimizedConstraints()
+        }
+
         switch self.currentState {
         case .top, .bottom:
             viewController?.showsPlaybackControls = false

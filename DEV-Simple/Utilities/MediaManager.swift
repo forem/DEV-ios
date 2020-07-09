@@ -1,5 +1,5 @@
 //
-//  PodcastDelegate.swift
+//  MediaManager.swift
 //  DEV-Simple
 //
 //  Created by Fernando Valverde on 2/26/20.
