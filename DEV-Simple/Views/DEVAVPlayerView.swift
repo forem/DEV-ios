@@ -30,6 +30,7 @@ class DEVAVPlayerView: UIView {
     var viewController: AVPlayerViewController?
 
     var currentState: DEVAVPlayerPosition = .fullscreen
+    var animating = false
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -82,9 +83,7 @@ class DEVAVPlayerView: UIView {
 
     @objc private func didSwipeUp(gesture: UISwipeGestureRecognizer) {
         switch currentState {
-        case .fullscreen:
-            animateCurrentState(state: .top)
-        case .bottom:
+        case .fullscreen, .bottom:
             animateCurrentState(state: .top)
         case .top:
             animateDismiss(direction: .up)
@@ -93,21 +92,17 @@ class DEVAVPlayerView: UIView {
 
     @objc private func didSwipeDown(gesture: UISwipeGestureRecognizer) {
         switch currentState {
-        case .fullscreen:
+        case .fullscreen, .top:
             animateCurrentState(state: .bottom)
         case .bottom:
             animateDismiss(direction: .down)
-        case .top:
-            animateCurrentState(state: .bottom)
         }
     }
 
     @objc private func didSwipeLeft(gesture: UISwipeGestureRecognizer) {
         switch currentState {
         case .fullscreen: ()
-        case .bottom:
-            animateDismiss(direction: .left)
-        case .top:
+        case .top, .bottom:
             animateDismiss(direction: .left)
         }
     }
@@ -115,10 +110,8 @@ class DEVAVPlayerView: UIView {
     @objc private func didSwipeRight(gesture: UISwipeGestureRecognizer) {
         switch currentState {
         case .fullscreen: ()
-        case .bottom:
-            animateDismiss(direction: .left)
-        case .top:
-            animateDismiss(direction: .left)
+        case .top, .bottom:
+            animateDismiss(direction: .right)
         }
     }
 
@@ -131,77 +124,84 @@ class DEVAVPlayerView: UIView {
     }
 
     func animateCurrentState(state: DEVAVPlayerPosition) {
+        guard !animating else { return }
+        animating = true
+
         currentState = state
+        updateDisplayLayout()
+
         let fullHDMinimizedHeight = UIScreen.main.bounds.width * (9.0/16.0)
         let minimizedWidthMargin: CGFloat = 10.0
         let minimizedHeightMargin: CGFloat = 40.0
+        let minimizedWidth = UIScreen.main.bounds.width - (2.0 * minimizedWidthMargin)
+
+        switch self.currentState {
+        case .top:
+            topConstraint?.update(offset: minimizedHeightMargin)
+            leftConstraint?.update(offset: minimizedWidthMargin)
+            heightConstraint?.update(offset: fullHDMinimizedHeight)
+            widthConstraint?.update(offset: minimizedWidth)
+        case .bottom:
+            let distanceToTop = UIScreen.main.bounds.height - fullHDMinimizedHeight - minimizedHeightMargin
+            topConstraint?.update(offset: distanceToTop)
+            leftConstraint?.update(offset: minimizedWidthMargin)
+            heightConstraint?.update(offset: fullHDMinimizedHeight)
+            widthConstraint?.update(offset: minimizedWidth)
+        case .fullscreen:
+            topConstraint?.update(offset: 0)
+            leftConstraint?.update(offset: 0)
+            heightConstraint?.update(offset: UIScreen.main.bounds.height)
+            widthConstraint?.update(offset: UIScreen.main.bounds.width)
+        }
 
         UIView.animate(withDuration: 0.5, delay: 0, options: [.curveEaseOut], animations: { () -> Void in
-            // Constraints
-            switch self.currentState {
-            case .top:
-                let minimizedWidth = UIScreen.main.bounds.width - (2.0 * minimizedWidthMargin)
-
-                self.topConstraint?.update(offset: minimizedHeightMargin)
-                self.leftConstraint?.update(offset: minimizedWidthMargin)
-                self.heightConstraint?.update(offset: fullHDMinimizedHeight)
-                self.widthConstraint?.update(offset: minimizedWidth)
-            case .bottom:
-                let distanceToTop = UIScreen.main.bounds.height - fullHDMinimizedHeight - minimizedHeightMargin
-                let minimizedWidth = UIScreen.main.bounds.width - (2.0 * minimizedWidthMargin)
-
-                self.topConstraint?.update(offset: distanceToTop)
-                self.leftConstraint?.update(offset: minimizedWidthMargin)
-                self.heightConstraint?.update(offset: fullHDMinimizedHeight)
-                self.widthConstraint?.update(offset: minimizedWidth)
-            case .fullscreen:
-                self.topConstraint?.update(offset: 0)
-                self.leftConstraint?.update(offset: 0)
-                self.heightConstraint?.update(offset: UIScreen.main.bounds.height)
-                self.widthConstraint?.update(offset: UIScreen.main.bounds.width)
-            }
-
-            // Rounded Corners & controls
-            switch self.currentState {
-            case .top, .bottom:
-                self.viewController?.showsPlaybackControls = false
-                self.layer.shadowRadius = 8
-                self.layer.shadowOffset = CGSize(width: 3, height: 3)
-                self.layer.shadowOpacity = 0.5
-                self.layer.cornerRadius = 20
-                self.layer.masksToBounds = true
-            case .fullscreen:
-                self.viewController?.showsPlaybackControls = true
-                self.layer.shadowRadius = 0
-                self.layer.shadowOpacity = 0.0
-                self.layer.cornerRadius = 0.0
-                self.layer.masksToBounds = false
-            }
-
-            self.setNeedsLayout()
             self.layoutIfNeeded()
+            self.superview?.layoutIfNeeded()
+        }, completion: { _ -> Void in
+            self.animating = false
         })
     }
 
     func animateDismiss(direction: UISwipeGestureRecognizer.Direction) {
-        UIView.animate(withDuration: 0.5, delay: 0, options: [.curveEaseIn], animations: { () -> Void in
-            self.alpha = 0.2
-            switch direction {
-            case .up:
-                self.topConstraint?.update(offset: -self.bounds.height)
-            case .down:
-                self.topConstraint?.update(offset: UIScreen.main.bounds.height + self.bounds.height)
-            case .left:
-                self.topConstraint?.update(offset: -self.bounds.width)
-            case .right:
-                self.topConstraint?.update(offset: UIScreen.main.bounds.width + self.bounds.width)
-            default: ()
-            }
+        guard !animating else { return }
+        animating = true
 
-            self.setNeedsLayout()
+        switch direction {
+        case .up:
+            topConstraint?.update(offset: -bounds.height)
+        case .down:
+            topConstraint?.update(offset: UIScreen.main.bounds.height + bounds.height)
+        case .left:
+            leftConstraint?.update(offset: -bounds.width)
+        case .right:
+            leftConstraint?.update(offset: UIScreen.main.bounds.width + bounds.width)
+        default: ()
+        }
+
+        UIView.animate(withDuration: 0.5, delay: 0, options: [.curveEaseIn], animations: { () -> Void in
+            self.alpha = 0.0
             self.layoutIfNeeded()
+            self.superview?.layoutIfNeeded()
         }, completion: { _ in
             self.delegate?.playerDismissed()
         })
+    }
+
+    func updateDisplayLayout() {
+        switch self.currentState {
+        case .top, .bottom:
+            viewController?.showsPlaybackControls = false
+            layer.shadowRadius = 8
+            layer.shadowOffset = CGSize(width: 3, height: 3)
+            layer.shadowOpacity = 0.5
+            layer.cornerRadius = 20
+            layer.masksToBounds = true
+        case .fullscreen:
+            viewController?.showsPlaybackControls = true
+            layer.shadowRadius = 0
+            layer.shadowOpacity = 0.0
+            layer.cornerRadius = 0.0
+            layer.masksToBounds = false
+        }
     }
 }
