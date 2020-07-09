@@ -57,6 +57,10 @@
 		DCE8872224B7934F0031003A /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B032B1721E409FE00A2108A /* Globals.swift */; };
 		DCE8872624B794330031003A /* BrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E8ACC62192165E009CE057 /* BrowserViewController.swift */; };
 		DCE8872724B794330031003A /* BrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E8ACC62192165E009CE057 /* BrowserViewController.swift */; };
+		DCE8872824B7B31D0031003A /* WKWebView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2103FD2345A5B000F1F6FB /* WKWebView+Extensions.swift */; };
+		DCE8872924B7B31D0031003A /* WKWebView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2103FD2345A5B000F1F6FB /* WKWebView+Extensions.swift */; };
+		DCE8872A24B7B3290031003A /* Notification+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2103FF2345A66B00F1F6FB /* Notification+Extensions.swift */; };
+		DCE8872B24B7B3290031003A /* Notification+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2103FF2345A66B00F1F6FB /* Notification+Extensions.swift */; };
 		DCEC88492406D58C00871B95 /* MediaManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCEC88482406D58C00871B95 /* MediaManager.swift */; };
 		DCEC884A2406D58C00871B95 /* MediaManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCEC88482406D58C00871B95 /* MediaManager.swift */; };
 		DCEC884B2406D58C00871B95 /* MediaManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCEC88482406D58C00871B95 /* MediaManager.swift */; };
@@ -491,7 +495,9 @@
 				73D76751218BA66B00BD13B6 /* DEV_SimpleTests.swift in Sources */,
 				DCE8872124B7934F0031003A /* Globals.swift in Sources */,
 				DC8C833B244D8A0A0081F6CE /* URL+Extensions.swift in Sources */,
+				DCE8872824B7B31D0031003A /* WKWebView+Extensions.swift in Sources */,
 				DCEC884A2406D58C00871B95 /* MediaManager.swift in Sources */,
+				DCE8872A24B7B3290031003A /* Notification+Extensions.swift in Sources */,
 				DCD263752418CBC0002FDD38 /* Bundle+Extensions.swift in Sources */,
 				DC96AF2624B60AB10018AE11 /* DEVWKWebView.swift in Sources */,
 				DCE8871F24B7934C0031003A /* NetworkReachability.swift in Sources */,
@@ -504,6 +510,7 @@
 			files = (
 				DCE8872724B794330031003A /* BrowserViewController.swift in Sources */,
 				DC96AF2B24B6564F0018AE11 /* DEVAVPlayerView.swift in Sources */,
+				DCE8872B24B7B3290031003A /* Notification+Extensions.swift in Sources */,
 				DC96AF2724B60AB10018AE11 /* DEVWKWebView.swift in Sources */,
 				DCD263762418CBC1002FDD38 /* Bundle+Extensions.swift in Sources */,
 				DC8C833C244D8A0B0081F6CE /* URL+Extensions.swift in Sources */,
@@ -513,6 +520,7 @@
 				DCE8871624B78F810031003A /* ViewController.swift in Sources */,
 				DCE8872224B7934F0031003A /* Globals.swift in Sources */,
 				DCEC884B2406D58C00871B95 /* MediaManager.swift in Sources */,
+				DCE8872924B7B31D0031003A /* WKWebView+Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
