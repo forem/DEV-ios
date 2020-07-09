@@ -39,6 +39,24 @@
 		DC96AF2B24B6564F0018AE11 /* DEVAVPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC96AF2824B6564F0018AE11 /* DEVAVPlayerView.swift */; };
 		DCD263752418CBC0002FDD38 /* Bundle+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC0134912418621300308B7E /* Bundle+Extensions.swift */; };
 		DCD263762418CBC1002FDD38 /* Bundle+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC0134912418621300308B7E /* Bundle+Extensions.swift */; };
+		DCE8871324B78F7E0031003A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D7673B218BA66700BD13B6 /* AppDelegate.swift */; };
+		DCE8871424B78F7E0031003A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D7673B218BA66700BD13B6 /* AppDelegate.swift */; };
+		DCE8871524B78F810031003A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D7673D218BA66700BD13B6 /* ViewController.swift */; };
+		DCE8871624B78F810031003A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D7673D218BA66700BD13B6 /* ViewController.swift */; };
+		DCE8871724B792B90031003A /* SnapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD5C907221B645CD000D9F79 /* SnapKit.framework */; };
+		DCE8871824B792BB0031003A /* PushNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73D7676A2190D88B00BD13B6 /* PushNotifications.framework */; };
+		DCE8871924B792C20031003A /* MarqueeLabel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA7610B222E20FB9004DBB9E /* MarqueeLabel.framework */; };
+		DCE8871A24B792D10031003A /* NotificationBanner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD5C906E21B6436F000D9F79 /* NotificationBanner.framework */; };
+		DCE8871B24B792D50031003A /* NotificationBanner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD5C906E21B6436F000D9F79 /* NotificationBanner.framework */; };
+		DCE8871C24B792D70031003A /* SnapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD5C907221B645CD000D9F79 /* SnapKit.framework */; };
+		DCE8871D24B792DE0031003A /* PushNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73D7676A2190D88B00BD13B6 /* PushNotifications.framework */; };
+		DCE8871E24B792E00031003A /* MarqueeLabel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA7610B222E20FB9004DBB9E /* MarqueeLabel.framework */; };
+		DCE8871F24B7934C0031003A /* NetworkReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5C906B21B63CCC000D9F79 /* NetworkReachability.swift */; };
+		DCE8872024B7934C0031003A /* NetworkReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5C906B21B63CCC000D9F79 /* NetworkReachability.swift */; };
+		DCE8872124B7934F0031003A /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B032B1721E409FE00A2108A /* Globals.swift */; };
+		DCE8872224B7934F0031003A /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B032B1721E409FE00A2108A /* Globals.swift */; };
+		DCE8872624B794330031003A /* BrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E8ACC62192165E009CE057 /* BrowserViewController.swift */; };
+		DCE8872724B794330031003A /* BrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E8ACC62192165E009CE057 /* BrowserViewController.swift */; };
 		DCEC88492406D58C00871B95 /* MediaManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCEC88482406D58C00871B95 /* MediaManager.swift */; };
 		DCEC884A2406D58C00871B95 /* MediaManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCEC88482406D58C00871B95 /* MediaManager.swift */; };
 		DCEC884B2406D58C00871B95 /* MediaManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCEC88482406D58C00871B95 /* MediaManager.swift */; };
@@ -112,6 +130,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DCE8871924B792C20031003A /* MarqueeLabel.framework in Frameworks */,
+				DCE8871724B792B90031003A /* SnapKit.framework in Frameworks */,
+				DCE8871A24B792D10031003A /* NotificationBanner.framework in Frameworks */,
+				DCE8871824B792BB0031003A /* PushNotifications.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -119,6 +141,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DCE8871E24B792E00031003A /* MarqueeLabel.framework in Frameworks */,
+				DCE8871C24B792D70031003A /* SnapKit.framework in Frameworks */,
+				DCE8871B24B792D50031003A /* NotificationBanner.framework in Frameworks */,
+				DCE8871D24B792DE0031003A /* PushNotifications.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -146,7 +172,6 @@
 		1BA17C8A220C84A2007A8EF5 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				73D7673B218BA66700BD13B6 /* AppDelegate.swift */,
 				DCEC88482406D58C00871B95 /* MediaManager.swift */,
 				BD5C906B21B63CCC000D9F79 /* NetworkReachability.swift */,
 				1B032B1721E409FE00A2108A /* Globals.swift */,
@@ -190,6 +215,7 @@
 		73D7673A218BA66700BD13B6 /* DEV-Simple */ = {
 			isa = PBXGroup;
 			children = (
+				73D7673B218BA66700BD13B6 /* AppDelegate.swift */,
 				73D7673D218BA66700BD13B6 /* ViewController.swift */,
 				73E8ACC62192165E009CE057 /* BrowserViewController.swift */,
 				1BA17C88220C847B007A8EF5 /* Views */,
@@ -457,13 +483,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DCE8871324B78F7E0031003A /* AppDelegate.swift in Sources */,
+				DCE8872624B794330031003A /* BrowserViewController.swift in Sources */,
 				CCEA9AFC219B403100AEF5BE /* ViewControllerTests.swift in Sources */,
 				DC96AF2A24B6564F0018AE11 /* DEVAVPlayerView.swift in Sources */,
+				DCE8871524B78F810031003A /* ViewController.swift in Sources */,
 				73D76751218BA66B00BD13B6 /* DEV_SimpleTests.swift in Sources */,
+				DCE8872124B7934F0031003A /* Globals.swift in Sources */,
 				DC8C833B244D8A0A0081F6CE /* URL+Extensions.swift in Sources */,
 				DCEC884A2406D58C00871B95 /* MediaManager.swift in Sources */,
 				DCD263752418CBC0002FDD38 /* Bundle+Extensions.swift in Sources */,
 				DC96AF2624B60AB10018AE11 /* DEVWKWebView.swift in Sources */,
+				DCE8871F24B7934C0031003A /* NetworkReachability.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -471,11 +502,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DCE8872724B794330031003A /* BrowserViewController.swift in Sources */,
 				DC96AF2B24B6564F0018AE11 /* DEVAVPlayerView.swift in Sources */,
 				DC96AF2724B60AB10018AE11 /* DEVWKWebView.swift in Sources */,
 				DCD263762418CBC1002FDD38 /* Bundle+Extensions.swift in Sources */,
 				DC8C833C244D8A0B0081F6CE /* URL+Extensions.swift in Sources */,
+				DCE8871424B78F7E0031003A /* AppDelegate.swift in Sources */,
+				DCE8872024B7934C0031003A /* NetworkReachability.swift in Sources */,
 				73D7675C218BA66B00BD13B6 /* DEV_SimpleUITests.swift in Sources */,
+				DCE8871624B78F810031003A /* ViewController.swift in Sources */,
+				DCE8872224B7934F0031003A /* Globals.swift in Sources */,
 				DCEC884B2406D58C00871B95 /* MediaManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -690,6 +726,10 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = R9SWHSQNV8;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = "DEV-SimpleTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -711,6 +751,10 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = R9SWHSQNV8;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = "DEV-SimpleTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -731,6 +775,10 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = R9SWHSQNV8;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = "DEV-SimpleUITests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -751,6 +799,10 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = R9SWHSQNV8;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = "DEV-SimpleUITests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

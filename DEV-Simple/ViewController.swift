@@ -51,6 +51,10 @@ class ViewController: UIViewController {
         return url?.host
     }()
 
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return videoPlayerView?.currentState == .fullscreen ? .allButUpsideDown : .portrait
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         activityIndicator.hidesWhenStopped = true
@@ -247,11 +251,13 @@ class ViewController: UIViewController {
     }
 
     private func setupVideoPlayer() {
-        videoPlayerView = DEVAVPlayerView(frame: view.frame)
-        videoPlayerView?.delegate = self
-        view.addSubview(videoPlayerView!)
-        videoPlayerView?.addAVPlayerViewController(mediaManager.getVideoPlayer(), parentView: view)
-        videoPlayerView?.viewController?.didMove(toParent: self)
+        if videoPlayerView == nil {
+            videoPlayerView = DEVAVPlayerView(frame: view.frame)
+            videoPlayerView?.delegate = self
+            view.addSubview(videoPlayerView!)
+            videoPlayerView?.addAVPlayerViewController(mediaManager.getVideoPlayer(), parentView: view)
+            videoPlayerView?.viewController?.didMove(toParent: self)
+        }
     }
 }
 
@@ -310,7 +316,17 @@ extension ViewController: WKScriptMessageHandler {
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         switch message.name {
         case "podcast":
-            mediaManager.handlePodcastMessage(message.body as? [String: String] ?? [:])
+            var delay = 0.0
+            if let videoPlayerView = videoPlayerView {
+                videoPlayerView.animateDismiss(direction: .down)
+                delay = 0.7
+            }
+
+            // In the rare case the user is playing a video and the player needs to be dismissed before
+            // engaging with the podcast player, we need to give the animateDismiss a head start to finish
+            DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+                self.mediaManager.handlePodcastMessage(message.body as? [String: String] ?? [:])
+            }
         case "video":
             mediaManager.handleVideoMessage(message.body as? [String: String] ?? [:])
             setupVideoPlayer()

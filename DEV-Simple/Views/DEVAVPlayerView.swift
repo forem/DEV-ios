@@ -30,6 +30,7 @@ class DEVAVPlayerView: UIView {
     var viewController: AVPlayerViewController?
 
     var currentState: DEVAVPlayerPosition = .fullscreen
+    var currentOrientation: UIDeviceOrientation = .portrait
     var animating = false
 
     override init(frame: CGRect) {
@@ -54,8 +55,8 @@ class DEVAVPlayerView: UIView {
         // When initialized always takes over full screen
         currentState = .fullscreen
         self.snp.makeConstraints { (make) in
-            topConstraint = make.top.equalTo(parentView).constraint
-            leftConstraint = make.left.equalTo(parentView).constraint
+            topConstraint = make.top.equalTo(parentView.snp.top).constraint
+            leftConstraint = make.left.equalTo(parentView.snp.left).constraint
             widthConstraint = make.width.equalTo(UIScreen.main.bounds.width).constraint
             heightConstraint = make.height.equalTo(UIScreen.main.bounds.height).constraint
         }
@@ -79,6 +80,12 @@ class DEVAVPlayerView: UIView {
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTap))
         viewController.view.addGestureRecognizer(tapGesture)
+
+        UIDevice.current.beginGeneratingDeviceOrientationNotifications()
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(orientationChanged),
+                                               name: UIDevice.orientationDidChangeNotification,
+                                               object: nil)
     }
 
     @objc private func didSwipeUp(gesture: UISwipeGestureRecognizer) {
@@ -123,40 +130,57 @@ class DEVAVPlayerView: UIView {
         }
     }
 
-    func animateCurrentState(state: DEVAVPlayerPosition) {
-        guard !animating else { return }
-        animating = true
+    func updateFullscreenConstraints() {
+        topConstraint?.update(offset: 0)
+        leftConstraint?.update(offset: 0)
+        heightConstraint?.update(offset: UIScreen.main.bounds.height)
+        widthConstraint?.update(offset: UIScreen.main.bounds.width)
+    }
 
-        currentState = state
-        updateDisplayLayout()
-
+    func updateMinimizedConstraints() {
         let fullHDMinimizedHeight = UIScreen.main.bounds.width * (9.0/16.0)
         let minimizedWidthMargin: CGFloat = 10.0
         let minimizedHeightMargin: CGFloat = 40.0
         let minimizedWidth = UIScreen.main.bounds.width - (2.0 * minimizedWidthMargin)
 
-        switch self.currentState {
-        case .top:
+        if currentState == .top {
             topConstraint?.update(offset: minimizedHeightMargin)
-            leftConstraint?.update(offset: minimizedWidthMargin)
-            heightConstraint?.update(offset: fullHDMinimizedHeight)
-            widthConstraint?.update(offset: minimizedWidth)
-        case .bottom:
+        } else {
             let distanceToTop = UIScreen.main.bounds.height - fullHDMinimizedHeight - minimizedHeightMargin
             topConstraint?.update(offset: distanceToTop)
-            leftConstraint?.update(offset: minimizedWidthMargin)
-            heightConstraint?.update(offset: fullHDMinimizedHeight)
-            widthConstraint?.update(offset: minimizedWidth)
-        case .fullscreen:
-            topConstraint?.update(offset: 0)
-            leftConstraint?.update(offset: 0)
-            heightConstraint?.update(offset: UIScreen.main.bounds.height)
-            widthConstraint?.update(offset: UIScreen.main.bounds.width)
         }
 
-        UIView.animate(withDuration: 0.5, delay: 0, options: [.curveEaseOut], animations: { () -> Void in
+        heightConstraint?.update(offset: fullHDMinimizedHeight)
+        widthConstraint?.update(offset: minimizedWidth)
+        leftConstraint?.update(offset: minimizedWidthMargin)
+    }
+
+    func animateCurrentState(state: DEVAVPlayerPosition, force: Bool = false) {
+        guard !animating || force else { return }
+        animating = true
+
+        currentState = state
+        updateDisplayLayout()
+
+        var animationDelay = 0.0
+        if currentOrientation != .portrait && currentState != .fullscreen {
+            // If necessary force portrait before trying to leave fullscreen
+            currentOrientation = .portrait
+            UIDevice.current.setValue(UIInterfaceOrientation.portrait.rawValue, forKey: "orientation")
+            UIViewController.attemptRotationToDeviceOrientation()
+            animationDelay = 0.4
+        }
+
+        UIView.animate(withDuration: 0.5, delay: animationDelay, options: [.curveEaseOut], animations: { () -> Void in
+            if self.currentState == .fullscreen {
+                self.updateFullscreenConstraints()
+            } else {
+                self.updateMinimizedConstraints()
+            }
+
             self.layoutIfNeeded()
             self.superview?.layoutIfNeeded()
+            self.viewController?.view.layoutIfNeeded()
         }, completion: { _ -> Void in
             self.animating = false
         })
@@ -182,6 +206,7 @@ class DEVAVPlayerView: UIView {
             self.alpha = 0.0
             self.layoutIfNeeded()
             self.superview?.layoutIfNeeded()
+            self.viewController?.view.layoutIfNeeded()
         }, completion: { _ in
             self.delegate?.playerDismissed()
         })
@@ -191,17 +216,24 @@ class DEVAVPlayerView: UIView {
         switch self.currentState {
         case .top, .bottom:
             viewController?.showsPlaybackControls = false
-            layer.shadowRadius = 8
-            layer.shadowOffset = CGSize(width: 3, height: 3)
-            layer.shadowOpacity = 0.5
-            layer.cornerRadius = 20
+            layer.cornerRadius = 10
             layer.masksToBounds = true
         case .fullscreen:
             viewController?.showsPlaybackControls = true
-            layer.shadowRadius = 0
-            layer.shadowOpacity = 0.0
             layer.cornerRadius = 0.0
             layer.masksToBounds = false
         }
+    }
+
+    @objc private func orientationChanged(_ notification: NSNotification) {
+        guard currentState == .fullscreen, let device = notification.object as? UIDevice else { return }
+
+        switch device.orientation {
+        case .landscapeLeft, .landscapeRight, .portrait:
+            currentOrientation = device.orientation
+        default:
+            currentOrientation = .portrait
+        }
+        animateCurrentState(state: currentState)
     }
 }

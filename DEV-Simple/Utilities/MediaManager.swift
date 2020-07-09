@@ -35,7 +35,7 @@ class MediaManager: NSObject {
     }
 
     func loadVideoPlayer(videoUrl: String?, seconds: String?) {
-        if let videoUrl = videoUrl, let url = NSURL(string: videoUrl) {
+        if currentStreamURL != videoUrl, let videoUrl = videoUrl, let url = NSURL(string: videoUrl) {
             currentStreamURL = videoUrl
             playerItem = AVPlayerItem.init(url: url as URL)
             avPlayer = AVPlayer.init(playerItem: playerItem)
@@ -45,6 +45,7 @@ class MediaManager: NSObject {
 
     func getVideoPlayer() -> AVPlayerViewController {
         let videoPlayerVC = AVPlayerViewController()
+        videoPlayerVC.allowsPictureInPicturePlayback = false
         videoPlayerVC.player = avPlayer
         avPlayer?.play()
         return videoPlayerVC
