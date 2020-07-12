@@ -26,14 +26,14 @@ class ViewController: UIViewController {
     @IBOutlet weak var backButton: UIBarButtonItem!
     @IBOutlet weak var forwardButton: UIBarButtonItem!
     @IBOutlet weak var refreshButton: UIBarButtonItem!
-    @IBOutlet lazy var webView: WKWebView! = {
+    @IBOutlet lazy var webView: DEVWebView! = {
 
         if !UIAccessibility.isInvertColorsEnabled {
-            return WKWebView()
+            return DEVWebView()
         }
 
         guard let path = Bundle.main.path(forResource: "invertedImages", ofType: "css") else {
-            return WKWebView()
+            return DEVWebView()
         }
 
         let cssString = try? String(contentsOfFile: path).components(separatedBy: .newlines).joined()
@@ -53,7 +53,7 @@ class ViewController: UIViewController {
         let configuration = WKWebViewConfiguration()
         configuration.userContentController = userContentController
 
-        let webView = WKWebView(frame: .zero,
+        let webView = DEVWebView(frame: .zero,
                                 configuration: configuration)
 
         webView.accessibilityIgnoresInvertColors = true
@@ -308,8 +308,6 @@ class ViewController: UIViewController {
             if let externalPage = segue.destination as? BrowserViewController {
                 externalPage.destinationUrl = sender as? URL
             }
-        case DoAction.openVideoPlayer:
-            mediaManager.prepareVideoPlayerViewController(viewController: segue.destination)
         default:
             print("Unknown segue")
         }
@@ -404,7 +402,7 @@ extension ViewController: WKScriptMessageHandler {
         }
         if message.name == "video", let message = message.body as? [String: String] {
             mediaManager.loadVideoPlayer(videoUrl: message["url"], seconds: message["seconds"])
-            performSegue(withIdentifier: DoAction.openVideoPlayer, sender: nil)
+//            performSegue(withIdentifier: DoAction.openVideoPlayer, sender: nil)
         }
     }
 }

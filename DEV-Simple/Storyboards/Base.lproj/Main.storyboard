@@ -16,7 +16,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9JM-0s-c02">
+                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9JM-0s-c02" customClass="DEVWebView" customModule="DEV_Simple" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="623"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <wkWebViewConfiguration key="configuration">
@@ -88,7 +88,6 @@
                         <outlet property="safariButton" destination="ax9-e8-CVX" id="eT0-pY-Msg"/>
                         <outlet property="webView" destination="9JM-0s-c02" id="P8P-92-taL"/>
                         <segue destination="2qi-qn-xu3" kind="presentation" identifier="showExternalPage" id="GCd-Hj-kbG"/>
-                        <segue destination="Upw-Te-ZLI" kind="presentation" identifier="showVideoPlayer" id="529-5W-OMv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -157,14 +156,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7cS-bh-cGb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1092" y="134"/>
-        </scene>
-        <!--AV Player View Controller-->
-        <scene sceneID="Vu4-cB-z8t">
-            <objects>
-                <avPlayerViewController videoGravity="AVLayerVideoGravityResizeAspect" id="Upw-Te-ZLI" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="79V-pQ-lQu" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="137" y="896"/>
         </scene>
     </scenes>
     <resources>
