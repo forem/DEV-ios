@@ -11,3 +11,8 @@ import Foundation
 struct DoAction {
     static var openExternalURL = "showExternalPage"
 }
+
+struct AuthUrl {
+    static var github = "https://github.com/login"
+    static var twitter = "https://api.twitter.com/oauth"
+}

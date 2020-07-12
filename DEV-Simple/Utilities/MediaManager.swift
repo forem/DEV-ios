@@ -1,11 +1,3 @@
-//
-//  PodcastDelegate.swift
-//  DEV-Simple
-//
-//  Created by Fernando Valverde on 2/26/20.
-//  Copyright © 2020 DEV. All rights reserved.
-//
-
 import UIKit
 import WebKit
 import Foundation
@@ -15,7 +7,7 @@ import MediaPlayer
 
 class MediaManager: NSObject {
 
-    weak var webView: WKWebView?
+    weak var webView: DEVWebView?
     var devToURL: String
 
     var avPlayer: AVPlayer?
@@ -29,13 +21,13 @@ class MediaManager: NSObject {
     var podcastImageUrl: String?
     var podcastImageFetched: Bool = false
 
-    init(webView: WKWebView, devToURL: String) {
+    init(webView: DEVWebView, devToURL: String) {
         self.webView = webView
         self.devToURL = devToURL
     }
 
     func loadVideoPlayer(videoUrl: String?, seconds: String?) {
-        if let videoUrl = videoUrl, let url = NSURL(string: videoUrl) {
+        if currentStreamURL != videoUrl, let videoUrl = videoUrl, let url = NSURL(string: videoUrl) {
             currentStreamURL = videoUrl
             playerItem = AVPlayerItem.init(url: url as URL)
             avPlayer = AVPlayer.init(playerItem: playerItem)
@@ -43,10 +35,24 @@ class MediaManager: NSObject {
         }
     }
 
-    func prepareVideoPlayerViewController(viewController: UIViewController) {
-        if let videoPlayerViewController = viewController as? AVPlayerViewController {
-            videoPlayerViewController.player = avPlayer
-            avPlayer?.play()
+    func getVideoPlayer() -> AVPlayerViewController {
+        let videoPlayerVC = AVPlayerViewController()
+        videoPlayerVC.allowsPictureInPicturePlayback = false
+        videoPlayerVC.player = avPlayer
+        avPlayer?.play()
+        return videoPlayerVC
+    }
+
+    func dismissPlayer() {
+        avPlayer?.pause()
+        avPlayer = nil
+    }
+
+    func handleVideoMessage(_ message: [String: String]) {
+        switch message["action"] {
+        case "play":
+            loadVideoPlayer(videoUrl: message["url"], seconds: message["seconds"])
+        default: ()
         }
     }
 
@@ -73,8 +79,7 @@ class MediaManager: NSObject {
             avPlayer?.rate = podcastVolume ?? 1
         case "metadata":
             loadMetadata(from: message)
-        default:
-            print("ERROR: Unknown action")
+        default: ()
         }
     }
 
