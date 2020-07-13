@@ -8,7 +8,6 @@
 
 import UIKit
 import WebKit
-import AVKit
 import UserNotifications
 import PushNotifications
 import NotificationBanner

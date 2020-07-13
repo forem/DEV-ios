@@ -91,24 +91,31 @@ class DEVAVPlayerView: UIView {
     }
 
     @objc private func handleSwipe(gesture: UISwipeGestureRecognizer) {
-        switch gesture.direction {
-        case .up:
-            if currentState == .top {
-                animateDismiss(direction: .up)
-            } else {
+        if swipeDismissesView(direction: gesture.direction) {
+            animateDismiss(direction: gesture.direction)
+        } else {
+            // Since we're not dismissing there's only top or bottom state we can go to now
+            switch gesture.direction {
+            case .up:
                 animateCurrentState(state: .top)
-            }
-        case .down:
-            if currentState == .bottom {
-                animateDismiss(direction: .down)
-            } else {
+            case .down:
                 animateCurrentState(state: .bottom)
+            default: ()
             }
-        case .left, .right:
-            if currentState != .fullscreen {
-                animateDismiss(direction: gesture.direction)
-            }
-        default: ()
+        }
+    }
+
+    // This function tells whether a swipe dismisses or not the DEVAVPlayerView
+    private func swipeDismissesView(direction: UISwipeGestureRecognizer.Direction) -> Bool {
+        // Fullscreen never dismisses the player, it only minimizes (PiP)
+        guard currentState != .fullscreen else { return false }
+
+        // If minimized (PiP) the only action that doesn't dismiss is moving the minimized
+        // view from top->bottom & bottom->top, everything else dismisses the player
+        if currentState == .top {
+            return direction != .down
+        } else {
+            return direction != .up
         }
     }
 
