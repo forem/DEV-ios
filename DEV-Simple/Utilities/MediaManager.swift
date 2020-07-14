@@ -29,6 +29,18 @@ class MediaManager: NSObject {
             playerItem = AVPlayerItem.init(url: url as URL)
             avPlayer = AVPlayer.init(playerItem: playerItem)
             avPlayer?.volume = 1.0
+            seek(to: seconds)
+
+            let interval = CMTime(seconds: 1, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
+            avPlayer?.addPeriodicTimeObserver(forInterval: interval, queue: DispatchQueue.main) { [weak self] _ in
+                guard self?.avPlayer?.rate != 0 && self?.avPlayer?.error == nil else { return }
+                guard let time: Double = self?.avPlayer?.currentTime().seconds else { return }
+                let message = [
+                    "action": "tick",
+                    "currentTime": String(format: "%.4f", time)
+                ]
+                self?.webView?.sendBridgeMessage(type: "video", message: message)
+            }
         }
     }
 
@@ -43,6 +55,7 @@ class MediaManager: NSObject {
     func dismissPlayer() {
         avPlayer?.pause()
         avPlayer = nil
+        currentStreamURL = nil
     }
 
     func handleVideoMessage(_ message: [String: String]) {
@@ -105,9 +118,7 @@ class MediaManager: NSObject {
     }
 
     private func seekForward(_ sender: Any) {
-        guard let duration  = avPlayer?.currentItem?.duration else {
-            return
-        }
+        guard let duration  = avPlayer?.currentItem?.duration else { return }
         let playerCurrentTime = CMTimeGetSeconds(avPlayer!.currentTime())
         let newTime = playerCurrentTime + 15
 
@@ -140,7 +151,7 @@ class MediaManager: NSObject {
 
     private func updateTimeLabel(currentTime: Double, duration: Double) {
         guard currentTime > 0 && duration > 0 else {
-            sendPodcastMessage(["action": "init"])
+            webView?.sendBridgeMessage(type: "podcast", message: ["action": "init"])
             return
         }
 
@@ -149,7 +160,15 @@ class MediaManager: NSObject {
             "duration": String(format: "%.4f", duration),
             "currentTime": String(format: "%.4f", currentTime)
         ]
-        sendPodcastMessage(message)
+        webView?.sendBridgeMessage(type: "podcast", message: message)
+    }
+
+    private func videoTick(currentTime: Double) {
+        let message = [
+            "action": "tick",
+            "currentTime": String(format: "%.4f", currentTime)
+        ]
+        webView?.sendBridgeMessage(type: "podcast", message: message)
     }
 
     private func load(audioUrl: String?) {
@@ -168,21 +187,6 @@ class MediaManager: NSObject {
 
             self?.updateTimeLabel(currentTime: time, duration: duration)
             self?.updateNowPlayingInfoCenter()
-        }
-    }
-
-    private func sendPodcastMessage(_ message: [String: String]) {
-        var jsonString = ""
-        let encoder = JSONEncoder()
-        if let jsonData = try? encoder.encode(message) {
-            jsonString = String(data: jsonData, encoding: .utf8) ?? ""
-        }
-
-        let javascript = "document.getElementById('audiocontent').setAttribute('data-podcast', '\(jsonString)')"
-        webView?.evaluateJavaScript(javascript) { _, error in
-            if let error = error {
-                print("Error sending Podcast message (\(message)): \(error.localizedDescription)")
-            }
         }
     }
 

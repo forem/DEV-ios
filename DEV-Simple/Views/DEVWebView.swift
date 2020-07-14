@@ -79,6 +79,26 @@ class DEVWebView: WKWebView {
         }
     }
 
+    func sendBridgeMessage(type: String, message: [String: String]) {
+        var jsonString = ""
+        let encoder = JSONEncoder()
+        if let jsonData = try? encoder.encode(message) {
+            jsonString = String(data: jsonData, encoding: .utf8) ?? ""
+        }
+
+        var javascript = ""
+        if type == "podcast" {
+            javascript = "document.getElementById('audiocontent').setAttribute('data-podcast', '\(jsonString)')"
+        } else if type == "video" {
+            javascript = "document.getElementById('video-player-source').setAttribute('data-message', '\(jsonString)')"
+        }
+        evaluateJavaScript(javascript) { _, error in
+            if let error = error {
+                print("Error sending Podcast message (\(message)): \(error.localizedDescription)")
+            }
+        }
+    }
+
     func shouldUseShellShadow(completion: @escaping (Bool) -> Void) {
         let javascript = "document.getElementById('page-content').getAttribute('data-current-page')"
         evaluateJavaScript(javascript) { result, error in

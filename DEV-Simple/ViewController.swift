@@ -256,6 +256,8 @@ class ViewController: UIViewController {
             view.addSubview(videoPlayerView!)
             videoPlayerView?.addAVPlayerViewController(mediaManager.getVideoPlayer(), parentView: view)
             videoPlayerView?.viewController?.didMove(toParent: self)
+        } else {
+            videoPlayerView?.animateCurrentState(state: .fullscreen)
         }
     }
 }
@@ -355,5 +357,6 @@ extension ViewController: DEVAVPlayerViewDelegate {
         videoPlayerView?.removeFromSuperview()
         videoPlayerView = nil
         mediaManager.dismissPlayer()
+        webView?.sendBridgeMessage(type: "video", message: [ "action": "pause" ])
     }
 }
