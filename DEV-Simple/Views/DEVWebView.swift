@@ -6,7 +6,6 @@
 //  Copyright © 2020 DEV. All rights reserved.
 //
 
-import Foundation
 import UIKit
 import WebKit
 

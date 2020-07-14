@@ -1,6 +1,7 @@
 import Foundation
 import UIKit
 import WebKit
+
 class BrowserViewController: UIViewController, WKNavigationDelegate {
     @IBOutlet weak var webView: DEVWebView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
