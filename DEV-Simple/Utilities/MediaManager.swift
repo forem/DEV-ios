@@ -30,17 +30,7 @@ class MediaManager: NSObject {
             avPlayer = AVPlayer.init(playerItem: playerItem)
             avPlayer?.volume = 1.0
             seek(to: seconds)
-
-            let interval = CMTime(seconds: 1, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
-            avPlayer?.addPeriodicTimeObserver(forInterval: interval, queue: DispatchQueue.main) { [weak self] _ in
-                guard self?.avPlayer?.rate != 0 && self?.avPlayer?.error == nil else { return }
-                guard let time: Double = self?.avPlayer?.currentTime().seconds else { return }
-                let message = [
-                    "action": "tick",
-                    "currentTime": String(format: "%.4f", time)
-                ]
-                self?.webView?.sendBridgeMessage(type: "video", message: message)
-            }
+            startVideoTimeObserver()
         }
     }
 
@@ -187,6 +177,19 @@ class MediaManager: NSObject {
 
             self?.updateTimeLabel(currentTime: time, duration: duration)
             self?.updateNowPlayingInfoCenter()
+        }
+    }
+
+    private func startVideoTimeObserver() {
+        let interval = CMTime(seconds: 1, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
+        avPlayer?.addPeriodicTimeObserver(forInterval: interval, queue: DispatchQueue.main) { [weak self] _ in
+            guard self?.avPlayer?.rate != 0 && self?.avPlayer?.error == nil else { return }
+            guard let time: Double = self?.avPlayer?.currentTime().seconds else { return }
+            let message = [
+                "action": "tick",
+                "currentTime": String(format: "%.4f", time)
+            ]
+            self?.webView?.sendBridgeMessage(type: "video", message: message)
         }
     }
 
