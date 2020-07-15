@@ -36,7 +36,6 @@ class MediaManager: NSObject {
 
     func getVideoPlayer() -> AVPlayerViewController {
         let videoPlayerVC = AVPlayerViewController()
-        videoPlayerVC.allowsPictureInPicturePlayback = false
         videoPlayerVC.player = avPlayer
         avPlayer?.play()
         return videoPlayerVC
