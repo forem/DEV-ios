@@ -230,6 +230,9 @@ class ViewController: UIViewController {
                     try? self.pushNotifications.addDeviceInterest(interest: notificationSubscription)
                     if user.configBodyClass.contains("night-theme") {
                         self.applyDarkTheme()
+                    } else if user.configBodyClass.contains("ten-x-hacker-theme") {
+                        self.applyDarkTheme()
+                        self.applyDarkerTheme()
                     }
                 } catch {
                     print("Error info: \(error)")
@@ -242,13 +245,18 @@ class ViewController: UIViewController {
         useDarkMode = true
         setNeedsStatusBarAppearanceUpdate()
         navigationToolBar.isTranslucent = false
-        navigationToolBar.barTintColor = darkBackgroundColor
+        navigationToolBar.barTintColor = darkBlueBackgroundColor
         safariButton.tintColor = UIColor.white
         backButton.tintColor = UIColor.white
         forwardButton.tintColor = UIColor.white
         refreshButton.tintColor = UIColor.white
-        view.backgroundColor = darkBackgroundColor
+        view.backgroundColor = darkBlueBackgroundColor
         activityIndicator.color = UIColor.white
+    }
+    
+    private func applyDarkerTheme() {
+        navigationToolBar.barTintColor = UIColor.black
+        view.backgroundColor = UIColor.black
     }
 
     func modifyShellDesign() {
