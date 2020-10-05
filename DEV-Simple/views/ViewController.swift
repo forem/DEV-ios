@@ -245,15 +245,15 @@ class ViewController: UIViewController {
         useDarkMode = true
         setNeedsStatusBarAppearanceUpdate()
         navigationToolBar.isTranslucent = false
-        navigationToolBar.barTintColor = darkBlueBackgroundColor
+        navigationToolBar.barTintColor = darkBackgroundColor
         safariButton.tintColor = UIColor.white
         backButton.tintColor = UIColor.white
         forwardButton.tintColor = UIColor.white
         refreshButton.tintColor = UIColor.white
-        view.backgroundColor = darkBlueBackgroundColor
+        view.backgroundColor = darkBackgroundColor
         activityIndicator.color = UIColor.white
     }
-    
+
     private func applyDarkerTheme() {
         navigationToolBar.barTintColor = UIColor.black
         view.backgroundColor = UIColor.black
