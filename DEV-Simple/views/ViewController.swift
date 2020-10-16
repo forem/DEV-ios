@@ -22,7 +22,6 @@ struct UserData: Codable {
 }
 
 class ViewController: UIViewController {
-
     @IBOutlet weak var backButton: UIBarButtonItem!
     @IBOutlet weak var forwardButton: UIBarButtonItem!
     @IBOutlet weak var refreshButton: UIBarButtonItem!
@@ -31,11 +30,9 @@ class ViewController: UIViewController {
         if !UIAccessibility.isInvertColorsEnabled {
             return WKWebView()
         }
-
         guard let path = Bundle.main.path(forResource: "invertedImages", ofType: "css") else {
             return WKWebView()
         }
-
         let cssString = try? String(contentsOfFile: path).components(separatedBy: .newlines).joined()
         let source = """
         var style = document.createElement('style');
@@ -46,7 +43,6 @@ class ViewController: UIViewController {
         let userScript = WKUserScript(source: source,
                                       injectionTime: .atDocumentEnd,
                                       forMainFrameOnly: true)
-
         let userContentController = WKUserContentController()
         userContentController.addUserScript(userScript)
 
@@ -55,7 +51,6 @@ class ViewController: UIViewController {
 
         let webView = WKWebView(frame: .zero,
                                 configuration: configuration)
-
         webView.accessibilityIgnoresInvertColors = true
         return webView
     }()
@@ -131,7 +126,6 @@ class ViewController: UIViewController {
         guard let reachability = note.object as? Reachability else {
             return
         }
-
         switch reachability.status {
         case .wifi:
             if errorBanner.isDisplaying {
@@ -185,7 +179,6 @@ class ViewController: UIViewController {
             guard let self = self else {
                 return
             }
-
             // Wait a split second if first launch (Hack, probably a race condition)
             self.webView.load(serverURL ?? "https://dev.to")
         }
@@ -222,7 +215,6 @@ class ViewController: UIViewController {
                 print("Error getting user data: \(error)")
                 return
             }
-
             if let jsonString = result as? String {
                 do {
                     let user = try JSONDecoder().decode(UserData.self, from: Data(jsonString.utf8))
@@ -230,6 +222,9 @@ class ViewController: UIViewController {
                     try? self.pushNotifications.addDeviceInterest(interest: notificationSubscription)
                     if user.configBodyClass.contains("night-theme") {
                         self.applyDarkTheme()
+                    } else if user.configBodyClass.contains("ten-x-hacker-theme") {
+                        self.applyDarkTheme()
+                        self.applyDarkerTheme()
                     }
                 } catch {
                     print("Error info: \(error)")
@@ -249,6 +244,11 @@ class ViewController: UIViewController {
         refreshButton.tintColor = UIColor.white
         view.backgroundColor = darkBackgroundColor
         activityIndicator.color = UIColor.white
+    }
+
+    private func applyDarkerTheme() {
+        navigationToolBar.barTintColor = UIColor.black
+        view.backgroundColor = UIColor.black
     }
 
     func modifyShellDesign() {
@@ -351,7 +351,6 @@ extension ViewController: WKNavigationDelegate {
             decisionHandler(.allow)
             return
         }
-
         let policy = navigationPolicy(url: url, navigationType: navigationAction.navigationType)
         decisionHandler(policy)
     }
