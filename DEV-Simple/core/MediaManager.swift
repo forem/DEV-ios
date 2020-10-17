@@ -28,7 +28,7 @@ class MediaManager: NSObject {
     var podcastImageUrl: String?
     var podcastImageFetched: Bool = false
 
-    private static let seekInterval = 15.0
+    private let seekInterval = 15.0
 
     init(webView: WKWebView, devToURL: String) {
         self.webView = webView
