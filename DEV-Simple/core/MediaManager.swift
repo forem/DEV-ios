@@ -94,16 +94,16 @@ class MediaManager: NSObject {
             return
         }
         let playerCurrentTime = CMTimeGetSeconds(avPlayer!.currentTime())
-        let newTime = playerCurrentTime + Self.seekInterval
+        let newTime = playerCurrentTime + seekInterval
 
-        if newTime < (CMTimeGetSeconds(duration) - Self.seekInterval) {
+        if newTime < (CMTimeGetSeconds(duration) - seekInterval) {
             avPlayer!.seek(to: seekableTime(newTime), toleranceBefore: CMTime.zero, toleranceAfter: CMTime.zero)
         }
     }
 
     private func seekBackward(_ sender: Any) {
         let playerCurrentTime = CMTimeGetSeconds(avPlayer!.currentTime())
-        let newTime = max(0, playerCurrentTime - Self.seekInterval)
+        let newTime = max(0, playerCurrentTime - seekInterval)
         avPlayer!.seek(to: seekableTime(newTime), toleranceBefore: CMTime.zero, toleranceAfter: CMTime.zero)
     }
 
@@ -175,8 +175,8 @@ class MediaManager: NSObject {
         let commandCenter = MPRemoteCommandCenter.shared()
         commandCenter.skipForwardCommand.isEnabled = true
         commandCenter.skipBackwardCommand.isEnabled = true
-        commandCenter.skipForwardCommand.preferredIntervals = [.init(value: Self.seekInterval)]
-        commandCenter.skipBackwardCommand.preferredIntervals = [.init(value: Self.seekInterval)]
+        commandCenter.skipForwardCommand.preferredIntervals = [.init(value: seekInterval)]
+        commandCenter.skipBackwardCommand.preferredIntervals = [.init(value: seekInterval)]
         commandCenter.playCommand.addTarget { _ in
             let currentTime = String(self.avPlayer?.currentTime().seconds ?? 0)
             self.play(audioUrl: self.currentPodcastURL, at: currentTime)
@@ -188,11 +188,11 @@ class MediaManager: NSObject {
             return .success
         }
         commandCenter.skipForwardCommand.addTarget { _ in
-            self.seekForward(Self.seekInterval)
+            self.seekForward(self.seekInterval)
             return .success
         }
         commandCenter.skipBackwardCommand.addTarget { _ in
-            self.seekBackward(Self.seekInterval)
+            self.seekBackward(self.seekInterval)
             return .success
         }
     }
