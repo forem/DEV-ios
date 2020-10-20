@@ -28,6 +28,8 @@ class MediaManager: NSObject {
     var podcastImageUrl: String?
     var podcastImageFetched: Bool = false
 
+    private let seekInterval = 15.0
+
     init(webView: WKWebView, devToURL: String) {
         self.webView = webView
         self.devToURL = devToURL
@@ -64,16 +66,18 @@ class MediaManager: NSObject {
     // MARK: - Action Functions
 
     private func play(audioUrl: String?, at seconds: String?) {
-        var seconds = Double(seconds ?? "0")
+        let secondsDouble: Double?
         if currentPodcastURL != audioUrl && audioUrl != nil {
             avPlayer?.pause()
-            seconds = 0
+            secondsDouble = 0
             currentPodcastURL = nil
             load(audioUrl: audioUrl)
+        } else {
+            secondsDouble = Double(seconds ?? "0")
         }
 
         guard avPlayer?.timeControlStatus != .playing else { return }
-        avPlayer?.seek(to: CMTime(seconds: seconds ?? 0, preferredTimescale: CMTimeScale(NSEC_PER_SEC)))
+        avPlayer?.seek(to: CMTime(seconds: secondsDouble ?? 0, preferredTimescale: CMTimeScale(NSEC_PER_SEC)))
         avPlayer?.play()
         avPlayer?.rate = podcastRate ?? 1
         updateNowPlayingInfoCenter()
@@ -90,19 +94,16 @@ class MediaManager: NSObject {
             return
         }
         let playerCurrentTime = CMTimeGetSeconds(avPlayer!.currentTime())
-        let newTime = playerCurrentTime + 15
+        let newTime = playerCurrentTime + seekInterval
 
-        if newTime < (CMTimeGetSeconds(duration) - 15) {
+        if newTime < (CMTimeGetSeconds(duration) - seekInterval) {
             avPlayer!.seek(to: seekableTime(newTime), toleranceBefore: CMTime.zero, toleranceAfter: CMTime.zero)
         }
     }
 
     private func seekBackward(_ sender: Any) {
         let playerCurrentTime = CMTimeGetSeconds(avPlayer!.currentTime())
-        var newTime = playerCurrentTime - 15
-        if newTime < 0 {
-            newTime = 0
-        }
+        let newTime = max(0, playerCurrentTime - seekInterval)
         avPlayer!.seek(to: seekableTime(newTime), toleranceBefore: CMTime.zero, toleranceAfter: CMTime.zero)
     }
 
@@ -134,11 +135,11 @@ class MediaManager: NSObject {
     }
 
     private func load(audioUrl: String?) {
-        guard currentPodcastURL == nil && audioUrl != nil else { return }
-        guard let url = NSURL(string: audioUrl!) else { return }
+        guard currentPodcastURL == nil, let audioUrl = audioUrl else { return }
+        guard let url = URL(string: audioUrl) else { return }
         currentPodcastURL = audioUrl
-        currentPodcast = AVPlayerItem.init(url: url as URL)
-        avPlayer = AVPlayer.init(playerItem: currentPodcast)
+        currentPodcast = .init(url: url)
+        avPlayer = .init(playerItem: currentPodcast)
         avPlayer?.volume = 1.0
         updateTimeLabel(currentTime: 0, duration: 0)
 
@@ -174,8 +175,8 @@ class MediaManager: NSObject {
         let commandCenter = MPRemoteCommandCenter.shared()
         commandCenter.skipForwardCommand.isEnabled = true
         commandCenter.skipBackwardCommand.isEnabled = true
-        commandCenter.skipForwardCommand.preferredIntervals = [15]
-        commandCenter.skipBackwardCommand.preferredIntervals = [15]
+        commandCenter.skipForwardCommand.preferredIntervals = [.init(value: seekInterval)]
+        commandCenter.skipBackwardCommand.preferredIntervals = [.init(value: seekInterval)]
         commandCenter.playCommand.addTarget { _ in
             let currentTime = String(self.avPlayer?.currentTime().seconds ?? 0)
             self.play(audioUrl: self.currentPodcastURL, at: currentTime)
@@ -187,11 +188,11 @@ class MediaManager: NSObject {
             return .success
         }
         commandCenter.skipForwardCommand.addTarget { _ in
-            self.seekForward(15)
+            self.seekForward(self.seekInterval)
             return .success
         }
         commandCenter.skipBackwardCommand.addTarget { _ in
-            self.seekBackward(15)
+            self.seekBackward(self.seekInterval)
             return .success
         }
     }
