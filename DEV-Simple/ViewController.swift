@@ -7,7 +7,9 @@
 //
 
 import UIKit
+import AVKit
 import WebKit
+import ForemWebView
 import UserNotifications
 import PushNotifications
 import NotificationBanner
@@ -16,10 +18,10 @@ class ViewController: UIViewController {
 
     private var observations: [NSKeyValueObservation] = []
 
+    @IBOutlet weak var webView: ForemWebView!
     @IBOutlet weak var backButton: UIBarButtonItem!
     @IBOutlet weak var forwardButton: UIBarButtonItem!
     @IBOutlet weak var refreshButton: UIBarButtonItem!
-    @IBOutlet weak var webView: DEVWebView!
     @IBOutlet weak var safariButton: UIBarButtonItem!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var navigationToolBar: UIToolbar!
@@ -34,11 +36,6 @@ class ViewController: UIViewController {
         return banner
     }()
 
-    var videoPlayerView: DEVAVPlayerView?
-    lazy var mediaManager: MediaManager = {
-        return MediaManager(webView: self.webView, devToURL: self.devToURL)
-    }()
-
     var devToURL: String = {
         if let developmentURL = ProcessInfo.processInfo.environment["DEV_URL"] {
             return developmentURL
@@ -50,9 +47,9 @@ class ViewController: UIViewController {
         return url?.host
     }()
 
-    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        return videoPlayerView?.currentState == .fullscreen ? .allButUpsideDown : .portrait
-    }
+//    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+//        return videoPlayerView?.currentState == .fullscreen ? .allButUpsideDown : .portrait
+//    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,12 +57,10 @@ class ViewController: UIViewController {
         backButton.isEnabled = false
         forwardButton.isEnabled = false
 
-        webView.setup(navigationDelegate: self, messageHandler: self)
-        webView.scrollView.verticalScrollIndicatorInsets.top = view.safeAreaInsets.top + 50
+        webView.foremWebViewDelegate = self
         webView.load(devToURL)
 
         setupObservers()
-        addShellShadow()
         let notificationName = Notification.Name("updateWebView")
         NotificationCenter.default.addObserver(
             self,
@@ -145,54 +140,33 @@ class ViewController: UIViewController {
         return url.absoluteString.hasPrefix(AuthUrl.github) || url.absoluteString.hasPrefix(AuthUrl.twitter)
     }
 
-    func populateUserData() {
-        webView.fetchUserData { user in
-            guard let user = user else { return }
-            let notificationSubscription = "user-notifications-\(String(user.userID))"
-            try? self.pushNotifications.addDeviceInterest(interest: notificationSubscription)
-            if user.configBodyClass.contains("night-theme") {
-                self.applyDarkTheme()
-            }
-        }
-    }
-
-    private func applyDarkTheme() {
-        useDarkMode = true
-        setNeedsStatusBarAppearanceUpdate()
-        navigationToolBar.isTranslucent = false
-        navigationToolBar.barTintColor = ThemeColors.darkBackgroundColor
-        safariButton.tintColor = UIColor.white
-        backButton.tintColor = UIColor.white
-        forwardButton.tintColor = UIColor.white
-        refreshButton.tintColor = UIColor.white
-        view.backgroundColor = ThemeColors.darkBackgroundColor
-        activityIndicator.color = UIColor.white
-    }
-
-    private func applyDarkerTheme() {
-        navigationToolBar.barTintColor = UIColor.black
-        view.backgroundColor = UIColor.black
-    }
-
-    func modifyShellDesign() {
-        webView.shouldUseShellShadow { useShell in
-            if useShell {
-                self.addShellShadow()
-            } else {
-                self.removeShellShadow()
-            }
-        }
-    }
-
     // MARK: - Theme configs
-    func addShellShadow() {
-        webView.setShellShadow(true)
-        navigationToolBar.clipsToBounds = false
-    }
 
-    func removeShellShadow() {
-        webView.setShellShadow(true)
-        navigationToolBar.clipsToBounds = true
+    private func ensureShellState() {
+        backButton.isEnabled = webView.canGoBack
+        forwardButton.isEnabled = webView.canGoForward
+        switch webView.userData?.theme() {
+        case .night:
+            useDarkMode = true
+            navigationToolBar.barTintColor = ThemeColors.darkBackgroundColor
+            view.backgroundColor = ThemeColors.darkBackgroundColor
+        case .hacker:
+            useDarkMode = true
+            navigationToolBar.barTintColor = UIColor.black
+            view.backgroundColor = UIColor.black
+        default:
+            useDarkMode = false
+            navigationToolBar.barTintColor = UIColor.white
+            view.backgroundColor = UIColor.white
+        }
+
+        navigationToolBar.isTranslucent = !useDarkMode
+        safariButton.tintColor = useDarkMode ? UIColor.white : ThemeColors.darkBackgroundColor
+        backButton.tintColor = useDarkMode ? UIColor.white : ThemeColors.darkBackgroundColor
+        forwardButton.tintColor = useDarkMode ? UIColor.white : ThemeColors.darkBackgroundColor
+        refreshButton.tintColor = useDarkMode ? UIColor.white : ThemeColors.darkBackgroundColor
+        activityIndicator.color = useDarkMode ? UIColor.white : ThemeColors.darkBackgroundColor
+        setNeedsStatusBarAppearanceUpdate()
     }
 
     // MARK: - Notifications Functions
@@ -232,134 +206,53 @@ class ViewController: UIViewController {
 
     private func setupObservers() {
         observations = [
-            webView.observe(\DEVWebView.canGoBack, options: [.new, .old], changeHandler: { _, _ in
-                self.updateNavigationBar()
-            }),
-            webView.observe(\DEVWebView.canGoForward, options: [.new, .old], changeHandler: { _, _ in
-                self.updateNavigationBar()
-            }),
-            webView.observe(\DEVWebView.url, options: [.new, .old], changeHandler: { _, _ in
-                self.updateNavigationBar()
-            })
+            webView.observe(\ForemWebView.userData) { (_, _) in self.ensureShellState() },
+            webView.observe(\ForemWebView.canGoBack) { (_, _) in self.ensureShellState() },
+            webView.observe(\ForemWebView.canGoForward) { (_, _) in self.ensureShellState() },
+            webView.observe(\ForemWebView.url) { (_, _) in self.ensureShellState() }
         ]
-    }
-
-    private func updateNavigationBar() {
-        backButton.isEnabled = webView.canGoBack
-        forwardButton.isEnabled = webView.canGoForward
-        if let url = webView.url {
-            webView.scrollView.isScrollEnabled = !(url.path.hasPrefix("/connect")) //Remove scroll if /connect view
-        }
-        modifyShellDesign()
-    }
-
-    private func setupVideoPlayer() {
-        if videoPlayerView == nil {
-            videoPlayerView = DEVAVPlayerView(frame: view.frame)
-            videoPlayerView?.delegate = self
-            view.addSubview(videoPlayerView!)
-            videoPlayerView?.addAVPlayerViewController(mediaManager.getVideoPlayer(), parentView: view)
-            videoPlayerView?.viewController?.didMove(toParent: self)
-        } else {
-            videoPlayerView?.animateCurrentState(state: .fullscreen)
-        }
     }
 }
 
-extension ViewController: WKNavigationDelegate {
-    func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+extension ViewController: ForemWebViewDelegate {
+    func willStartNativeVideo(playerController: AVPlayerViewController) {
+        if playerController.presentingViewController == nil {
+            present(playerController, animated: true) {
+                playerController.player?.play()
+            }
+        }
+    }
+
+    func requestedExternalSite(url: URL) {
+        performSegue(withIdentifier: DoAction.openExternalURL, sender: url)
+    }
+
+    func requestedMailto(url: URL) {
+        openURL(url)
+    }
+
+    func didStartNavigation() {
         let reachability = Network.reachability
         guard let isNetworkReachable = reachability?.isReachable, isNetworkReachable else {
             errorBanner.show()
             return
         }
+        activityIndicator.isHidden = false
         activityIndicator.startAnimating()
     }
 
-    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        self.webView.fetchUserStatus { status in
-            self.activityIndicator.stopAnimating()
-            self.modifyShellDesign()
-            if status == "logged-in" {
-                self.populateUserData()
-            }
-        }
-    }
-
-    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction,
-                 decisionHandler: @escaping (WKNavigationActionPolicy) -> Swift.Void) {
-
-        guard let url = navigationAction.request.url else {
-            decisionHandler(.allow)
-            return
-        }
-        let policy = navigationPolicy(url: url, navigationType: navigationAction.navigationType)
-        decisionHandler(policy)
-    }
-
-    // MARK: - Action Policy
-    func navigationPolicy(url: URL, navigationType: WKNavigationType) -> WKNavigationActionPolicy {
-        if url.scheme == "mailto" {
-            openURL(url)
-            return .cancel
-        } else if url.absoluteString == "about:blank" {
-            return .allow
-        } else if isAuthLink(url) {
-            return .allow
-        } else if url.host != devToHost && navigationType.rawValue == 0 {
-            performSegue(withIdentifier: DoAction.openExternalURL, sender: url)
-            return .cancel
-        } else {
-            return .allow
-        }
+    func didFinishNavigation() {
+        activityIndicator.isHidden = true
+        activityIndicator.stopAnimating()
     }
 }
 
-// MARK: - webkit messagehandler protocol
-extension ViewController: WKScriptMessageHandler {
-    func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
-        switch message.name {
-        case "podcast":
-            var delay = 0.0
-            if let videoPlayerView = videoPlayerView {
-                videoPlayerView.animateDismiss(direction: .down)
-                delay = 0.7
-            }
-
-            // In the rare case the user is playing a video and the player needs to be dismissed before
-            // engaging with the podcast player, we need to give the animateDismiss a head start to finish
-            DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
-                self.mediaManager.handlePodcastMessage(message.body as? [String: String] ?? [:])
-            }
-        case "video":
-            mediaManager.handleVideoMessage(message.body as? [String: String] ?? [:])
-            setupVideoPlayer()
-        case "haptic":
-            guard let hapticType = message.body as? String else { return }
-            switch hapticType {
-            case "heavy":
-                let heavyImpact = UIImpactFeedbackGenerator(style: .heavy)
-                heavyImpact.impactOccurred()
-            case "light":
-                let lightImpact = UIImpactFeedbackGenerator(style: .light)
-                lightImpact.impactOccurred()
-            case "medium":
-                let mediumImpact = UIImpactFeedbackGenerator(style: .medium)
-                mediumImpact.impactOccurred()
-            default:
-                let notification = UINotificationFeedbackGenerator()
-                notification.notificationOccurred(.success)
-            }
-        default: ()
-        }
-    }
-}
-
-extension ViewController: DEVAVPlayerViewDelegate {
-    func playerDismissed() {
-        videoPlayerView?.removeFromSuperview()
-        videoPlayerView = nil
-        mediaManager.dismissPlayer()
-        webView?.sendBridgeMessage(type: "video", message: [ "action": "pause" ])
-    }
-}
+//
+//extension ViewController: DEVAVPlayerViewDelegate {
+//    func playerDismissed() {
+//        videoPlayerView?.removeFromSuperview()
+//        videoPlayerView = nil
+//        mediaManager.dismissPlayer()
+//        webView?.sendBridgeMessage(type: "video", message: [ "action": "pause" ])
+//    }
+//}
