@@ -122,7 +122,6 @@ class ViewController: UIViewController {
             guard let self = self else {
                 return
             }
-
             // Wait a split second if first launch (Hack, probably a race condition)
             self.webView.load(serverURL ?? "https://dev.to")
         }
@@ -168,6 +167,11 @@ class ViewController: UIViewController {
         refreshButton.tintColor = UIColor.white
         view.backgroundColor = ThemeColors.darkBackgroundColor
         activityIndicator.color = UIColor.white
+    }
+
+    private func applyDarkerTheme() {
+        navigationToolBar.barTintColor = UIColor.black
+        view.backgroundColor = UIColor.black
     }
 
     func modifyShellDesign() {
@@ -289,7 +293,6 @@ extension ViewController: WKNavigationDelegate {
             decisionHandler(.allow)
             return
         }
-
         let policy = navigationPolicy(url: url, navigationType: navigationAction.navigationType)
         decisionHandler(policy)
     }
