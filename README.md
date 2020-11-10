@@ -29,7 +29,7 @@ By leveraging `wkwebviews` as much as possible, I think we can make this all pre
 # Contributing
 1. Fork and clone the project.
 2. Install [Carthage](https://github.com/Carthage/Carthage). If you use Homebrew then you can install Carthage by running `brew install carthage`.
-3. Now run `carthage update` in the project's root directory.
+3. Now run `./carthage.sh update --no-use-binaries --platform iOS --cache-builds` in the project's root directory (see [Carthage bug for more details](https://github.com/Carthage/Carthage/blob/master/Documentation/Xcode12Workaround.md)).
 4. Build and run the project in XCode.
 5. To enforce code style we're using [SwiftLint](https://github.com/realm/SwiftLint) which is loosely based on [GitHub's Swift Style Guide](https://github.com/github/swift-style-guide). [CodeClimate](https://codeclimate.com) is enabled for this repository, so your pull request build will fail if there are linting errors!
   1. To install, `brew install swiftlint`.

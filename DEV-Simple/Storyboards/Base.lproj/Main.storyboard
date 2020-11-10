@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment version="4864" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -16,7 +16,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9JM-0s-c02">
+                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9JM-0s-c02" customClass="ForemWebView" customModule="ForemWebView">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="623"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <wkWebViewConfiguration key="configuration">
@@ -65,6 +65,7 @@
                                 <color key="color" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </activityIndicatorView>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="9JM-0s-c02" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="N3o-VU-Bxg"/>
@@ -77,7 +78,6 @@
                             <constraint firstItem="Ngy-LZ-8iC" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="tfz-tE-OZy"/>
                             <constraint firstItem="GJq-We-IbQ" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="yyA-QA-KMK"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
                         <outlet property="activityIndicator" destination="Ngy-LZ-8iC" id="7MC-rY-oNg"/>
@@ -86,7 +86,7 @@
                         <outlet property="navigationToolBar" destination="GJq-We-IbQ" id="2Lr-Yi-R14"/>
                         <outlet property="refreshButton" destination="ufZ-bL-rY6" id="QuE-Jr-b6c"/>
                         <outlet property="safariButton" destination="ax9-e8-CVX" id="eT0-pY-Msg"/>
-                        <outlet property="webView" destination="9JM-0s-c02" id="P8P-92-taL"/>
+                        <outlet property="webView" destination="9JM-0s-c02" id="3gu-gr-yry"/>
                         <segue destination="2qi-qn-xu3" kind="presentation" identifier="showExternalPage" id="GCd-Hj-kbG"/>
                     </connections>
                 </viewController>
@@ -134,6 +134,7 @@
                                 </items>
                             </navigationBar>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="29u-q3-2SN"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="arP-qV-Ajc" firstAttribute="leading" secondItem="29u-q3-2SN" secondAttribute="leading" id="5Km-PG-rx3"/>
@@ -146,11 +147,10 @@
                             <constraint firstItem="Tpz-av-3nB" firstAttribute="leading" secondItem="29u-q3-2SN" secondAttribute="leading" id="oCy-bZ-BKa"/>
                             <constraint firstItem="arP-qV-Ajc" firstAttribute="top" secondItem="Tpz-av-3nB" secondAttribute="bottom" id="vmZ-Zj-JaT"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="29u-q3-2SN"/>
                     </view>
                     <connections>
                         <outlet property="activityIndicator" destination="8YQ-UK-tda" id="gtO-bZ-4sh"/>
-                        <outlet property="webView" destination="arP-qV-Ajc" id="ITE-MA-jrj"/>
+                        <outlet property="webView" destination="arP-qV-Ajc" id="CfX-xo-oV2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7cS-bh-cGb" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -159,9 +159,9 @@
         </scene>
     </scenes>
     <resources>
-        <image name="chevron.left" catalog="system" width="48" height="64"/>
-        <image name="chevron.right" catalog="system" width="48" height="64"/>
-        <image name="safari" catalog="system" width="64" height="60"/>
-        <image name="xmark" catalog="system" width="64" height="56"/>
+        <image name="chevron.left" catalog="system" width="96" height="128"/>
+        <image name="chevron.right" catalog="system" width="96" height="128"/>
+        <image name="safari" catalog="system" width="128" height="121"/>
+        <image name="xmark" catalog="system" width="128" height="113"/>
     </resources>
 </document>

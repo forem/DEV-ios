@@ -1,4 +1,4 @@
-osx_image: xcode11.3
+osx_image: xcode12.1
 language: swift
 
 before_install:
@@ -7,4 +7,5 @@ before_install:
 jobs:
   include:
     - stage: iOS Test # Run tests
-      script: fastlane ios test
+      script: ./carthage.sh bootstrap --no-use-binaries --platform iOS --cache-builds && fastlane ios test
+

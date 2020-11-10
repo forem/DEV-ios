@@ -1,0 +1,25 @@
+name: CI
+on: push
+jobs:
+  test:
+    name: Test Suite
+    runs-on: macOS-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: XCode Setup
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: '12.1'
+      - uses: actions/cache@v2
+        with:
+          path: Carthage
+          key: ${{ runner.os }}-carthage-${{ hashFiles('**/Cartfile.resolved') }}
+          restore-keys: |
+            ${{ runner.os }}-carthage-
+      - name: Carthage
+        run: |
+          ./carthage.sh bootstrap --no-use-binaries --platform iOS --cache-builds
+      - name: Build and test
+        run: |
+          fastlane test

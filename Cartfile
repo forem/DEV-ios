@@ -1,2 +1,3 @@
-github "pusher/push-notifications-swift" "3.0.4"
-github "Daltron/NotificationBanner" "3.0.4"
+github "pusher/push-notifications-swift" ~> 3.0.4
+github "Daltron/NotificationBanner" ~> 3.0.4
+github "forem/ForemWebView-ios" ~> 0.2.4
