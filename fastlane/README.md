@@ -20,8 +20,6 @@ or alternatively using `brew install fastlane`
 ```
 fastlane ios test
 ```
-Run Carthage
-
 Runs all the tests
 
 ----

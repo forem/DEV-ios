@@ -16,19 +16,12 @@ update_fastlane
 default_platform(:ios)
 
 platform :ios do
-  desc "Run Carthage"
-  before_all do
-    carthage(
-      command: "bootstrap",
-      platform: "iOS",
-      cache_builds: true,  
-    )
-  end
-
   desc "Runs all the tests"
   lane :test do
-    scan(
+    run_tests(
       scheme: "DEV-Simple",
+      clean: true,
+      devices: ["iPhone 11 Pro Max"],
       code_coverage: true
     )
   end
