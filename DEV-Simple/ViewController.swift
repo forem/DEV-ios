@@ -47,10 +47,6 @@ class ViewController: UIViewController {
         return url?.host
     }()
 
-//    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-//        return videoPlayerView?.currentState == .fullscreen ? .allButUpsideDown : .portrait
-//    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
         activityIndicator.hidesWhenStopped = true
@@ -61,12 +57,6 @@ class ViewController: UIViewController {
         webView.load(devToURL)
 
         setupObservers()
-        let notificationName = Notification.Name("updateWebView")
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(updateWebView),
-            name: notificationName,
-            object: nil)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -114,9 +104,7 @@ class ViewController: UIViewController {
         let appDelegate = UIApplication.shared.delegate as? AppDelegate
         let serverURL = appDelegate?.serverURL
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak self] in
-            guard let self = self else {
-                return
-            }
+            guard let self = self else { return }
             // Wait a split second if first launch (Hack, probably a race condition)
             self.webView.load(serverURL ?? "https://dev.to")
         }
@@ -246,13 +234,3 @@ extension ViewController: ForemWebViewDelegate {
         activityIndicator.stopAnimating()
     }
 }
-
-//
-//extension ViewController: DEVAVPlayerViewDelegate {
-//    func playerDismissed() {
-//        videoPlayerView?.removeFromSuperview()
-//        videoPlayerView = nil
-//        mediaManager.dismissPlayer()
-//        webView?.sendBridgeMessage(type: "video", message: [ "action": "pause" ])
-//    }
-//}
