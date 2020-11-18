@@ -22,4 +22,4 @@ jobs:
           ./carthage.sh bootstrap --no-use-binaries --platform iOS --cache-builds
       - name: Build and test
         run: |
-          fastlane test
+          bundle exec fastlane test

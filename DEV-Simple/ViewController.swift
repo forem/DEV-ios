@@ -27,8 +27,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var navigationToolBar: UIToolbar!
 
     var useDarkMode = false
+    var pushNotificationSubscription = ""
 
-    let pushNotifications = PushNotifications.shared
     lazy var errorBanner: NotificationBanner = {
         let banner = NotificationBanner(title: "Network not reachable", style: .danger)
         banner.autoDismiss = false
@@ -100,14 +100,14 @@ class ViewController: UIViewController {
         openInBrowser()
     }
 
-    @objc func updateWebView() {
-        let appDelegate = UIApplication.shared.delegate as? AppDelegate
-        let serverURL = appDelegate?.serverURL
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak self] in
-            guard let self = self else { return }
-            // Wait a split second if first launch (Hack, probably a race condition)
-            self.webView.load(serverURL ?? "https://dev.to")
-        }
+    @objc func updateWebView(_ notification: NSNotification) {
+        guard let url = notification.userInfo?["url"] as? String else { return }
+        webView.load(url)
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak self] in
+//            guard let self = self else { return }
+//            // Wait a split second if first launch (Hack, probably a race condition)
+//            self.webView.load(url)
+//        }
     }
 
     func openURL(_ url: URL) {
@@ -131,6 +131,8 @@ class ViewController: UIViewController {
     // MARK: - Theme configs
 
     private func ensureShellState() {
+        ensurePushNotificationsRegistration()
+
         backButton.isEnabled = webView.canGoBack
         forwardButton.isEnabled = webView.canGoForward
         switch webView.userData?.theme() {
@@ -158,21 +160,24 @@ class ViewController: UIViewController {
     }
 
     // MARK: - Notifications Functions
-    func askForNotificationPermission() {
-        let center = UNUserNotificationCenter.current()
-        let options: UNAuthorizationOptions = [.alert, .sound, .badge]
-        center.requestAuthorization(options: options) { [weak self] granted, _  in
-            guard let self = self else { return }
-            guard granted else { return }
-            self.getNotificationSettings()
-        }
-    }
-
-    func getNotificationSettings() {
-        UNUserNotificationCenter.current().getNotificationSettings { (settings) in
-            print("Notification settings: \(settings)")
-            guard settings.authorizationStatus == .authorized else { return }
-            UIApplication.shared.registerForRemoteNotifications()
+    func ensurePushNotificationsRegistration() {
+        if let userID = webView.userData?.userID, pushNotificationSubscription.isEmpty {
+            pushNotificationSubscription = "user-notifications-\(userID)"
+            do {
+                try PushNotifications.shared.addDeviceInterest(interest: pushNotificationSubscription)
+            } catch {
+                // Clear out the subscription because it failed so it can try again next time
+                pushNotificationSubscription = ""
+            }
+        } else if !pushNotificationSubscription.isEmpty {
+            // This means we had already subscribed to an interest for the logged-in user but
+            // since `webView.userData` is now nil the user has just logged out.
+            do {
+                try PushNotifications.shared.removeDeviceInterest(interest: pushNotificationSubscription)
+                pushNotificationSubscription = ""
+            } catch {
+                print("Failed to remove the interest")
+            }
         }
     }
 
@@ -193,6 +198,12 @@ class ViewController: UIViewController {
     }
 
     private func setupObservers() {
+        let notificationName = Notification.Name.updateWebView
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(updateWebView(_:)),
+                                               name: notificationName,
+                                               object: nil)
+
         observations = [
             webView.observe(\ForemWebView.userData) { (_, _) in self.ensureShellState() },
             webView.observe(\ForemWebView.canGoBack) { (_, _) in self.ensureShellState() },

@@ -16,6 +16,14 @@ update_fastlane
 default_platform(:ios)
 
 platform :ios do
+  desc "TestFlight upload"
+  lane :beta do
+    increment_build_number
+    match(type: "appstore", readonly: true, app_identifier: "to.dev.ios")
+    gym(scheme: "forem-ios", configuration: "Release", clean: true)
+    upload_to_testflight(skip_waiting_for_build_processing: true)
+  end
+
   desc "Runs all the tests"
   lane :test do
     run_tests(

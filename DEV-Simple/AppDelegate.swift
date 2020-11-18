@@ -14,19 +14,16 @@ import AVFoundation
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    var serverURL: String?
-    let pushNotifications = PushNotifications.shared
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions
-        launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        self.pushNotifications.start(instanceId: "cdaf9857-fad0-4bfb-b360-64c1b2693ef3")
-        self.pushNotifications.registerForRemoteNotifications()
-        try? self.pushNotifications.addDeviceInterest(interest: "broadcast")
+    func application(_ application: UIApplication,
+                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
-        let audioSession = AVAudioSession.sharedInstance()
+        PushNotifications.shared.start(instanceId: "cdaf9857-fad0-4bfb-b360-64c1b2693ef3")
+        PushNotifications.shared.registerForRemoteNotifications()
+        try? PushNotifications.shared.addDeviceInterest(interest: "broadcast")
+
         do {
-            try audioSession.setCategory(.playback, options: .allowBluetoothA2DP)
-            try audioSession.setActive(true)
+            try AVAudioSession.sharedInstance().setCategory(.playback)
         } catch {
             print("Failed to set audio session category")
         }
@@ -82,12 +79,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        self.pushNotifications.registerDeviceToken(deviceToken)
+        PushNotifications.shared.registerDeviceToken(deviceToken)
     }
 
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any],
+    func application(_ application: UIApplication,
+                     didReceiveRemoteNotification userInfo: [AnyHashable: Any],
                      fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        pushNotifications.handleNotification(userInfo: userInfo)
+
+        PushNotifications.shared.handleNotification(userInfo: userInfo)
         let strUrl = (userInfo["data"] as? NSDictionary)
         guard let url = strUrl?.value(forKeyPath: "url") as? String else {
             return
@@ -105,9 +104,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func load_url(_ url: String) {
-        serverURL = url
-        let notificationName = Notification.Name("updateWebView")
-        NotificationCenter.default.post(name: notificationName, object: nil)
+        NotificationCenter.default.post(name: Notification.Name.updateWebView,
+                                        object: nil,
+                                        userInfo: ["url": url])
     }
 
     func application(
@@ -117,9 +116,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         ) -> Void) -> Bool {
 
         // Open universal links
-        guard userActivity.activityType == NSUserActivityTypeBrowsingWeb, let url = userActivity.webpageURL,
-            (URLComponents(url: url, resolvingAgainstBaseURL: true) != nil) else {
-                return false
+        guard userActivity.activityType == NSUserActivityTypeBrowsingWeb,
+              let url = userActivity.webpageURL,
+              (URLComponents(url: url, resolvingAgainstBaseURL: true) != nil) else {
+            return false
         }
 
         load_url(url.absoluteString)
