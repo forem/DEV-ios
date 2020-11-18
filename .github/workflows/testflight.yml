@@ -23,10 +23,11 @@ jobs:
       - name: Carthage
         run: |
           ./carthage.sh bootstrap --no-use-binaries --platform iOS --cache-builds
-      - name: Build and test
+      - name: Archive and upload to Testflight 🚀
         run: |
-          bundle install && CI=1 bundle exec fastlane beta
+          bundle install && bundle exec fastlane beta
         env:
+          CI: 1
           MATCH_GIT_PRIVATE_KEY: ${{ secrets.MATCH_GIT_PRIVATE_KEY }}
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
           FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: ${{ secrets.FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD }}
