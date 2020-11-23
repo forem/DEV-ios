@@ -169,7 +169,7 @@ class ViewController: UIViewController {
                 // Clear out the subscription because it failed so it can try again next time
                 pushNotificationSubscription = ""
             }
-        } else if !pushNotificationSubscription.isEmpty {
+        } else if webView.userData?.userID == nil && !pushNotificationSubscription.isEmpty {
             // This means we had already subscribed to an interest for the logged-in user but
             // since `webView.userData` is now nil the user has just logged out.
             do {
