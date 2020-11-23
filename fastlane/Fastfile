@@ -21,8 +21,16 @@ platform :ios do
     run_tests(
       scheme: "DEV-Simple",
       clean: true,
-      devices: ["iPhone 11 Pro Max"],
+      devices: ["iPhone 12 Pro Max"],
       code_coverage: true
     )
+  end
+
+  desc "TestFlight upload"
+  lane :beta do
+    increment_build_number
+    match(type: "appstore", readonly: true, app_identifier: "to.dev.ios")
+    gym(scheme: "DEV-Simple", configuration: "Release", clean: true)
+    upload_to_testflight(skip_waiting_for_build_processing: true)
   end
 end
