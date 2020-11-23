@@ -1,0 +1,11 @@
+osx_image: xcode12.1
+language: swift
+
+before_install:
+#  - brew upgrade swiftlint
+
+jobs:
+  include:
+    - stage: iOS Test # Run tests
+      script: ./carthage.sh bootstrap --no-use-binaries --platform iOS --cache-builds && fastlane ios test
+
