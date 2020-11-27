@@ -26,13 +26,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         return true
     }
-    
+
     private func setupPushNotifications() {
         pushNotifications.start(instanceId: "cdaf9857-fad0-4bfb-b360-64c1b2693ef3")
         pushNotifications.registerForRemoteNotifications()
         try? pushNotifications.addDeviceInterest(interest: "broadcast")
     }
-    
+
     private func configureAVAudioSession() {
         let audioSession = AVAudioSession.sharedInstance()
         do {
