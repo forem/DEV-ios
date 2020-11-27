@@ -8,10 +8,7 @@
 
 import UIKit
 import AVKit
-import WebKit
 import ForemWebView
-import UserNotifications
-import PushNotifications
 import NotificationBanner
 
 class ViewController: UIViewController {
@@ -28,7 +25,6 @@ class ViewController: UIViewController {
 
     var useDarkMode = false
 
-    let pushNotifications = PushNotifications.shared
     lazy var errorBanner: NotificationBanner = {
         let banner = NotificationBanner(title: "Network not reachable", style: .danger)
         banner.autoDismiss = false
@@ -41,10 +37,6 @@ class ViewController: UIViewController {
             return developmentURL
         }
         return "https://dev.to"
-    }()
-    lazy var devToHost: String? = {
-        var url = URL(string: self.devToURL)
-        return url?.host
     }()
 
     override func viewDidLoad() {
@@ -103,9 +95,10 @@ class ViewController: UIViewController {
     @objc func updateWebView() {
         let appDelegate = UIApplication.shared.delegate as? AppDelegate
         let serverURL = appDelegate?.serverURL
+
+        // Wait a split second if first launch (Hack, probably a race condition)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak self] in
             guard let self = self else { return }
-            // Wait a split second if first launch (Hack, probably a race condition)
             self.webView.load(serverURL ?? "https://dev.to")
         }
     }
@@ -162,8 +155,7 @@ class ViewController: UIViewController {
         let center = UNUserNotificationCenter.current()
         let options: UNAuthorizationOptions = [.alert, .sound, .badge]
         center.requestAuthorization(options: options) { [weak self] granted, _  in
-            guard let self = self else { return }
-            guard granted else { return }
+            guard let self = self, granted else { return }
             self.getNotificationSettings()
         }
     }
@@ -194,10 +186,10 @@ class ViewController: UIViewController {
 
     private func setupObservers() {
         observations = [
-            webView.observe(\ForemWebView.userData) { (_, _) in self.ensureShellState() },
-            webView.observe(\ForemWebView.canGoBack) { (_, _) in self.ensureShellState() },
-            webView.observe(\ForemWebView.canGoForward) { (_, _) in self.ensureShellState() },
-            webView.observe(\ForemWebView.url) { (_, _) in self.ensureShellState() }
+            webView.observe(\ForemWebView.userData) { [weak self] (_, _) in self?.ensureShellState() },
+            webView.observe(\ForemWebView.canGoBack) { [weak self] (_, _) in self?.ensureShellState() },
+            webView.observe(\ForemWebView.canGoForward) { [weak self] (_, _) in self?.ensureShellState() },
+            webView.observe(\ForemWebView.url) { [weak self] (_, _) in self?.ensureShellState() }
         ]
     }
 }
