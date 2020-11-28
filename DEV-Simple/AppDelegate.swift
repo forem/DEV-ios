@@ -19,10 +19,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions
         launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        self.pushNotifications.start(instanceId: "cdaf9857-fad0-4bfb-b360-64c1b2693ef3")
-        self.pushNotifications.registerForRemoteNotifications()
-        try? self.pushNotifications.addDeviceInterest(interest: "broadcast")
 
+        setupPushNotifications()
+        configureAVAudioSession()
+        setupReachability()
+
+        return true
+    }
+
+    private func setupPushNotifications() {
+        pushNotifications.start(instanceId: "cdaf9857-fad0-4bfb-b360-64c1b2693ef3")
+        pushNotifications.registerForRemoteNotifications()
+        try? pushNotifications.addDeviceInterest(interest: "broadcast")
+    }
+
+    private func configureAVAudioSession() {
         let audioSession = AVAudioSession.sharedInstance()
         do {
             try audioSession.setCategory(.playback, options: .allowBluetoothA2DP)
@@ -30,10 +41,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } catch {
             print("Failed to set audio session category")
         }
-
-        setupReachability()
-
-        return true
     }
 
     private func setupReachability() {
@@ -88,7 +95,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any],
                      fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         pushNotifications.handleNotification(userInfo: userInfo)
-        let strUrl = (userInfo["data"] as? NSDictionary)
+        let strUrl = userInfo["data"] as? NSDictionary
         guard let url = strUrl?.value(forKeyPath: "url") as? String else {
             return
         }
@@ -98,13 +105,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let center = UNUserNotificationCenter.current()
             center.removeAllDeliveredNotifications()
         } else if state == .inactive { //Tapped by notification
-            load_url(url)
+            load(url)
         }
 
         completionHandler(.noData)
     }
 
-    func load_url(_ url: String) {
+    func load(_ url: String) {
         serverURL = url
         let notificationName = Notification.Name("updateWebView")
         NotificationCenter.default.post(name: notificationName, object: nil)
@@ -122,7 +129,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 return false
         }
 
-        load_url(url.absoluteString)
+        load(url.absoluteString)
         return false
     }
 }

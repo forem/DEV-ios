@@ -1,5 +1,5 @@
 github "Daltron/NotificationBanner" "3.0.4"
 github "SnapKit/SnapKit" "5.0.1"
 github "cbpowell/MarqueeLabel" "4.0.5"
-github "forem/ForemWebView-ios" "0.2.4"
+github "forem/ForemWebView-ios" "v0.2.6"
 github "pusher/push-notifications-swift" "3.0.4"
