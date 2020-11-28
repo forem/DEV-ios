@@ -26,8 +26,6 @@ class ViewController: UIViewController {
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var navigationToolBar: UIToolbar!
 
-    var useDarkMode = false
-
     let pushNotifications = PushNotifications.shared
     lazy var errorBanner: NotificationBanner = {
         let banner = NotificationBanner(title: "Network not reachable", style: .danger)
@@ -133,27 +131,8 @@ class ViewController: UIViewController {
     private func ensureShellState() {
         backButton.isEnabled = webView.canGoBack
         forwardButton.isEnabled = webView.canGoForward
-        switch webView.userData?.theme() {
-        case .night:
-            useDarkMode = true
-            navigationToolBar.barTintColor = ThemeColors.darkBackgroundColor
-            view.backgroundColor = ThemeColors.darkBackgroundColor
-        case .hacker:
-            useDarkMode = true
-            navigationToolBar.barTintColor = UIColor.black
-            view.backgroundColor = UIColor.black
-        default:
-            useDarkMode = false
-            navigationToolBar.barTintColor = UIColor.white
-            view.backgroundColor = UIColor.white
-        }
 
-        navigationToolBar.isTranslucent = !useDarkMode
-        safariButton.tintColor = useDarkMode ? UIColor.white : ThemeColors.darkBackgroundColor
-        backButton.tintColor = useDarkMode ? UIColor.white : ThemeColors.darkBackgroundColor
-        forwardButton.tintColor = useDarkMode ? UIColor.white : ThemeColors.darkBackgroundColor
-        refreshButton.tintColor = useDarkMode ? UIColor.white : ThemeColors.darkBackgroundColor
-        activityIndicator.color = useDarkMode ? UIColor.white : ThemeColors.darkBackgroundColor
+        ThemeManager.applyTheme(to: self)
         setNeedsStatusBarAppearanceUpdate()
     }
 
@@ -186,10 +165,10 @@ class ViewController: UIViewController {
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        if !useDarkMode && traitCollection.userInterfaceStyle == .dark {
+        if !ThemeManager.useDarkMode && traitCollection.userInterfaceStyle == .dark {
             return UIStatusBarStyle.init(rawValue: ThemeColors.statusBarStyleDarkContentRawValue)!
         }
-        return useDarkMode ? .lightContent : .default
+        return ThemeManager.useDarkMode ? .lightContent : .default
     }
 
     private func setupObservers() {
