@@ -8,9 +8,7 @@
 
 import UIKit
 import AVKit
-import WebKit
 import ForemWebView
-import UserNotifications
 import PushNotifications
 import NotificationBanner
 
@@ -41,10 +39,6 @@ class ViewController: UIViewController {
             return developmentURL
         }
         return "https://dev.to"
-    }()
-    lazy var devToHost: String? = {
-        var url = URL(string: self.devToURL)
-        return url?.host
     }()
 
     override func viewDidLoad() {
@@ -103,11 +97,6 @@ class ViewController: UIViewController {
     @objc func updateWebView(_ notification: NSNotification) {
         guard let url = notification.userInfo?["url"] as? String else { return }
         webView.load(url)
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak self] in
-//            guard let self = self else { return }
-//            // Wait a split second if first launch (Hack, probably a race condition)
-//            self.webView.load(url)
-//        }
     }
 
     func openURL(_ url: URL) {
@@ -160,6 +149,7 @@ class ViewController: UIViewController {
     }
 
     // MARK: - Notifications Functions
+
     func ensurePushNotificationsRegistration() {
         if let userID = webView.userData?.userID, pushNotificationSubscription.isEmpty {
             pushNotificationSubscription = "user-notifications-\(userID)"
@@ -205,10 +195,10 @@ class ViewController: UIViewController {
                                                object: nil)
 
         observations = [
-            webView.observe(\ForemWebView.userData) { (_, _) in self.ensureShellState() },
-            webView.observe(\ForemWebView.canGoBack) { (_, _) in self.ensureShellState() },
-            webView.observe(\ForemWebView.canGoForward) { (_, _) in self.ensureShellState() },
-            webView.observe(\ForemWebView.url) { (_, _) in self.ensureShellState() }
+            webView.observe(\ForemWebView.userData) { [weak self] (_, _) in self?.ensureShellState() },
+            webView.observe(\ForemWebView.canGoBack) { [weak self] (_, _) in self?.ensureShellState() },
+            webView.observe(\ForemWebView.canGoForward) { [weak self] (_, _) in self?.ensureShellState() },
+            webView.observe(\ForemWebView.url) { [weak self] (_, _) in self?.ensureShellState() }
         ]
     }
 }
