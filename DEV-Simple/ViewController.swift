@@ -157,10 +157,10 @@ class ViewController: UIViewController {
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        if !ThemeManager.useDarkMode && traitCollection.userInterfaceStyle == .dark {
+        if !ThemeManager.useLightIcons && traitCollection.userInterfaceStyle == .dark {
             return UIStatusBarStyle.init(rawValue: ThemeColors.statusBarStyleDarkContentRawValue)!
         }
-        return ThemeManager.useDarkMode ? .lightContent : .default
+        return ThemeManager.useLightIcons ? .lightContent : .default
     }
 
     private func setupObservers() {

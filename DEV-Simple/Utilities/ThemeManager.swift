@@ -10,7 +10,7 @@ import UIKit
 import ForemWebView
 
 class ThemeManager {
-    private(set) static var useDarkMode = false
+    private(set) static var useLightIcons = false
 
     static func applyTheme(to viewController: ViewController) {
         guard let webView = viewController.webView, let theme = webView.userData?.theme() else { return }
@@ -20,27 +20,27 @@ class ThemeManager {
         viewController.navigationToolBar.barTintColor = config.barTintColor
         viewController.view.backgroundColor = config.backgroundColor
 
-        viewController.navigationToolBar.isTranslucent = !useDarkMode
-        viewController.safariButton.tintColor = useDarkMode ? UIColor.white : ThemeColors.darkBackgroundColor
-        viewController.backButton.tintColor = useDarkMode ? UIColor.white : ThemeColors.darkBackgroundColor
-        viewController.forwardButton.tintColor = useDarkMode ? UIColor.white : ThemeColors.darkBackgroundColor
-        viewController.refreshButton.tintColor = useDarkMode ? UIColor.white : ThemeColors.darkBackgroundColor
-        viewController.activityIndicator.color = useDarkMode ? UIColor.white : ThemeColors.darkBackgroundColor
+        viewController.navigationToolBar.isTranslucent = !useLightIcons
+        viewController.safariButton.tintColor = useLightIcons ? UIColor.white : ThemeColors.darkBackgroundColor
+        viewController.backButton.tintColor = useLightIcons ? UIColor.white : ThemeColors.darkBackgroundColor
+        viewController.forwardButton.tintColor = useLightIcons ? UIColor.white : ThemeColors.darkBackgroundColor
+        viewController.refreshButton.tintColor = useLightIcons ? UIColor.white : ThemeColors.darkBackgroundColor
+        viewController.activityIndicator.color = useLightIcons ? UIColor.white : ThemeColors.darkBackgroundColor
     }
 
     private static func getThemeColor(for theme: ForemWebViewTheme) -> ThemeConfig {
         switch theme {
         case .night:
-            useDarkMode = true
+            useLightIcons = true
             return ThemeConfig.night
         case .hacker:
-            useDarkMode = true
+            useLightIcons = true
             return ThemeConfig.hacker
         case .pink:
-            useDarkMode = false
+            useLightIcons = false
             return ThemeConfig.pink
         case .minimal:
-            useDarkMode = false
+            useLightIcons = false
             return ThemeConfig.minimal
         default:
             return ThemeConfig.base
