@@ -37,7 +37,7 @@ class ThemeManager {
             useLightIcons = true
             return ThemeConfig.hacker
         case .pink:
-            useLightIcons = false
+            useLightIcons = true
             return ThemeConfig.pink
         case .minimal:
             useLightIcons = false
