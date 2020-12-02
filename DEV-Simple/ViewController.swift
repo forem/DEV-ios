@@ -23,6 +23,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var navigationToolBar: UIToolbar!
 
+    var useDarkMode = false
+
     lazy var errorBanner: NotificationBanner = {
         let banner = NotificationBanner(title: "Network not reachable", style: .danger)
         banner.autoDismiss = false
