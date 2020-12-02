@@ -13,9 +13,14 @@ class ThemeManager {
     private(set) static var useLightIcons = false
 
     static func applyTheme(to viewController: ViewController) {
-        guard let webView = viewController.webView, let theme = webView.userData?.theme() else { return }
+        guard let webView = viewController.webView else { return }
 
-        let config = getThemeColor(for: theme)
+        let theme = webView.userData?.theme()
+        if theme == nil {
+            useLightIcons = false
+        }
+
+        let config = getThemeColor(for: theme ?? .base)
 
         viewController.navigationToolBar.barTintColor = config.barTintColor
         viewController.view.backgroundColor = config.backgroundColor
