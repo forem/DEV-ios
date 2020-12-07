@@ -26,6 +26,7 @@
 		DC6576392559991D00B5B46F /* PushNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC6576342559991D00B5B46F /* PushNotifications.framework */; };
 		DC65763A2559991D00B5B46F /* MarqueeLabel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC6576352559991D00B5B46F /* MarqueeLabel.framework */; };
 		DC65763B2559991D00B5B46F /* ForemWebView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC6576362559991D00B5B46F /* ForemWebView.framework */; };
+		DC65E65425656AF600EE3446 /* Notification+DEV.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC65E65325656AF600EE3446 /* Notification+DEV.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,6 +86,7 @@
 		DC6576342559991D00B5B46F /* PushNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PushNotifications.framework; path = Carthage/Build/iOS/PushNotifications.framework; sourceTree = "<group>"; };
 		DC6576352559991D00B5B46F /* MarqueeLabel.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MarqueeLabel.framework; path = Carthage/Build/iOS/MarqueeLabel.framework; sourceTree = "<group>"; };
 		DC6576362559991D00B5B46F /* ForemWebView.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ForemWebView.framework; path = Carthage/Build/iOS/ForemWebView.framework; sourceTree = "<group>"; };
+		DC65E65325656AF600EE3446 /* Notification+DEV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+DEV.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,6 +132,7 @@
 			isa = PBXGroup;
 			children = (
 				1B032B1721E409FE00A2108A /* Globals.swift */,
+				DC65E65325656AF600EE3446 /* Notification+DEV.swift */,
 				BD5C906B21B63CCC000D9F79 /* NetworkReachability.swift */,
 				BD35609325719BFE00555C25 /* ThemeManager.swift */,
 			);
@@ -401,6 +404,7 @@
 			files = (
 				73D7673E218BA66700BD13B6 /* ViewController.swift in Sources */,
 				73E8ACC72192165E009CE057 /* BrowserViewController.swift in Sources */,
+				DC65E65425656AF600EE3446 /* Notification+DEV.swift in Sources */,
 				73D7673C218BA66700BD13B6 /* AppDelegate.swift in Sources */,
 				1B032B1821E409FE00A2108A /* Globals.swift in Sources */,
 				BD5C906C21B63CCC000D9F79 /* NetworkReachability.swift in Sources */,

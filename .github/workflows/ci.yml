@@ -1,5 +1,10 @@
 name: CI
-on: push
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+
 jobs:
   test:
     name: Test Suite
@@ -10,7 +15,7 @@ jobs:
       - name: XCode Setup
         uses: maxim-lobanov/setup-xcode@v1
         with:
-          xcode-version: '12.1'
+          xcode-version: '12.2'
       - uses: actions/cache@v2
         with:
           path: Carthage
@@ -23,3 +28,4 @@ jobs:
       - name: Build and test
         run: |
           fastlane test
+
