@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -17,15 +17,12 @@
 		73D7675C218BA66B00BD13B6 /* DEV_SimpleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D7675B218BA66B00BD13B6 /* DEV_SimpleUITests.swift */; };
 		73E8ACC72192165E009CE057 /* BrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E8ACC62192165E009CE057 /* BrowserViewController.swift */; };
 		BD35609425719BFE00555C25 /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD35609325719BFE00555C25 /* ThemeManager.swift */; };
-		BD35609225718C4C00555C25 /* Cartfile in Resources */ = {isa = PBXBuildFile; fileRef = BD35609125718C4C00555C25 /* Cartfile */; };
 		BD5C906C21B63CCC000D9F79 /* NetworkReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5C906B21B63CCC000D9F79 /* NetworkReachability.swift */; };
+		CC5ECD74263D83F40048466A /* PushNotifications in Frameworks */ = {isa = PBXBuildFile; productRef = CC5ECD73263D83F40048466A /* PushNotifications */; };
+		CC5ECD7B263D85760048466A /* ForemWebView in Frameworks */ = {isa = PBXBuildFile; productRef = CC5ECD7A263D85760048466A /* ForemWebView */; };
+		CC5ECD80263D85C50048466A /* NotificationBannerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = CC5ECD7F263D85C50048466A /* NotificationBannerSwift */; };
 		CCEA9AFC219B403100AEF5BE /* ViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCEA9AFB219B403100AEF5BE /* ViewControllerTests.swift */; };
 		CCEA9AFE219B410300AEF5BE /* test.html in Resources */ = {isa = PBXBuildFile; fileRef = CCEA9AFD219B410300AEF5BE /* test.html */; };
-		DC6576372559991D00B5B46F /* NotificationBanner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC6576322559991D00B5B46F /* NotificationBanner.framework */; };
-		DC6576382559991D00B5B46F /* SnapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC6576332559991D00B5B46F /* SnapKit.framework */; };
-		DC6576392559991D00B5B46F /* PushNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC6576342559991D00B5B46F /* PushNotifications.framework */; };
-		DC65763A2559991D00B5B46F /* MarqueeLabel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC6576352559991D00B5B46F /* MarqueeLabel.framework */; };
-		DC65763B2559991D00B5B46F /* ForemWebView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC6576362559991D00B5B46F /* ForemWebView.framework */; };
 		DC65E65425656AF600EE3446 /* Notification+DEV.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC65E65325656AF600EE3446 /* Notification+DEV.swift */; };
 /* End PBXBuildFile section */
 
@@ -77,15 +74,9 @@
 		73D767692190CE3900BD13B6 /* DEV-Simple.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "DEV-Simple.entitlements"; sourceTree = "<group>"; };
 		73E8ACC62192165E009CE057 /* BrowserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserViewController.swift; sourceTree = "<group>"; };
 		BD35609325719BFE00555C25 /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
-		BD35609125718C4C00555C25 /* Cartfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Cartfile; sourceTree = SOURCE_ROOT; };
 		BD5C906B21B63CCC000D9F79 /* NetworkReachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkReachability.swift; sourceTree = "<group>"; };
 		CCEA9AFB219B403100AEF5BE /* ViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerTests.swift; sourceTree = "<group>"; };
 		CCEA9AFD219B410300AEF5BE /* test.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = test.html; sourceTree = "<group>"; };
-		DC6576322559991D00B5B46F /* NotificationBanner.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationBanner.framework; path = Carthage/Build/iOS/NotificationBanner.framework; sourceTree = "<group>"; };
-		DC6576332559991D00B5B46F /* SnapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SnapKit.framework; path = Carthage/Build/iOS/SnapKit.framework; sourceTree = "<group>"; };
-		DC6576342559991D00B5B46F /* PushNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PushNotifications.framework; path = Carthage/Build/iOS/PushNotifications.framework; sourceTree = "<group>"; };
-		DC6576352559991D00B5B46F /* MarqueeLabel.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MarqueeLabel.framework; path = Carthage/Build/iOS/MarqueeLabel.framework; sourceTree = "<group>"; };
-		DC6576362559991D00B5B46F /* ForemWebView.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ForemWebView.framework; path = Carthage/Build/iOS/ForemWebView.framework; sourceTree = "<group>"; };
 		DC65E65325656AF600EE3446 /* Notification+DEV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+DEV.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -94,11 +85,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DC6576392559991D00B5B46F /* PushNotifications.framework in Frameworks */,
-				DC6576372559991D00B5B46F /* NotificationBanner.framework in Frameworks */,
-				DC65763A2559991D00B5B46F /* MarqueeLabel.framework in Frameworks */,
-				DC6576382559991D00B5B46F /* SnapKit.framework in Frameworks */,
-				DC65763B2559991D00B5B46F /* ForemWebView.framework in Frameworks */,
+				CC5ECD7B263D85760048466A /* ForemWebView in Frameworks */,
+				CC5ECD80263D85C50048466A /* NotificationBannerSwift in Frameworks */,
+				CC5ECD74263D83F40048466A /* PushNotifications in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -163,7 +152,6 @@
 		73D7673A218BA66700BD13B6 /* DEV-Simple */ = {
 			isa = PBXGroup;
 			children = (
-				BD35609125718C4C00555C25 /* Cartfile */,
 				73D7673B218BA66700BD13B6 /* AppDelegate.swift */,
 				73D7673D218BA66700BD13B6 /* ViewController.swift */,
 				73E8ACC62192165E009CE057 /* BrowserViewController.swift */,
@@ -199,11 +187,6 @@
 		BD5C906D21B6436E000D9F79 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				DC6576362559991D00B5B46F /* ForemWebView.framework */,
-				DC6576352559991D00B5B46F /* MarqueeLabel.framework */,
-				DC6576322559991D00B5B46F /* NotificationBanner.framework */,
-				DC6576342559991D00B5B46F /* PushNotifications.framework */,
-				DC6576332559991D00B5B46F /* SnapKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -218,7 +201,6 @@
 				73D76734218BA66700BD13B6 /* Sources */,
 				73D76735218BA66700BD13B6 /* Frameworks */,
 				73D76736218BA66700BD13B6 /* Resources */,
-				73D7676C2190D8D900BD13B6 /* Copy Carthage Frameworks */,
 				DC139D912555A4E7009A3F45 /* Embed Frameworks */,
 				1BE5876521B1868C00CCF86E /* SwiftLint */,
 			);
@@ -227,6 +209,11 @@
 			dependencies = (
 			);
 			name = "DEV-Simple";
+			packageProductDependencies = (
+				CC5ECD73263D83F40048466A /* PushNotifications */,
+				CC5ECD7A263D85760048466A /* ForemWebView */,
+				CC5ECD7F263D85C50048466A /* NotificationBannerSwift */,
+			);
 			productName = "DEV-Simple";
 			productReference = 73D76738218BA66700BD13B6 /* DEV-Simple.app */;
 			productType = "com.apple.product-type.application";
@@ -313,6 +300,11 @@
 				Base,
 			);
 			mainGroup = 73D7672F218BA66700BD13B6;
+			packageReferences = (
+				CC5ECD72263D83F40048466A /* XCRemoteSwiftPackageReference "push-notifications-swift" */,
+				CC5ECD79263D85760048466A /* XCRemoteSwiftPackageReference "ForemWebView-ios" */,
+				CC5ECD7E263D85C50048466A /* XCRemoteSwiftPackageReference "NotificationBanner" */,
+			);
 			productRefGroup = 73D76739218BA66700BD13B6 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -331,7 +323,6 @@
 			files = (
 				73D76746218BA66B00BD13B6 /* LaunchScreen.storyboard in Resources */,
 				73D76743218BA66B00BD13B6 /* Assets.xcassets in Resources */,
-				BD35609225718C4C00555C25 /* Cartfile in Resources */,
 				73D76741218BA66700BD13B6 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -371,29 +362,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nif which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
-		};
-		73D7676C2190D8D900BD13B6 /* Copy Carthage Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/PushNotifications.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/NotificationBanner.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/MarqueeLabel.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/ForemWebView.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/SnapKit.framework",
-			);
-			name = "Copy Carthage Frameworks";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "./carthage.sh copy-frameworks\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -590,11 +558,8 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = R9SWHSQNV8;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
-				);
+				DEVELOPMENT_TEAM = 6RSSBKDAGB;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "DEV-Simple/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -618,11 +583,8 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = R9SWHSQNV8;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
-				);
+				DEVELOPMENT_TEAM = 6RSSBKDAGB;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "DEV-Simple/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -760,6 +722,51 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		CC5ECD72263D83F40048466A /* XCRemoteSwiftPackageReference "push-notifications-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pusher/push-notifications-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.4;
+			};
+		};
+		CC5ECD79263D85760048466A /* XCRemoteSwiftPackageReference "ForemWebView-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/forem/ForemWebView-ios.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+		CC5ECD7E263D85C50048466A /* XCRemoteSwiftPackageReference "NotificationBanner" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Daltron/NotificationBanner.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.6;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		CC5ECD73263D83F40048466A /* PushNotifications */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CC5ECD72263D83F40048466A /* XCRemoteSwiftPackageReference "push-notifications-swift" */;
+			productName = PushNotifications;
+		};
+		CC5ECD7A263D85760048466A /* ForemWebView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CC5ECD79263D85760048466A /* XCRemoteSwiftPackageReference "ForemWebView-ios" */;
+			productName = ForemWebView;
+		};
+		CC5ECD7F263D85C50048466A /* NotificationBannerSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CC5ECD7E263D85C50048466A /* XCRemoteSwiftPackageReference "NotificationBanner" */;
+			productName = NotificationBannerSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 73D76730218BA66700BD13B6 /* Project object */;
 }
