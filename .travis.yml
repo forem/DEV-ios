@@ -7,5 +7,5 @@ before_install:
 jobs:
   include:
     - stage: iOS Test # Run tests
-      script: ./carthage.sh bootstrap --no-use-binaries --platform iOS --cache-builds && fastlane ios test
+      script: fastlane ios test
 

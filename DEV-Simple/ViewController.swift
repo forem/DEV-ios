@@ -8,9 +8,10 @@
 
 import UIKit
 import AVKit
+
 import ForemWebView
 import PushNotifications
-import NotificationBanner
+import NotificationBannerSwift
 
 class ViewController: UIViewController {
 
@@ -184,6 +185,19 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: ForemWebViewDelegate {
+
+    func didFailNavigation() {
+        // Protocol requirement not yet implemented
+    }
+
+    func didLogin(userData: ForemUserData) {
+        // NoProtocol requirement not yet implemented
+    }
+
+    func didLogout(userData: ForemUserData) {
+        // Protocol requirement not yet implemented
+    }
+
     func willStartNativeVideo(playerController: AVPlayerViewController) {
         if playerController.presentingViewController == nil {
             present(playerController, animated: true) {
