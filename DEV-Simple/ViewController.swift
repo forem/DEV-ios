@@ -69,6 +69,11 @@ class ViewController: UIViewController {
             name: .flagsChanged,
             object: Network.reachability)
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        showNewsModalSheet()
+    }
 
     // MARK: - Reachability
     @objc private func reachabilityChanged(note: Notification) {
@@ -104,9 +109,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func newsButtonTapped(_ sender: Any) {
-        guard let newsModal = newsViewController else { return }
-        newsModal.modalPresentationStyle = .pageSheet
-        self.present(newsModal, animated: true)
+        showNewsModalSheet()
     }
 
     @objc func updateWebView(_ notification: NSNotification) {
@@ -125,6 +128,13 @@ class ViewController: UIViewController {
         if let url = webView.url {
             UIApplication.shared.open(url, options: [:])
         }
+    }
+    
+    // MARK: - News Modal
+    func showNewsModalSheet() {
+        guard let newsModal = newsViewController else { return }
+        newsModal.modalPresentationStyle = .pageSheet
+        self.present(newsModal, animated: true)
     }
 
     // MARK: - Auth

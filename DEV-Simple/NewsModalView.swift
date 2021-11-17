@@ -17,6 +17,7 @@ struct NewsModalView: View {
                         .font(.system(size: 25, weight: .bold))
                 }
             }
+            .padding(.top, 10.0)
             Spacer()
             Image("ForemBot")
                 .interpolation(.high)
@@ -39,8 +40,10 @@ struct NewsModalView: View {
                 UIApplication.shared.open(URL(string: "https://apps.apple.com/us/app/forem/id1536933197")!)
                 dismissAction()
             }) {
-                Image(systemName: "arrow.down")
-                Text("Download Forem App")
+                HStack {
+                    Image(systemName: "arrow.down")
+                    Text("Download Forem App")
+                }
             }
             .background(Group {
                 EmptyView()
