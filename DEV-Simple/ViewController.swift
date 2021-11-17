@@ -31,7 +31,8 @@ class ViewController: UIViewController {
     var pushNotificationSubscription = ""
     
     lazy var newsViewController: UIViewController? = {
-        let child = UIHostingController(rootView: NewsModalView())
+        let newsModalView = NewsModalView(dismissAction: {self.dismiss( animated: true, completion: nil )})
+        let child = UIHostingController(rootView: newsModalView)
         return child
     }()
 
@@ -103,8 +104,6 @@ class ViewController: UIViewController {
     }
     
     @IBAction func newsButtonTapped(_ sender: Any) {
-        print("newsButton was tapped!")
-        
         guard let newsModal = newsViewController else { return }
         newsModal.modalPresentationStyle = .pageSheet
         self.present(newsModal, animated: true)

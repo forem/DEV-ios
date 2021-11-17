@@ -2,15 +2,14 @@ import SwiftUI
 import UIKit
 
 struct NewsModalView: View {
-    @Environment(\.presentationMode) var presentationMode
-    
+    var dismissAction: (() -> Void)
     
     var body: some View {
         VStack {
             HStack {
                 Spacer()
                 Button(action: {
-                    presentationMode.wrappedValue.dismiss()
+                    dismissAction()
                 }) {
                     Image(systemName: "xmark.circle.fill")
                         .foregroundColor(Color.gray)
@@ -37,7 +36,8 @@ struct NewsModalView: View {
                 .padding(.top, 0)
                 .multilineTextAlignment(.center)
             Button(action: {
-                presentationMode.wrappedValue.dismiss()
+                UIApplication.shared.open(URL(string: "https://apps.apple.com/us/app/forem/id1536933197")!)
+                dismissAction()
             }) {
                 Image(systemName: "arrow.down")
                 Text("Download Forem App")
@@ -60,6 +60,6 @@ struct NewsModalView: View {
 
 struct NewsModalView_Previews: PreviewProvider {
     static var previews: some View {
-        NewsModalView()
+        NewsModalView(dismissAction: {})
     }
 }
