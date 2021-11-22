@@ -32,10 +32,10 @@ struct NewsModalView: View {
                 .font(Font.system(.title, design: .default).weight(.heavy))
                 .padding(.horizontal)
                 .multilineTextAlignment(.center)
-            Text("You can download the Forem app from the App Store. Don’t worry about your profile information: it will be transferred to the Forem app.")
-                .padding(.all)
-                .padding(.top, 0)
+            Text("The DEV app will be discontinued soon, but you can find DEV and other new favorites in the Forem App!")
                 .multilineTextAlignment(.center)
+                .padding(.bottom, 25)
+                .padding(.top, 5)
             Button(action: {
                 UIApplication.shared.open(URL(string: "https://apps.apple.com/us/app/forem/id1536933197")!)
                 dismissAction()
