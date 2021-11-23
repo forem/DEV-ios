@@ -8,6 +8,8 @@
 
 import UIKit
 import AVKit
+import SwiftUI
+import SnapKit
 
 import ForemWebView
 import PushNotifications
@@ -24,8 +26,15 @@ class ViewController: UIViewController {
     @IBOutlet weak var safariButton: UIBarButtonItem!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var navigationToolBar: UIToolbar!
+    @IBOutlet weak var newsButton: UIBarButtonItem!
 
     var pushNotificationSubscription = ""
+    
+    lazy var newsViewController: UIViewController? = {
+        let newsModalView = NewsModalView(dismissAction: {self.dismiss( animated: true, completion: nil )})
+        let child = UIHostingController(rootView: newsModalView)
+        return child
+    }()
 
     lazy var errorBanner: NotificationBanner = {
         let banner = NotificationBanner(title: "Network not reachable", style: .danger)
@@ -60,6 +69,11 @@ class ViewController: UIViewController {
             name: .flagsChanged,
             object: Network.reachability)
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        showNewsModalSheet()
+    }
 
     // MARK: - Reachability
     @objc private func reachabilityChanged(note: Notification) {
@@ -93,6 +107,10 @@ class ViewController: UIViewController {
     @IBAction func safariButtonTapped(_ sender: Any) {
         openInBrowser()
     }
+    
+    @IBAction func newsButtonTapped(_ sender: Any) {
+        showNewsModalSheet()
+    }
 
     @objc func updateWebView(_ notification: NSNotification) {
         guard let url = notification.userInfo?["url"] as? String else { return }
@@ -110,6 +128,13 @@ class ViewController: UIViewController {
         if let url = webView.url {
             UIApplication.shared.open(url, options: [:])
         }
+    }
+    
+    // MARK: - News Modal
+    func showNewsModalSheet() {
+        guard let newsModal = newsViewController else { return }
+        newsModal.modalPresentationStyle = .pageSheet
+        self.present(newsModal, animated: true)
     }
 
     // MARK: - Auth
@@ -152,7 +177,7 @@ class ViewController: UIViewController {
         }
     }
 
-    // MARK: - Navegation
+    // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == DoAction.openExternalURL,
             let externalPage = segue.destination as? BrowserViewController {

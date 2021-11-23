@@ -15,7 +15,7 @@ jobs:
       - name: XCode Setup
         uses: maxim-lobanov/setup-xcode@v1
         with:
-          xcode-version: '12.2'
+          xcode-version: latest-stable
       - name: Build and test
         run: |
           fastlane test
