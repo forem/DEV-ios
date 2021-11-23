@@ -36,6 +36,7 @@ struct NewsModalView: View {
                 .multilineTextAlignment(.center)
                 .padding(.bottom, 25)
                 .padding(.top, 5)
+                .padding(.horizontal)
             Button(action: {
                 UIApplication.shared.open(URL(string: "https://apps.apple.com/us/app/forem/id1536933197")!)
                 dismissAction()
