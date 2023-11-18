@@ -219,7 +219,7 @@ extension ViewController: ForemWebViewDelegate {
         // NoProtocol requirement not yet implemented
     }
 
-    func didLogout(userData: ForemUserData) {
+    func didLogout(userData: ForemUserData?) {
         // Protocol requirement not yet implemented
     }
 

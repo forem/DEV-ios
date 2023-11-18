@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -738,7 +738,7 @@
 		};
 		CC5ECD79263D85760048466A /* XCRemoteSwiftPackageReference "ForemWebView-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/forem/ForemWebView-ios.git";
+			repositoryURL = "https://github.com/RomanPodymov/ForemWebView-ios.git";
 			requirement = {
 				branch = main;
 				kind = branch;

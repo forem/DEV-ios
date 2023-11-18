@@ -24,8 +24,8 @@ class ViewControllerTests: XCTestCase {
         _ = viewController.view
         
         let promise = expectation(description: "User Agent expectation")
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            let usesForemWebViewUserAgent = self.viewController.webView.customUserAgent?.contains("ForemWebView")
+        viewController.webView.evaluateJavaScript("navigator.userAgent") { agent, _ in
+            let usesForemWebViewUserAgent = (agent as? String)?.contains("ForemWebView")
             XCTAssertTrue(usesForemWebViewUserAgent ?? false)
             promise.fulfill()
         }
